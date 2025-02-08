@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-blue-50;
+}
+
+* {
+  font-family: "poppins";
+}
+
+/* CSS */
+.button-33 {
+  background-color: #c2fbd7;
+  border-radius: 100px;
+  box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+    rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
+    rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
+    rgba(44, 187, 99, 0.15) 0 16px 32px;
+  color: green;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-33:hover {
+  box-shadow: rgba(44, 187, 99, 0.35) 0 -25px 18px -14px inset,
+    rgba(44, 187, 99, 0.25) 0 1px 2px, rgba(44, 187, 99, 0.25) 0 2px 4px,
+    rgba(44, 187, 99, 0.25) 0 4px 8px, rgba(44, 187, 99, 0.25) 0 8px 16px,
+    rgba(44, 187, 99, 0.25) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
+}
+
+/* CSS */
+.button-34 {
+  background: #5e5df0;
+  border-radius: 999px;
+  box-shadow: #5e5df0 0 10px 20px -10px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: Inter, Helvetica, "Apple Color Emoji", "Segoe UI Emoji",
+    NotoColorEmoji, "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji",
+    EmojiSymbols, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+    "Noto Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  opacity: 1;
+  outline: 0 solid transparent;
+  padding: 8px 18px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: fit-content;
+  word-break: break-word;
+  border: 0;
+  transition: all 250ms;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* hero img animation */
+.hero-img img {
+  animation-name: bounce;
+  animation-duration: 4s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes bounce {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* shape divider */
+.custom-shape-divider-bottom-1738930854 {
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1738930854 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 133px;
+}
+
+.custom-shape-divider-bottom-1738930854 .shape-fill {
+  fill: rgb(192, 208, 241);
+}
+
+/* loader button */
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 25px;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+  --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+  mask: var(--_m);
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* JOB CARD HOME PAGE */
+
+.card {
+  max-width: 320px;
+  border-width: 1px;
+  border-color: rgba(219, 234, 254, 1);
+  border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  grid-gap: 1rem;
+  gap: 1rem;
+}
+
+.icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: rgba(96, 165, 250, 1);
+  padding: 0.5rem;
+  color: rgba(255, 255, 255, 1);
+}
+
+.icon svg {
+  height: 1rem;
+  width: 1rem;
+}
+
+.alert {
+  font-weight: 600;
+  color: rgba(107, 114, 128, 1);
+}
+
+.message {
+  margin-top: 1rem;
+  color: rgba(107, 114, 128, 1);
+}
+
+.actions {
+  margin-top: 1.5rem;
+}
+
+.actions a {
+  text-decoration: none;
+}
+
+.mark-as-read,
+.read {
+  display: inline-block;
+  border-radius: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+.read {
+  background-color: rgba(59, 130, 246, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
+.mark-as-read {
+  margin-top: 0.5rem;
+  background-color: rgba(249, 250, 251, 1);
+  color: rgba(107, 114, 128, 1);
+  transition: all 0.15s ease;
+}
+
+.mark-as-read:hover {
+  background-color: rgb(230, 231, 233);
+}
