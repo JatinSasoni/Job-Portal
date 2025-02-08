@@ -45,6 +45,7 @@ export const Signup = () => {
     } catch (error) {
       //TOAST FOR ERROR CASES
       toast.error(error.response.data.MESSAGE);
+      setLoader(false);
     }
   };
 

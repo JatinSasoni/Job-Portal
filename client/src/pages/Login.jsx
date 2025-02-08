@@ -47,6 +47,7 @@ export const Login = () => {
     } catch (error) {
       //IF ANY ERROR FROM BACKEND (MISSING FIELD,INVALID EMAIL OR PASSWORD)
       toast.error(error.response.data.MESSAGE);
+      setLoader(false);
     }
   };
 
