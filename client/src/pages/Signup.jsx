@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { useState } from "react";
+import { handleSignupAPICall } from "../../Api/postAPI";
 
 export const Signup = () => {
   //STATE VARIABLES
@@ -25,16 +25,8 @@ export const Signup = () => {
       //LOADING = TRUE
       setLoader(true);
 
-      //CALLING BACKEND FOR SIGNUP
-      const response = await axios.post(
-        `${import.meta.env.VITE_USER_API_END_POINT}/register`,
-        data, //FORM DATA
-        {
-          headers: {
-            "Content-Type": "Application/json",
-          },
-        }
-      );
+      //CALLING BACKEND API CALL FOR SIGNUP
+      const response = await handleSignupAPICall(data);
 
       //IF RESPONSE IS OK
       if (response.data.SUCCESS) {

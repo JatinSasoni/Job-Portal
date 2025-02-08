@@ -1,8 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { handleLoginAPICall } from "../../Api/postAPI";
 
 //LOGIN PAGE
 export const Login = () => {
@@ -26,17 +26,8 @@ export const Login = () => {
       //LOADING STATE = TRUE
       setLoader(true);
 
-      //MAKING API CALL TO SIGNUP
-      const response = await axios.post(
-        `${import.meta.env.VITE_USER_API_END_POINT}/login`,
-        data,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "Application/json",
-          },
-        }
-      );
+      //MAKING API CALL TO LOGIN
+      const response = await handleLoginAPICall(data);
 
       //IF API CALL SUCCESS
       if (response.data.SUCCESS) {
