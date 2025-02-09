@@ -51,7 +51,7 @@ export const Signup = () => {
 
           {/* SIGNUP FORM */}
           <form
-            className="flex flex-col gap-3"
+            className="flex flex-col gap-px"
             onSubmit={handleSubmit(onSubmit)}
           >
             {/* Username */}
@@ -81,7 +81,7 @@ export const Signup = () => {
                 className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
               />
               {errors.username && (
-                <span className="text-blue-900">
+                <span className="text-blue-900 text-sm ">
                   *{errors.username.message}
                 </span>
               )}
@@ -110,7 +110,9 @@ export const Signup = () => {
                 className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
               />
               {errors.email && (
-                <span className="text-blue-900">*{errors.email.message}</span>
+                <span className="text-blue-900 text-sm">
+                  *{errors.email.message}
+                </span>
               )}
             </div>
 
@@ -143,7 +145,7 @@ export const Signup = () => {
                 className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
               />
               {errors.password && (
-                <span className="text-blue-900">
+                <span className="text-blue-900 text-sm">
                   *{errors.password.message}
                 </span>
               )}
@@ -173,7 +175,7 @@ export const Signup = () => {
                 className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
               />
               {errors.confirmPassword && (
-                <span className="text-blue-900">
+                <span className="text-blue-900 text-sm">
                   *{errors.confirmPassword.message}
                 </span>
               )}
@@ -206,7 +208,7 @@ export const Signup = () => {
                 className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
               />
               {errors.phoneNumber && (
-                <span className="text-blue-900">
+                <span className="text-blue-900 text-sm">
                   *{errors.phoneNumber.message}
                 </span>
               )}
@@ -232,7 +234,9 @@ export const Signup = () => {
                 <label htmlFor="">Recruiter</label>
               </div>
               {errors.role && (
-                <span className="text-blue-900">*{errors.role.message}</span>
+                <span className="text-blue-900 text-sm">
+                  *{errors.role.message}
+                </span>
               )}
             </div>
 

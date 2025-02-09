@@ -37,7 +37,7 @@ const JobOfDayCard = () => {
         </a>
 
         <a className="mark-as-read" href="">
-          Mark as Read
+          Save for later
         </a>
       </div>
     </div>

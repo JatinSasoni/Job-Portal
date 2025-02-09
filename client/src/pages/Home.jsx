@@ -56,7 +56,7 @@ export const Home = () => {
       </div>
 
       {/* CARASAUL */}
-      <Carasoul />
+      {/* <Carasoul /> */}
 
       {/* JOB OF THE DAY */}
       <JobOfTheDay trustedCompanies={trustedCompanies} />
