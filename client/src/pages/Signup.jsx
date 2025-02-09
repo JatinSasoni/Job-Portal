@@ -1,12 +1,14 @@
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useState } from "react";
 import { handleSignupAPICall } from "../../Api/postAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../store/authSlice";
 
 export const Signup = () => {
-  //STATE VARIABLES
-  const [loader, setLoader] = useState(false);
+  //DISPATCHER
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
 
   //NAVIGATION
   const Navigate = useNavigate();
@@ -23,21 +25,21 @@ export const Signup = () => {
   const onSubmit = async (data) => {
     try {
       //LOADING = TRUE
-      setLoader(true);
+      dispatch(setLoading(true));
 
       //CALLING BACKEND API CALL FOR SIGNUP
       const response = await handleSignupAPICall(data);
 
       //IF RESPONSE IS OK
       if (response.data.SUCCESS) {
-        setLoader(false); //LOADING = false
         Navigate("/login"); //NAVIGATE TO LOGIN PAGE WHEN SIGNUP SUCCESSFUL
         toast.success(response.data.MESSAGE);
       }
     } catch (error) {
       //TOAST FOR ERROR CASES
       toast.error(error.response.data.MESSAGE);
-      setLoader(false);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -246,7 +248,7 @@ export const Signup = () => {
               className="bg-[#7747ff] w-max m-auto px-6 py-2 rounded text-white text-sm font-normal"
             >
               {/* WHILE LOADING SHOW LOADER */}
-              {loader ? <div className="loader"></div> : "Submit"}
+              {loading ? <div className="loader"></div> : "Submit"}
             </button>
           </form>
 

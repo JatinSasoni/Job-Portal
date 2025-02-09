@@ -1,17 +1,21 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useState } from "react";
 import { handleLoginAPICall } from "../../Api/postAPI";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../store/authSlice";
 
 //LOGIN PAGE
 export const Login = () => {
-  //FOR NAVIGATION
+  //HOOK FOR NAVIGATION
   const Navigate = useNavigate();
 
-  //STATE VARIABLES
-  const [loader, setLoader] = useState(false);
-  const [loggedIN, setLoggedIN] = useState(false);
+  //DISPATCHER
+  const dispatch = useDispatch();
+
+  //SELECTOR
+  const { loading } = useSelector((state) => state.auth);
 
   //USE FORM HOOK
   const {
@@ -23,22 +27,23 @@ export const Login = () => {
   //SUBMIT FUNCTION
   const onSubmit = async (data) => {
     try {
-      //LOADING STATE = TRUE
-      setLoader(true);
+      //LOADING STATE TO TRUE
+      dispatch(setLoading(true));
 
       //MAKING API CALL TO LOGIN
       const response = await handleLoginAPICall(data);
 
       //IF API CALL SUCCESS
       if (response.data.SUCCESS) {
-        setLoader(false); //LOADING STATE = FALSE
+        //LOADING STATE = FALSE
         Navigate("/"); //NAVIGATE TO HOME PAGE IF LOGIN SUCCESSFUL
         toast.success(response.data.MESSAGE);
       }
     } catch (error) {
       //IF ANY ERROR FROM BACKEND (MISSING FIELD,INVALID EMAIL OR PASSWORD)
       toast.error(error.response.data.MESSAGE);
-      setLoader(false);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -157,7 +162,7 @@ export const Login = () => {
               className="bg-[#7747ff] w-max m-auto px-6 py-2 rounded text-white text-sm font-normal"
             >
               {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE SUBMIT BUTTON */}
-              {loader ? <div className="loader"></div> : "Submit"}
+              {loading ? <div className="loader"></div> : "Submit"}
             </button>
           </form>
 
