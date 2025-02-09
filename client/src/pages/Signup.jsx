@@ -44,8 +44,8 @@ export const Signup = () => {
   return (
     <>
       <div>
-        <div className=" mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black bg-white shadow-black drop-shadow-2xl">
-          <div className="text-4xl font-bold mb-2 pt-3 text-[#1e0e4b] text-center">
+        <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black bg-white shadow-black drop-shadow-2xl">
+          <div className="text-5xl font-bold mb-4 pt-3 text-[#1e0e4b] text-center">
             Signup To <span className="text-[#7747ff]"> JobiFY</span>
           </div>
 

@@ -6,12 +6,12 @@ export const Navbar = () => {
   const [profileClicked, setProfileClicked] = useState(false);
 
   return (
-    <header className="py-7 bg-blue-50 ">
+    <header className="py-7 bg-blue-50 drop-shadow-xl ">
       <div className="container mx-auto max-w-7xl flex justify-between px-5">
         <div>
-          <div className="w-20 h-10">
+          <div className="rounded-2xl size-10">
             <img
-              src="/Logo/logo2.png"
+              src="/Logo/logo3.png"
               alt=""
               width="60"
               height="20"
