@@ -28,10 +28,10 @@ export const HeroContainer2 = () => {
   return (
     <main>
       <section className="container mx-auto max-w-7xl  ">
-        <div className="grid grid-cols-2 p-3">
+        <div className="grid grid-cols-2 p-3 mb-8">
           {/* hero-img */}
-          <div className="hero-img p-4">
-            <img src="/images/webdev.png" alt="" />
+          <div className="hero-img flex pt-5 ">
+            <img src="/images/bg2.jpg" alt="" />
           </div>
 
           {/* hero-content */}

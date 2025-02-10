@@ -3,7 +3,7 @@ import JobOfDayCard from "./Cards/JobOfDayCard";
 /* eslint-disable react/prop-types */
 export const JobOfTheDay = ({ trustedCompanies }) => {
   return (
-    <div className=" py-14 container max-w-screen-xl mx-auto flex flex-col gap-6">
+    <div className=" pt-14 container max-w-screen-xl mx-auto flex flex-col gap-6">
       {/* TITLE */}
       <h2 className="text-5xl text-blue-950 text-center font-semibold">
         Jobs Of The Day
