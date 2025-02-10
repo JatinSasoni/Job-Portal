@@ -1,4 +1,3 @@
-import { Carasoul } from "../Components/Carasoul";
 import { HeroContainer2 } from "../Components/HeroContaier2";
 import { HeroContainer } from "../Components/HeroContainer";
 import { JobOfTheDay } from "../Components/JobOfTheDay";

@@ -4,6 +4,7 @@ import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import { AppLayout } from "./Layout/AppLayout";
 import { Jobs } from "./pages/Jobs";
+import { Profile } from "./Components/Profile";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -26,6 +27,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "/jobs",
         element: <Jobs />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },

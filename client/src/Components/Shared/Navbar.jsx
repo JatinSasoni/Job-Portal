@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const Navbar = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  //FINDING OUT IF USER LOGGED IN
+  const { loggedIn } = useSelector((state) => state.auth);
   const [profileClicked, setProfileClicked] = useState(false);
 
   return (
@@ -49,7 +51,7 @@ export const Navbar = () => {
                 {/* profile-box */}
 
                 {profileClicked && (
-                  <div className="w-72 bg-white rounded-md z-10 absolute right-10 p-4 flex flex-col gap-2">
+                  <div className="w-72 bg-white z-10 rounded-md  absolute right-10 p-4 flex flex-col gap-2">
                     <div className="flex gap-3">
                       <div className="size-9 rounded-full cursor-pointer  bg-blue-400 overflow-hidden">
                         <img
@@ -67,7 +69,7 @@ export const Navbar = () => {
 
                     <div className="flex gap-4">
                       <button className="p-1 w-full bg-blue-300 rounded">
-                        <NavLink to="/">Edit Profile</NavLink>
+                        <NavLink to="/profile">Profile</NavLink>
                       </button>
                       <button className="p-1 w-full  bg-blue-300 rounded">
                         Logout
