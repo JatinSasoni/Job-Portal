@@ -5,6 +5,7 @@ import { Signup } from "./pages/Signup";
 import { AppLayout } from "./Layout/AppLayout";
 import { Jobs } from "./pages/Jobs";
 import { Profile } from "./Components/Profile";
+import { JobProfile } from "./Components/JobProfile";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -27,6 +28,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "/jobs",
         element: <Jobs />,
+      },
+      {
+        path: "/description/:id",
+        element: <JobProfile />,
       },
       {
         path: "/profile",

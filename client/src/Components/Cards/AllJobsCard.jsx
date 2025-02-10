@@ -1,8 +1,12 @@
 import { TiBriefcase } from "react-icons/ti";
 import { LuClock9 } from "react-icons/lu";
-import { CiSaveDown2 } from "react-icons/ci";
+
+import { NavLink } from "react-router-dom";
 
 export const AllJobsCard = () => {
+  //dummy
+  const jobID = "sjdkfklsdfdf22";
+
   return (
     <li>
       <div className="card ">
@@ -51,9 +55,12 @@ export const AllJobsCard = () => {
         </p>
 
         <div className="actions grid grid-cols-2 gap-2">
-          <a className="bg-blue-700 text-white rounded p-2 text-center" href="">
+          <NavLink
+            className="bg-blue-700 text-white rounded p-2 text-center"
+            to={`/description/${jobID}`}
+          >
             Apply now
-          </a>
+          </NavLink>
 
           <a className="border bg-slate-50 rounded p-2 text-center" href="">
             Save
