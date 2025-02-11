@@ -6,6 +6,7 @@ import { ProfileInfo } from "./ProfileInfo";
 import { AppliedJobs } from "./AppliedJobs";
 
 export const Profile = () => {
+  //TOGGLE FOR UPDATE PROFILE
   const [isUpdateProfile, setIsUpdateProfile] = useState(false);
 
   return (

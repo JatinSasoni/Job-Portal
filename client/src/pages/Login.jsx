@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { handleLoginAPICall } from "../../Api/postAPI";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading, setLoggedIn } from "../../store/authSlice";
+import { setLoading, setLoggedInUser } from "../../store/authSlice";
 
 //LOGIN PAGE
 export const Login = () => {
@@ -36,7 +36,7 @@ export const Login = () => {
       //IF API CALL SUCCESS
       if (response.data.SUCCESS) {
         //---IF USER SUCCESSFULLY LOGGED IN--
-        dispatch(setLoggedIn(true));
+        dispatch(setLoggedInUser(response.data.user));
         Navigate("/"); //NAVIGATE TO HOME PAGE IF LOGIN SUCCESSFUL
         toast.success(response.data.MESSAGE);
       }

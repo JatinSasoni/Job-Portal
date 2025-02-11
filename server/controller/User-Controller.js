@@ -59,11 +59,11 @@ const login = async (req, res) => {
     }
 
     //GETTING USER THROUGH EMAIL
-    const user = await User.findOne({
+    let user = await User.findOne({
       email,
     });
 
-    //USER EXISTS || REGISTERED EMAIL
+    //USER EXISTS? || REGISTERED EMAIL?
     if (!user) {
       return res.status(400).json({
         MESSAGE: "Invalid Email or Password",
@@ -97,6 +97,19 @@ const login = async (req, res) => {
     const token = jwt.sign(tokenPayload, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
+
+    //UPDATED USER OBJ TO BE SENT ON FRONTEND (PASSWORD SHOULD NOT BE SENT IN RESPONSE)
+    user = {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      password: "",
+      phoneNumber: user.phoneNumber,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      role: user.role,
+      profile: user.profile,
+    };
 
     return (
       res
@@ -134,12 +147,14 @@ const updateProfile = async (req, res) => {
     const { username, email, phoneNumber, bio, skills } = req.body;
 
     //CONVERTING SKILLS TO ARRAY FORMAT FROM STRING FORMAT
-    let skillsArray;
-    if (skills) {
-      skillsArray = skills.split(",");
+    let skillsArray = [];
+
+    if (skills && typeof skills === "string") {
+      skillsArray = skills.split(",").map((skill) => skill.trim()); // Ensures no extra spaces
     }
+
     const userID = req.id; //FROM MIDDLEWARE AUTHENTICATION
-    const user = await User.findById(userID);
+    let user = await User.findById(userID);
     if (!user) {
       return res.status(400).json({
         MESSAGE: "USER NOT FOUND",
@@ -156,8 +171,22 @@ const updateProfile = async (req, res) => {
 
     await user.save();
 
+    //UPDATED USER OBJ TO BE SENT ON FRONTEND (PASSWORD SHOULD NOT BE SENT IN RESPONSE)
+    user = {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      password: "",
+      phoneNumber: user.phoneNumber,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      role: user.role,
+      profile: user.profile,
+    };
+
     return res.status(200).json({
       MESSAGE: "Profile updated successfully",
+      user,
       SUCCESS: true,
     });
   } catch (error) {

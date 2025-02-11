@@ -42,9 +42,9 @@ export const HeroContainer = () => {
           </div>
 
           {/* hero-img */}
-          <div className="hero-img p-10 ">
+          {/* <div className="hero-img p-10 ">
             <img src="/images/network.png" alt="" />
-          </div>
+          </div> */}
         </div>
 
         {/* SHAPE DIVIDER */}

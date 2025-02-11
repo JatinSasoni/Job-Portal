@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 export const Navbar = () => {
   //FINDING OUT IF USER LOGGED IN
-  const { loggedIn } = useSelector((state) => state.auth);
+  const { loggedInUser } = useSelector((state) => state.auth);
   const [profileClicked, setProfileClicked] = useState(false);
 
   return (
@@ -39,7 +39,7 @@ export const Navbar = () => {
         </div>
         <div>
           <div>
-            {loggedIn ? (
+            {loggedInUser ? (
               <div>
                 <div
                   className="size-9 rounded-full cursor-pointer  bg-blue-400 overflow-hidden"
