@@ -30,7 +30,7 @@ export const handleUpdateAPICall = (data) => {
   return api.post("/api/v1/user/profile/update", data, {
     withCredentials: true,
     headers: {
-      "Content-Type": "Application/json",
+      "Content-Type": "multipart/form-data",
     },
   });
 };

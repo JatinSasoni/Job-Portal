@@ -3,7 +3,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUpdateAPICall } from "../../Api/postAPI";
-import { setLoggedInUser } from "../../store/authSlice";
+import { setLoading, setLoggedInUser } from "../../store/authSlice";
 import { toast } from "react-toastify";
 /* eslint-disable react/prop-types */
 export const UpdateProfile = ({ setIsUpdateProfile }) => {
@@ -36,11 +36,27 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
 
   //DISPATCH
   const dispatch = useDispatch();
+  //SELECTOR FOR LOADING STATE
+  const { loading } = useSelector((state) => state.auth);
 
   //HANDLING UPDATE PROFILE
   const onSubmit = async (data) => {
     try {
-      const response = await handleUpdateAPICall(data);
+      //LOADING STATE TO TRUE
+      dispatch(setLoading(true));
+
+      //FORM DATA
+      const formData = new FormData();
+      formData.append("fullname", data.username);
+      formData.append("email", data.email);
+      formData.append("phoneNumber", data.number);
+      formData.append("bio", data.bio);
+      formData.append("skills", data.skills);
+      if (data.resume) {
+        formData.append("file", data.resume[0]);
+      }
+
+      const response = await handleUpdateAPICall(formData);
       console.log(response);
       if (response.status === 200) {
         //UPDATE USER ON STORE
@@ -51,7 +67,11 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.MESSAGE);
+    } finally {
+      //SET LOADING STATE TO FALSE
+      dispatch(setLoading(false));
     }
+
     setIsUpdateProfile(false);
   };
 
@@ -74,6 +94,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
 
           {/* UPDATE FORM */}
           <form
+            encType="multipart/form-data"
             className="flex flex-col gap-3"
             onSubmit={handleSubmit(onSubmit)}
           >
@@ -170,7 +191,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
               className="bg-[#7747ff] w-max m-auto px-6 py-2 rounded text-white text-sm font-normal"
             >
               {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE SUBMIT BUTTON */}
-              Submit
+              {loading ? <div className="loader"></div> : "Submit"}
             </button>
           </form>
         </div>

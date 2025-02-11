@@ -1,6 +1,8 @@
 const User = require("../models/user-model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cloudinary = require("../utils/cloudinary");
+const getDataURI = require("../utils/dataURI");
 
 //HANDLING USER REGISTER
 const register = async (req, res) => {
@@ -146,6 +148,20 @@ const updateProfile = async (req, res) => {
   try {
     const { username, email, phoneNumber, bio, skills } = req.body;
 
+    //resume
+    const resume = req.file;
+
+    // Convert file to DataURI
+    const fileURI = getDataURI(resume);
+
+    // Upload to Cloudinary
+    //Cloudinary accepts this Base64 format, so we can upload it without saving the file to disk.
+    const cloudResponse = await cloudinary.uploader.upload(fileURI.content, {
+      folder: "uploads", // Save in Cloudinary "uploads" folder
+
+      // Ensure non-image files (like PDFs) are handled correctly
+    });
+
     //CONVERTING SKILLS TO ARRAY FORMAT FROM STRING FORMAT
     let skillsArray = [];
 
@@ -165,14 +181,18 @@ const updateProfile = async (req, res) => {
       });
     }
 
-    console.log("skillsArry :", skillsArray);
-
     //UPDATING DATA
     if (username) user.username = username;
     if (email) user.email = email;
     if (phoneNumber) user.phoneNumber = phoneNumber;
     if (bio) user.profile.bio = bio;
     if (skills) user.profile.skills = skillsArray;
+
+    //storing secure url(https not http) in database to render it on frontend
+    if (cloudResponse) {
+      user.profile.resume = cloudResponse.secure_url; // save the cloudinary url
+      user.profile.resumeOriginalName = resume.originalname; // Save the original file name to render on cloudinary link
+    }
 
     await user.save();
 

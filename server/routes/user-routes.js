@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const userController = require("../controller/User-Controller");
 const isAuthentication = require("../middleware/userAuthentications");
+const upload = require("../middleware/multer");
 
 const router = Router();
 
@@ -10,6 +11,6 @@ router.route("/login").post(userController.login);
 router.route("/logout").get(userController.logout);
 router
   .route("/profile/update")
-  .post(isAuthentication, userController.updateProfile);
+  .post(isAuthentication, upload.single("file"), userController.updateProfile);
 
 module.exports = router;

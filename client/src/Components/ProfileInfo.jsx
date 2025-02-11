@@ -4,8 +4,6 @@ import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { MdNumbers } from "react-icons/md";
 import { useSelector } from "react-redux";
 
-const dummySkills = ["html", "css", "javascript", "react"];
-
 export const ProfileInfo = ({ setIsUpdateProfile }) => {
   const { loggedInUser } = useSelector((state) => state.auth);
 
@@ -77,8 +75,8 @@ export const ProfileInfo = ({ setIsUpdateProfile }) => {
       <div>
         <h3 className="text-xl">Resume :</h3>
         <div>
-          <a href="/profile" className="text-blue-300">
-            Resume link
+          <a href={loggedInUser?.profile?.resume} className="text-blue-300">
+            {loggedInUser?.profile?.resumeOriginalName}
           </a>
         </div>
       </div>
