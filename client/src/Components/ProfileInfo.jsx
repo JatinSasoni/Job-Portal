@@ -2,10 +2,13 @@
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { MdNumbers } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const dummySkills = ["html", "css", "javascript", "react"];
 
 export const ProfileInfo = ({ setIsUpdateProfile }) => {
+  const { loggedInUser } = useSelector((state) => state.auth);
+
   return (
     <section className="flex flex-col gap-3 border p-3">
       {/* CONTAINER FOR PROFILE HEADER */}
@@ -17,7 +20,7 @@ export const ProfileInfo = ({ setIsUpdateProfile }) => {
           </div>
 
           <div className="grid place-items-center">
-            <h1 className="text-3xl">Jatin Sasoni</h1>
+            <h1 className="text-3xl">{loggedInUser?.username}</h1>
           </div>
         </div>
 
@@ -34,10 +37,7 @@ export const ProfileInfo = ({ setIsUpdateProfile }) => {
       <div className="p-2">
         <div className="flex gap-2">
           <h3 className="text-2xl">Bio : </h3>
-          <p className="my-auto">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates
-            aperiam delectus numquam.
-          </p>
+          <p className="my-auto">{loggedInUser?.profile.bio}</p>
         </div>
       </div>
 
@@ -45,11 +45,11 @@ export const ProfileInfo = ({ setIsUpdateProfile }) => {
       <div className=" p-2">
         <div className=" flex gap-3">
           <MdOutlineMarkEmailRead className="my-auto size-6" />
-          <span className="text-xl">jatin@gmail.com</span>
+          <span className="text-xl">{loggedInUser?.email}</span>
         </div>
         <div className=" flex gap-3 ">
           <MdNumbers className="my-auto size-6" />
-          <span className="text-xl">6284288651</span>
+          <span className="text-xl">{loggedInUser?.phoneNumber}</span>
         </div>
       </div>
 
@@ -57,15 +57,15 @@ export const ProfileInfo = ({ setIsUpdateProfile }) => {
       <div>
         <h3 className="text-xl">Skills : </h3>
         <div className="flex gap-3">
-          {dummySkills.length === 0
+          {loggedInUser?.profile?.skills?.length === 0
             ? "NA"
-            : dummySkills.map((skill, ind) => {
+            : loggedInUser?.profile?.skills?.map((skill, ind) => {
                 return (
                   <p
                     key={ind}
                     className="inline-block py-1 px-3 bg-black text-white rounded-md"
                   >
-                    skill
+                    {skill}
                   </p>
                 );
               })}

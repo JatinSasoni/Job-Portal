@@ -28,7 +28,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
       username: loggedInUser?.username,
       email: loggedInUser?.email,
       number: loggedInUser?.phoneNumber,
-      bio: loggedInUser?.bio,
+      bio: loggedInUser?.profile?.bio,
       skills: loggedInUser?.profile?.skills?.map((skill) => skill),
       resume: loggedInUser?.resume,
     },

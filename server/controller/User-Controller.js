@@ -149,8 +149,11 @@ const updateProfile = async (req, res) => {
     //CONVERTING SKILLS TO ARRAY FORMAT FROM STRING FORMAT
     let skillsArray = [];
 
-    if (skills && typeof skills === "string") {
-      skillsArray = skills.split(",").map((skill) => skill.trim()); // Ensures no extra spaces
+    // Handle skills properly based on type
+    if (Array.isArray(skills)) {
+      skillsArray = skills; // Already an array, use as is
+    } else if (typeof skills === "string") {
+      skillsArray = skills.split(",").map((skill) => skill.trim());
     }
 
     const userID = req.id; //FROM MIDDLEWARE AUTHENTICATION
@@ -161,6 +164,8 @@ const updateProfile = async (req, res) => {
         SUCCESS: false,
       });
     }
+
+    console.log("skillsArry :", skillsArray);
 
     //UPDATING DATA
     if (username) user.username = username;
