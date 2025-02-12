@@ -1,8 +1,34 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { handleLoginAPICall } from "../../../Api/getAPI";
+import { setLoggedInUser } from "../../../store/authSlice";
+import { toast } from "react-toastify";
 
 export const Navbar = () => {
+  //DISPATCH
+  const dispatch = useDispatch();
+
+  //FOR NAVIGATION
+  const Navigate = useNavigate();
+
+  //LOGOUT LOGIC
+  const handleLogoutUser = async () => {
+    //HOLD
+    try {
+      const response = await handleLoginAPICall();
+
+      if (response.data.SUCCESS) {
+        //---IF USER SUCCESSFULLY LOGGED IN--
+        dispatch(setLoggedInUser(null));
+        Navigate("/"); //NAVIGATE TO HOME PAGE IF LOGIN SUCCESSFUL
+        toast.success(response.data.MESSAGE);
+      }
+    } catch (error) {
+      toast.error(error.data.MESSAGE);
+    }
+  };
+
   //FINDING OUT IF USER LOGGED IN
   const { loggedInUser } = useSelector((state) => state.auth);
   const [profileClicked, setProfileClicked] = useState(false);
@@ -45,7 +71,11 @@ export const Navbar = () => {
                   className="size-9 rounded-full cursor-pointer  bg-blue-400 overflow-hidden"
                   onClick={() => setProfileClicked(!profileClicked)}
                 >
-                  <img src="/Logo/pfp.jpg" alt="pfp" className="size-full" />
+                  <img
+                    src={loggedInUser?.profile?.profilePhoto}
+                    alt="pfp"
+                    className="size-full"
+                  />
                 </div>
 
                 {/* profile-box */}
@@ -55,23 +85,28 @@ export const Navbar = () => {
                     <div className="flex gap-3">
                       <div className="size-9 rounded-full cursor-pointer  bg-blue-400 overflow-hidden">
                         <img
-                          src="/Logo/pfp.jpg"
+                          src={loggedInUser?.profile?.profilePhoto}
                           alt="pfp"
                           className="size-full"
                         />
                       </div>
-                      <h2 className="mt-1 flex flex-col">~Jatin Sasoni</h2>
+                      <h2 className="mt-1 flex flex-col">
+                        ~{loggedInUser?.username}
+                      </h2>
                     </div>
 
                     <p className="text-gray-400">
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                      {loggedInUser?.profile?.bio}
                     </p>
 
                     <div className="flex gap-4">
                       <button className="p-1 w-full bg-blue-300 rounded">
                         <NavLink to="/profile">Profile</NavLink>
                       </button>
-                      <button className="p-1 w-full  bg-blue-300 rounded">
+                      <button
+                        className="p-1 w-full  bg-blue-300 rounded"
+                        onClick={handleLogoutUser}
+                      >
                         Logout
                       </button>
                     </div>

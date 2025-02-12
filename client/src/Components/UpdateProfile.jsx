@@ -55,9 +55,12 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
       if (data.resume) {
         formData.append("file", data.resume[0]);
       }
+      if (data.profilePhoto) {
+        formData.append("profilePhoto", data.profilePhoto[0]);
+      }
 
       const response = await handleUpdateAPICall(formData);
-      console.log(response);
+
       if (response.status === 200) {
         //UPDATE USER ON STORE
         dispatch(setLoggedInUser(response.data.user));
@@ -171,6 +174,18 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
             </div>
             {/* RESUME */}
             <div>
+              <label
+                htmlFor="profilePhoto"
+                className="my-auto text-gray-600 cursor-text text-sm leading-[140%] font-normal mb-2"
+              >
+                ProfilePhoto
+              </label>
+              <input
+                type="file"
+                {...register("profilePhoto")}
+                accept="image/*"
+                className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block  m-0 p-[8px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+              />
               <label
                 htmlFor="resume"
                 className="my-auto text-gray-600 cursor-text text-sm leading-[140%] font-normal mb-2"

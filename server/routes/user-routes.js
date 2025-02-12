@@ -11,6 +11,10 @@ router.route("/login").post(userController.login);
 router.route("/logout").get(userController.logout);
 router
   .route("/profile/update")
-  .post(isAuthentication, upload.single("file"), userController.updateProfile);
+  .post(
+    isAuthentication,
+    upload.fields([{ name: "file" }, { name: "profilePhoto" }]),
+    userController.updateProfile
+  );
 
 module.exports = router;

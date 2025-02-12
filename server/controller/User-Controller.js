@@ -1,8 +1,7 @@
 const User = require("../models/user-model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cloudinary = require("../utils/cloudinary");
-const getDataURI = require("../utils/dataURI");
+const uploadToCloudinary = require("../utils/cloudinary");
 
 //HANDLING USER REGISTER
 const register = async (req, res) => {
@@ -148,11 +147,10 @@ const updateProfile = async (req, res) => {
   try {
     const { username, email, phoneNumber, bio, skills } = req.body;
     //resume
-    const resume = req.file;
+    const { file = [], profilePhoto = [] } = req.files || {};
 
     //CONVERTING SKILLS TO ARRAY FORMAT FROM STRING FORMAT
     let skillsArray = [];
-
     // Handle skills properly based on type
     if (Array.isArray(skills)) {
       skillsArray = skills; // Already an array, use as is
@@ -161,7 +159,7 @@ const updateProfile = async (req, res) => {
     }
 
     const userID = req.id; //FROM MIDDLEWARE AUTHENTICATION
-    let user = await User.findById(userID);
+    let user = await User.findById(userID); //FETCHING USER DATA FROM DATABASE
     if (!user) {
       return res.status(400).json({
         MESSAGE: "USER NOT FOUND",
@@ -176,21 +174,24 @@ const updateProfile = async (req, res) => {
     if (bio) user.profile.bio = bio;
     if (skills) user.profile.skills = skillsArray;
 
-    //HANDLING CLOUDINARY
-    if (resume) {
-      // Convert file to DataURI
-      const fileURI = getDataURI(resume);
-      // Upload to Cloudinary
-      //Cloudinary accepts this Base64 format, so we can upload it without saving the file to disk.
-      const cloudResponse = await cloudinary.uploader.upload(fileURI.content, {
-        folder: "uploads",
-        // Save in Cloudinary media>uploads folder
-      });
+    //--HANDLING CLOUDINARY--
+    // Handling resume upload
+    if (file[0]) {
+      const resumeUrl = await uploadToCloudinary(file[0], "uploads/resumes");
+      if (resumeUrl) {
+        user.profile.resume = resumeUrl;
+        user.profile.resumeOriginalName = file[0].originalname;
+      }
+    }
 
-      //storing secure url(https not http) in database to render it on frontend
-      if (cloudResponse) {
-        user.profile.resume = cloudResponse.secure_url; // save the cloudinary url
-        user.profile.resumeOriginalName = resume.originalname; // Save the original file name to render on cloudinary link
+    // Handling profile photo upload
+    if (profilePhoto[0]) {
+      const photoUrl = await uploadToCloudinary(
+        profilePhoto[0],
+        "uploads/profile_photos"
+      );
+      if (photoUrl) {
+        user.profile.profilePhoto = photoUrl;
       }
     }
 

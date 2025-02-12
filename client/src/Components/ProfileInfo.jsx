@@ -14,7 +14,11 @@ export const ProfileInfo = ({ setIsUpdateProfile }) => {
         {/* PROFILE IMAGE AND NAME */}
         <div className="flex gap-4">
           <div className="size-16 rounded-full cursor-pointer  bg-blue-400 overflow-hidden">
-            <img src="/Logo/pfp.jpg" alt="pfp" className="size-full" />
+            <img
+              src={loggedInUser?.profile?.profilePhoto}
+              alt="pfp"
+              className="size-full"
+            />
           </div>
 
           <div className="grid place-items-center">
