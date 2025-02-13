@@ -1,14 +1,54 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useGetSingleJob from "../Hooks/getSingleJobByItsID";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../Components/Shared/Navbar";
+import { handleApplyForJob } from "../../Api/getAPI";
+import { toast } from "react-toastify";
+import { useState } from "react";
+import { setSingleJobData } from "../../store/jobSlice";
 
 export const JobProfile = () => {
+  //JOB ID TO FETCH JOB DESCRIPTION
   const { jobID } = useParams();
 
-  const alreadyApplied = false;
+  //DISPATCH FUNCTION TO UPDATE JOB DATA SO IF USER APPLIES TO JOB IT SHOWS REAL TIME DATA
+  const dispatch = useDispatch();
+
+  //CUSTOM HOOK WHICH WILL FETCH JOB DATA BASES ON JOB ID AND STORE JOB DATA ON REDUX STORE
   useGetSingleJob(jobID);
+
+  //JOB DATA FROM REDUX STORE
   const { singleJobData } = useSelector((store) => store.job);
+  //LOGGED IN USER DATA FROM REDUX STORE
+  const { loggedInUser: user } = useSelector((store) => store.auth);
+
+  //INITIAL STATE WHICH WILL HELP TO FIND OUT WHETHER JOB IS ALREADY APPLIED OR NOT
+  const initialState = singleJobData?.application?.some((application) => {
+    return application?.applicant === user?._id; //RETURN TRUE IF USER ALREADY AN APPLICANT OTHERWISE FALSE
+  });
+  const [alreadyApplied, setAlreadyApplied] = useState(initialState);
+
+  //HANDLE APPLY FOR JOB
+  const applyForJob = async () => {
+    try {
+      const response = await handleApplyForJob(jobID);
+      if (response.data.SUCCESS) {
+        toast.success(response.data.MESSAGE); //TOAST FOR USER
+        setAlreadyApplied(true); //UPDATE LOCAL STATE TO DISABLE APPLY BUTTON
+
+        //UPDATING JOB DATA (REAL TIME DATA) IN REDUX STORE
+        const updateSingleData = {
+          ...singleJobData,
+          application: [...singleJobData.application, { applicant: user?._id }],
+        };
+
+        dispatch(setSingleJobData(updateSingleData));
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.MESSAGE);
+    }
+  };
 
   return (
     <>
@@ -22,6 +62,7 @@ export const JobProfile = () => {
           <button
             className={`${alreadyApplied ? "button-1" : "button-34"}`}
             disabled={alreadyApplied}
+            onClick={applyForJob}
           >
             {alreadyApplied ? "Already applied" : "Apply now"}
           </button>

@@ -40,7 +40,7 @@ export const Navbar = () => {
           <div className="rounded-2xl size-10">
             <img
               src="/Logo/logo3.png"
-              alt=""
+              alt="logo"
               width="60"
               height="20"
               className="h-full "

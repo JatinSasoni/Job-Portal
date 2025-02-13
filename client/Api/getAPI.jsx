@@ -25,3 +25,10 @@ export const handleGetSingleJob = (JobID) => {
     withCredentials: true,
   });
 };
+
+//APPLY FOR JOB POST API
+export const handleApplyForJob = (JobID) => {
+  return api.get(`/api/v1/application/apply/${JobID}`, {
+    withCredentials: true,
+  });
+};

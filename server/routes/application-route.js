@@ -7,7 +7,7 @@ const router = Router();
 //USER BUSINESS LOGIC
 router
   .route("/apply/:jobID")
-  .post(isAuthentication, applicationController.applyForJob);
+  .get(isAuthentication, applicationController.applyForJob);
 router
   .route("/get")
   .get(isAuthentication, applicationController.getAppliedJobsByUser);
