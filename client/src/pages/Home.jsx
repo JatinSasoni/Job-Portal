@@ -2,6 +2,7 @@ import { HeroContainer2 } from "../Components/HeroContaier2";
 import { HeroContainer } from "../Components/HeroContainer";
 import { JobOfTheDay } from "../Components/JobOfTheDay";
 import { TopRecruiters } from "../Components/TopRecruiters";
+import { TrustedCompanies } from "../Components/TrustedCompanies";
 
 const trustedCompanies = [
   {
@@ -44,21 +45,13 @@ export const Home = () => {
       <HeroContainer />
 
       {/* TRUSTED-COMPANIES */}
-      <div className="flex bg-white justify-around drop-shadow-xl ">
-        {trustedCompanies.map((logo, ind) => {
-          return (
-            <div key={ind} className="contrast-125 m-auto ">
-              <img src={logo.imgURL} alt="trusted" className=" w-32"></img>
-            </div>
-          );
-        })}
-      </div>
+      <TrustedCompanies />
 
       {/* CARASAUL */}
       {/* <Carasoul /> */}
 
       {/* JOB OF THE DAY */}
-      <JobOfTheDay trustedCompanies={trustedCompanies} />
+      <JobOfTheDay />
 
       {/* Hero-2 */}
       <HeroContainer2 />

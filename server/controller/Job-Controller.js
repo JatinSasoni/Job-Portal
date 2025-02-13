@@ -102,8 +102,7 @@ const getAllJobs = async (req, res) => {
 const getJobInfoById = async (req, res) => {
   try {
     const jobID = req.params.jobID;
-
-    const job = await Job.findById(jobID);
+    const job = await Job.findById(jobID).populate("CompanyID");
 
     //INVALID JOB_ID OR NO JOB WITH SUC JOB_ID
     if (!job) {

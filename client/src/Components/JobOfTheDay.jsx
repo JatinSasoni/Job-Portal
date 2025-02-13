@@ -1,7 +1,13 @@
 import JobOfDayCard from "./Cards/JobOfDayCard";
+import useGetAllJobs from "../Hooks/getAllJobs";
+import { useSelector } from "react-redux";
 
 /* eslint-disable react/prop-types */
-export const JobOfTheDay = ({ trustedCompanies }) => {
+export const JobOfTheDay = () => {
+  useGetAllJobs();
+
+  const { allJobs } = useSelector((store) => store.job);
+
   return (
     <div className=" pt-14 container max-w-screen-xl mx-auto flex flex-col gap-6">
       {/* TITLE */}
@@ -16,9 +22,13 @@ export const JobOfTheDay = ({ trustedCompanies }) => {
 
       {/* JOB GRIDS */}
       <div className="grid grid-cols-3  p-6 gap-y-14 place-items-center">
-        {trustedCompanies.slice(0, 6).map((card, index) => {
-          return <JobOfDayCard key={index} />;
-        })}
+        {allJobs?.length <= 0 ? (
+          <div>No Jobs Found :(</div>
+        ) : (
+          allJobs?.slice(0, 6).map((card, index) => {
+            return <JobOfDayCard key={index} cardData={card} />;
+          })
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,7 @@
-const JobOfDayCard = () => {
+/* eslint-disable react/prop-types */
+import { NavLink } from "react-router-dom";
+import { getDateDifference } from "../../../util/getDateDifference";
+const JobOfDayCard = ({ cardData }) => {
   return (
     <div className="card">
       <div className="header">
@@ -12,33 +15,31 @@ const JobOfDayCard = () => {
         </span>
 
         {/* company name */}
-        <p className="alert">Google</p>
+        <p className="alert">{cardData?.CompanyID?.companyName}</p>
       </div>
 
       {/* TITLE AND JOB TYPE */}
-      <h4 className="mt-2 font-semibold">Need a soft enginner</h4>
+      <h4 className="mt-2 font-semibold">{cardData?.title}</h4>
       <div className="flex gap-4 [&>p]:text-xs ">
-        <p>Full Time</p>
-        <p>4 Min Ago</p>
+        <p>{cardData?.jobType}</p>
+        <p>{getDateDifference(cardData?.createdAt)} Days Ago</p>
       </div>
 
       {/* JOB DESC */}
-      <p className="message">
-        Need a frontend dev and backend dev with AI knowelede
-      </p>
+      <p className="message">{cardData?.description}</p>
 
       <p className="font-bold">
-        <span className="text-blue-500 text-xl">$5000</span>/Hour
+        <span className="text-blue-500 text-md">{cardData?.salary}</span>LPA
       </p>
 
-      <div className="actions ">
-        <a className="read" href="">
+      <div className="actions">
+        <NavLink className="read" to={`/description/${cardData._id}`}>
           Take a Look
-        </a>
+        </NavLink>
 
-        <a className="mark-as-read" href="">
+        <NavLink className="mark-as-read" href="">
           Save for later
-        </a>
+        </NavLink>
       </div>
     </div>
   );

@@ -1,11 +1,24 @@
+import { useSelector } from "react-redux";
+import useGetSingleJob from "../Hooks/getSingleJobByItsID";
+import { useParams } from "react-router-dom";
+import { Navbar } from "../Components/Shared/Navbar";
+
 export const JobProfile = () => {
+  const { jobID } = useParams();
+
   const alreadyApplied = false;
+  useGetSingleJob(jobID);
+  const { singleJobData } = useSelector((store) => store.job);
+
   return (
     <>
+      <Navbar />
       <section className="mx-auto max-w-7xl my-4 p-6">
         {/* NAME AND APPLY BUTTON */}
         <div className="flex justify-between ">
-          <h1 className="text-3xl font-bold">Frontend Developer</h1>
+          <h1 className="text-3xl font-bold">
+            {singleJobData?.CompanyID?.companyName}
+          </h1>
           <button
             className={`${alreadyApplied ? "button-1" : "button-34"}`}
             disabled={alreadyApplied}
@@ -16,13 +29,13 @@ export const JobProfile = () => {
         {/* positions and all */}
         <div className=" p-2 flex gap-3">
           <span className="p-2 border bg-blue-50 rounded-3xl text-blue-800">
-            12 Positions
+            {singleJobData?.position} Positions
           </span>
           <span className="p-2 border bg-blue-50 rounded-3xl text-red-600">
-            Full time
+            {singleJobData?.jobType}
           </span>
           <span className="p-2 border bg-blue-50 rounded-3xl text-purple-500">
-            21LPA
+            {singleJobData?.salary} LPA
           </span>
         </div>
 
@@ -33,7 +46,7 @@ export const JobProfile = () => {
           <div className="flex flex-col gap-2">
             <div>
               <span className="text-xl font-semibold">Role </span>
-              Frontend Developer
+              {singleJobData?.title}
             </div>
             <div>
               <span className="text-xl font-semibold">Location </span>
@@ -41,22 +54,23 @@ export const JobProfile = () => {
             </div>
             <div>
               <span className="text-xl font-semibold">Description </span>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Incidunt, iusto.
+              {singleJobData?.description}
             </div>
             <div>
-              <span className="text-xl font-semibold">Experience </span>2 Years
+              <span className="text-xl font-semibold">Experience </span>
+              {singleJobData?.experienceLevel} Years
             </div>
             <div>
               <span className="text-xl font-semibold">Salary </span>
-              24LPA
+              {singleJobData?.salary}LPA
             </div>
             <div>
-              <span className="text-xl font-semibold">Total Applicants </span>4
+              <span className="text-xl font-semibold">Total Applicants </span>
+              {singleJobData?.application?.length}
             </div>
             <div>
               <span className="text-xl font-semibold">Posted Date </span>
-              17-03-2010
+              {singleJobData?.createdAt?.split("T")[0]}
             </div>
           </div>
         </div>

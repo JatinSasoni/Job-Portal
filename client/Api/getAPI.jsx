@@ -5,7 +5,23 @@ const api = axios.create({
   baseURL: `${import.meta.env.VITE_API_URI}`,
 });
 
-//LOGOUT POST API
+//LOGOUT GET API
 export const handleLoginAPICall = () => {
-  return api.get("/api/v1/user/logout");
+  return api.get("/api/v1/user/logout", {
+    withCredentials: true,
+  });
+};
+
+//GET ALL JOBS API
+export const handleGetAllJobs = () => {
+  return api.get("/api/v1/job/get", {
+    withCredentials: true,
+  });
+};
+
+//GET SINGLE JOB BY JOB ID
+export const handleGetSingleJob = (JobID) => {
+  return api.get(`/api/v1/job/get/${JobID}`, {
+    withCredentials: true,
+  });
 };

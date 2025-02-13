@@ -1,8 +1,11 @@
+import { useSelector } from "react-redux";
+import useGetAllJobs from "../../Hooks/getAllJobs";
 import { AllJobsCard } from "../Cards/AllJobsCard";
 
-const dummy = [1, 2, 3, 4, 5, 6, 3, 2];
-
 export const AllJobsSection = () => {
+  useGetAllJobs();
+  const { allJobs } = useSelector((store) => store.job);
+
   return (
     <div>
       <div className="flex justify-between py-4 px-2 border-b-2">
@@ -15,9 +18,13 @@ export const AllJobsSection = () => {
       </div>
       <div className="">
         <ul className="grid  grid-cols-3 gap-10 place-items-center p-10">
-          {dummy.map((d, i) => {
-            return <AllJobsCard key={i} />;
-          })}
+          {allJobs?.length <= 0 ? (
+            <div>No Jobs Found</div>
+          ) : (
+            allJobs?.map((job, i) => {
+              return <AllJobsCard key={i} cardData={job} />;
+            })
+          )}
         </ul>
       </div>
     </div>
