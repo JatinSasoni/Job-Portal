@@ -32,7 +32,7 @@ const userSchema = new Schema(
       company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
       profilePhoto: {
         type: String,
-        default: "",
+        default: "/Logo/defaultpfp.jpg",
       },
     },
   },
