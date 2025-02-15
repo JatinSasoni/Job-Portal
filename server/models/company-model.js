@@ -18,6 +18,7 @@ const companySchema = new Schema(
     },
     logo: {
       type: String,
+      default: "/Logo/defaultcompany.png",
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,

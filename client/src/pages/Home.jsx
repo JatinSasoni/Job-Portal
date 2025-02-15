@@ -1,8 +1,11 @@
+import { useSelector } from "react-redux";
 import { HeroContainer2 } from "../Components/HeroContaier2";
 import { HeroContainer } from "../Components/HeroContainer";
 import { JobOfTheDay } from "../Components/JobOfTheDay";
 import { TopRecruiters } from "../Components/TopRecruiters";
 import { TrustedCompanies } from "../Components/TrustedCompanies";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const trustedCompanies = [
   {
@@ -40,6 +43,15 @@ const trustedCompanies = [
 ];
 
 export const Home = () => {
+  const { loggedInUser } = useSelector((store) => store.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loggedInUser?.role === "recruiter") {
+      navigate("/admin/companies");
+    }
+  }, []);
+
   return (
     <>
       <HeroContainer />

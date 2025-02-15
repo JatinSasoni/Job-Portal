@@ -1,12 +1,15 @@
 import { NavLink } from "react-router-dom";
 import { Navbar } from "../Shared/Navbar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { handleGetAllCompanyDes } from "../../../Api/getAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllCompanies } from "../../../store/companySlice";
+import { RegisteredComTable } from "./RegisteredComTable";
 export const AdminCompanies = () => {
   const dispatch = useDispatch();
+  const [filterInput, setFilterInput] = useState("");
 
+  //EXECUTES ONLY WHEN COMPONENT IF MOUNTED FOR THE FIRST TIME
   useEffect(() => {
     const getAllCompanies = async () => {
       try {
@@ -23,80 +26,52 @@ export const AdminCompanies = () => {
   }, []);
 
   const { allCompanies } = useSelector((store) => store.company);
+  const [filterData, setFilterData] = useState(allCompanies);
+
+  //FILTER LOGIC -> EXECUTES FIRST TIME AND WHEN USER TYPES ON FILTER INPUT
+  useEffect(() => {
+    if (filterInput === "") {
+      setFilterData(allCompanies);
+      return;
+    }
+
+    const companyFilter = filterData?.filter((company) => {
+      if (
+        company?.companyName?.toLowerCase().includes(filterInput.toLowerCase())
+      ) {
+        return true;
+      }
+      return false;
+    });
+
+    setFilterData(companyFilter);
+  }, [filterInput, allCompanies]);
 
   return (
     <>
       <Navbar />
 
       <section className=" mx-auto max-w-7xl pt-8 p-4">
-        <div className=" flex justify-between p-3">
+        <div className=" flex justify-between p-3 ">
           <h1 className="text-3xl">Registered Companies</h1>
           <NavLink to="/admin/register">
             <button className="button-34">Register Company</button>
           </NavLink>
         </div>
+        <div className="py-2">
+          <input
+            type="text"
+            placeholder="Filter By name..."
+            className="border p-2 outline-none rounded-md"
+            value={filterInput}
+            onChange={(e) => setFilterInput(e.target.value)}
+          />
+        </div>
 
         {/* TABLE CONTAINING LIST OF REGISTERED COMPANIES */}
         <main className="mt-5">
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              {/* TABLE HEAD */}
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Logo
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Company name
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Location
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Website
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Update
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Delete
-                  </th>
-                </tr>
-              </thead>
-              {/* TABLE BODY */}
-              <tbody>
-                {allCompanies?.map((company, indx) => {
-                  return (
-                    <tr
-                      key={indx}
-                      className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
-                    >
-                      <td
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        NOT SET
-                      </td>
-                      <td className="px-6 py-4">{company?.companyName}</td>
-                      <td className="px-6 py-4">{company?.location}</td>
-                      <td className="px-6 py-4">{company?.website}</td>
-                      <td className="px-6 py-4">
-                        <NavLink to={`/admin/company/update/${company?._id}`}>
-                          <button className="p-2 bg-blue-500 text-white rounded-xl px-4">
-                            Edit
-                          </button>
-                        </NavLink>
-                      </td>
-                      <td className="px-6 py-4">
-                        <button className="p-2 bg-blue-800 text-white rounded-xl px-4">
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <RegisteredComTable allCompanies={filterData} />
           </div>
         </main>
       </section>

@@ -50,7 +50,7 @@ export const handleUpdateComAPI = (data, companyID) => {
   return api.put(`/api/v1/company/update/${companyID}`, data, {
     withCredentials: true,
     headers: {
-      "Content-Type": "Application/json",
+      "Content-Type": "multipart/form-data",
     },
   });
 };

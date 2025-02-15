@@ -45,8 +45,18 @@ export const UpdateCompany = () => {
   const onSubmit = async (data) => {
     try {
       dispatch(setLoading(true));
+      //FORM DATA
+      const formData = new FormData();
+      formData.append("companyName", data.companyName);
+      formData.append("description", data.description);
+      formData.append("location", data.location);
+      formData.append("website", data.website);
 
-      const response = await handleUpdateComAPI(data, companyID);
+      if (data.companyLogo) {
+        formData.append("file", data.companyLogo[0]);
+      }
+
+      const response = await handleUpdateComAPI(formData, companyID);
 
       if (response.data.SUCCESS) {
         toast.success(response.data.MESSAGE);
@@ -75,6 +85,7 @@ export const UpdateCompany = () => {
             <form
               className="flex flex-col gap-3"
               onSubmit={handleSubmit(onSubmit)}
+              encType="multipart/form-data"
             >
               {/* company name */}
               <div className="block relative">
@@ -172,6 +183,20 @@ export const UpdateCompany = () => {
                     *{errors.website.message}
                   </span>
                 )}
+              </div>
+
+              <div className="block relative">
+                <label
+                  htmlFor="website"
+                  className="block text-gray-600 cursor-text text-sm leading-[140%] font-normal mb-2"
+                >
+                  Logo
+                </label>
+                <input
+                  type="file"
+                  {...register("companyLogo")}
+                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+                />
               </div>
 
               {/* SUBMIT BUTTON */}

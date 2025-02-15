@@ -1,4 +1,5 @@
 const Company = require("../models/company-model");
+const uploadToCloudinary = require("../utils/cloudinary");
 
 //REGISTERING COMPANY BY USER(Recruiter)
 const registerCompany = async (req, res) => {
@@ -115,9 +116,10 @@ const updateCompany = async (req, res) => {
       });
     }
 
+    const company = await Company.findById(companyID);
+
     //HANDLING IF NO COMPANY WITH SUCH ID
-    const doesCompanyExists = await Company.findById(companyID);
-    if (!doesCompanyExists) {
+    if (!company) {
       return res.status(400).json({
         MESSAGE: "No Company Found",
         SUCCESS: false,
@@ -126,25 +128,48 @@ const updateCompany = async (req, res) => {
 
     //DESTRUCTURING DATA
     const { companyName, description, website, location } = req.body;
+    //LOGO
+    const file = req.file; //WILL RETURN UNDEFINED IF NO FILE IN REQ.FILE
+
+    //UPDATING DATA
+    if (companyName) company.companyName = companyName;
+    if (description) company.description = description;
+    if (website) company.website = website;
+    if (location) company.location = location;
+
+    //--HANDLING CLOUDINARY--
+    // Handling resume upload
+    if (file) {
+      //RETURN SECURE URL
+      const companyLogoUrl = await uploadToCloudinary(
+        file,
+        "uploads/companyLogo"
+      );
+      if (companyLogoUrl) {
+        company.logo = companyLogoUrl;
+      }
+    }
+
+    await company.save();
 
     //UPDATING COMPANY PROFILE
-    const updatedCompanyData = await Company.findByIdAndUpdate(
-      companyID,
-      {
-        companyName,
-        description,
-        website,
-        location,
-      },
-      { new: true } //RETURNS DOCUMENT AFTER UPDATE APPLIED
-    );
+    // const updatedCompanyData = await Company.findByIdAndUpdate(
+    //   companyID,
+    //   {
+    //     companyName,
+    //     description,
+    //     website,
+    //     location,
+    //   },
+    //   { new: true } //RETURNS DOCUMENT AFTER UPDATE APPLIED
+    // );
 
-    if (!updatedCompanyData) {
-      return res.status(400).json({
-        MESSAGE: "UPDATE FAILED",
-        SUCCESS: false,
-      });
-    }
+    // if (!updatedCompanyData) {
+    //   return res.status(400).json({
+    //     MESSAGE: "UPDATE FAILED",
+    //     SUCCESS: false,
+    //   });
+    // }
 
     return res.status(201).json({
       MESSAGE: "Company Information Updated",

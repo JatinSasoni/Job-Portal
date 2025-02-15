@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const companyController = require("../controller/Company-Controller");
 const isAuthentication = require("../middleware/userAuthentications");
+const upload = require("../middleware/multer");
 
 const router = Router();
 
@@ -16,6 +17,10 @@ router
   .get(isAuthentication, companyController.getCompanyByID);
 router
   .route("/update/:companyID")
-  .put(isAuthentication, companyController.updateCompany);
+  .put(
+    isAuthentication,
+    upload.single("file"),
+    companyController.updateCompany
+  );
 
 module.exports = router;

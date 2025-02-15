@@ -9,6 +9,7 @@ import { JobProfile } from "./Components/JobProfile";
 import { AdminCompanies } from "./Components/admin/AdminCompanies";
 import { RegisterNewCompany } from "./Components/admin/RegisterNewCompany";
 import { UpdateCompany } from "./Components/admin/UpdateCompany";
+import { ErrorPage } from "./Components/ErrorPage";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -56,6 +57,10 @@ const AppRouter = createBrowserRouter([
   {
     path: "/admin/company/update/:companyID",
     element: <UpdateCompany />,
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 
