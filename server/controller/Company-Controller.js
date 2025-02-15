@@ -17,7 +17,7 @@ const registerCompany = async (req, res) => {
     const company = await Company.findOne({ companyName });
     if (company) {
       return res.status(400).json({
-        MESSAGE: "You can't register same company",
+        MESSAGE: "Company already registered",
         SUCCESS: false,
       });
     }
@@ -31,6 +31,7 @@ const registerCompany = async (req, res) => {
 
     return res.status(201).json({
       MESSAGE: "Company Registered Successfully",
+      createdCompany,
       SUCCESS: true,
     });
   } catch (error) {

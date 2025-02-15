@@ -6,6 +6,9 @@ import { AppLayout } from "./Layout/AppLayout";
 import { Jobs } from "./pages/Jobs";
 import { Profile } from "./Components/Profile";
 import { JobProfile } from "./Components/JobProfile";
+import { AdminCompanies } from "./Components/admin/AdminCompanies";
+import { RegisterNewCompany } from "./Components/admin/RegisterNewCompany";
+import { UpdateCompany } from "./Components/admin/UpdateCompany";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -39,6 +42,20 @@ const AppRouter = createBrowserRouter([
   {
     path: "/description/:jobID",
     element: <JobProfile />,
+  },
+
+  //ADMIN/RECRUITER ROUTES
+  {
+    path: "/admin/companies",
+    element: <AdminCompanies />,
+  },
+  {
+    path: "/admin/register",
+    element: <RegisterNewCompany />,
+  },
+  {
+    path: "/admin/company/update/:companyID",
+    element: <UpdateCompany />,
   },
 ]);
 

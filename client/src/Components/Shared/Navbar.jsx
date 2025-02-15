@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { handleLoginAPICall } from "../../../Api/getAPI";
+import { handleLogoutAPICall } from "../../../Api/getAPI";
 import { setLoggedInUser } from "../../../store/authSlice";
 import { toast } from "react-toastify";
 
@@ -14,9 +14,8 @@ export const Navbar = () => {
 
   //LOGOUT LOGIC
   const handleLogoutUser = async () => {
-    //HOLD
     try {
-      const response = await handleLoginAPICall();
+      const response = await handleLogoutAPICall();
 
       if (response.data.SUCCESS) {
         //---IF USER SUCCESSFULLY LOGGED IN--
@@ -31,6 +30,8 @@ export const Navbar = () => {
 
   //FINDING OUT IF USER LOGGED IN
   const { loggedInUser } = useSelector((state) => state.auth);
+
+  //PROFILE MENU
   const [profileClicked, setProfileClicked] = useState(false);
 
   return (
@@ -49,18 +50,31 @@ export const Navbar = () => {
         </div>
         <div className="grid place-items-center xl:ml-32">
           <ul className="flex gap-9 [&>*]:text-lg [&>*]:font-medium [&>*]:text-blue-950 ">
-            <li>
-              <NavLink to="/">Home</NavLink>
-            </li>
-            <li>
-              <NavLink to="/">About us</NavLink>
-            </li>
-            <li>
-              <NavLink to="/jobs">Jobs</NavLink>
-            </li>
-            <li>
-              <NavLink to="/">Browse</NavLink>
-            </li>
+            {loggedInUser?.role === "recruiter" ? (
+              <>
+                <li>
+                  <NavLink to="/admin/companies">Companies</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/admin/jobs">Jobs</NavLink>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <NavLink to="/">Home</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/">About us</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/jobs">Jobs</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/">Browse</NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </div>
         <div>

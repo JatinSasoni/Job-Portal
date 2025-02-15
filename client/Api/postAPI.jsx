@@ -34,3 +34,23 @@ export const handleUpdateAPICall = (data) => {
     },
   });
 };
+
+//ADMIN API
+export const handleRegisterComAPI = (data) => {
+  return api.post("/api/v1/company/register", data, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+};
+
+//UPDATE COMPANY
+export const handleUpdateComAPI = (data, companyID) => {
+  return api.put(`/api/v1/company/update/${companyID}`, data, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+};

@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 //LOGOUT GET API
-export const handleLoginAPICall = () => {
+export const handleLogoutAPICall = () => {
   return api.get("/api/v1/user/logout", {
     withCredentials: true,
   });
@@ -29,6 +29,18 @@ export const handleGetSingleJob = (JobID) => {
 //APPLY FOR JOB POST API
 export const handleApplyForJob = (JobID) => {
   return api.get(`/api/v1/application/apply/${JobID}`, {
+    withCredentials: true,
+  });
+};
+
+//ADMIN
+export const handleGetSingleCompanyDes = (companyID) => {
+  return api.get(`/api/v1/company/get/${companyID}`, {
+    withCredentials: true,
+  });
+};
+export const handleGetAllCompanyDes = () => {
+  return api.get(`/api/v1/company/get`, {
     withCredentials: true,
   });
 };
