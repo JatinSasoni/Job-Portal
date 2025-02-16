@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   allJobs: [],
   singleJobData: [],
+  allAdminJobs: [],
 };
 
 //JOB SLICE
@@ -18,11 +19,15 @@ const jobSlice = createSlice({
     setSingleJobData: (state, action) => {
       state.singleJobData = action.payload;
     },
+    setAllAdminJobs: (state, action) => {
+      state.allAdminJobs = action.payload;
+    },
   },
 });
 
 //EXPORTING REDUCERS/ACTION TO USE IN DIFFERENT COMPONENTS
-export const { setAllJobs, setSingleJobData } = jobSlice.actions;
+export const { setAllJobs, setSingleJobData, setAllAdminJobs } =
+  jobSlice.actions;
 
 //EXPORTING JOBSLICE'S ALL REDUCERS TO SPECIFY REDUX STORE
 export default jobSlice.reducer;

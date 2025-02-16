@@ -39,8 +39,15 @@ export const handleGetSingleCompanyDes = (companyID) => {
     withCredentials: true,
   });
 };
+
 export const handleGetAllCompanyDes = () => {
   return api.get(`/api/v1/company/get`, {
+    withCredentials: true,
+  });
+};
+
+export const handleGetAllAdminJobs = () => {
+  return api.get(`/api/v1/job/getadminjobs`, {
     withCredentials: true,
   });
 };

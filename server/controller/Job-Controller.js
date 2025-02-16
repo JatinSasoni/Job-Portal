@@ -16,7 +16,6 @@ const postJobForAdmin = async (req, res) => {
       CompanyID,
     } = req.body;
 
-    const abc = req.body;
     const userID = req.id; //MIDDLEWARE
 
     //IF ANY FIELD LEFT OUT
@@ -32,8 +31,8 @@ const postJobForAdmin = async (req, res) => {
       !CompanyID
     ) {
       return res.status(400).json({
-        MESSAGE: "Something is missing",
-        abc,
+        MESSAGE: "Please fill out every detail",
+
         SUCCESS: false,
       });
     }
@@ -132,7 +131,7 @@ const getPostedJobByAdmin = async (req, res) => {
 
     const postedJobs = await Job.find({
       createdBy: userID,
-    });
+    }).populate("CompanyID");
 
     if (!postedJobs) {
       return res.status(400).json({

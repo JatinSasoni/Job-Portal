@@ -54,3 +54,12 @@ export const handleUpdateComAPI = (data, companyID) => {
     },
   });
 };
+
+export const handlePostJobAPI = (data) => {
+  return api.post("/api/v1/job/post", data, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+};
