@@ -63,3 +63,16 @@ export const handlePostJobAPI = (data) => {
     },
   });
 };
+
+export const handleStatusUpdateAPI = (status, applicationID) => {
+  return api.post(
+    `/api/v1/application/status/${applicationID}/update`,
+    status,
+    {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "Application/json",
+      },
+    }
+  );
+};

@@ -12,6 +12,7 @@ import { UpdateCompany } from "./Components/admin/UpdateCompany";
 import { ErrorPage } from "./Components/ErrorPage";
 import { AdminJobs } from "./Components/admin/AdminJobs";
 import { RegisterNewJob } from "./Components/admin/RegisterNewJob";
+import { AdminApplicantsTable } from "./Components/admin/AdminApplicantsTable";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -67,6 +68,10 @@ const AppRouter = createBrowserRouter([
   {
     path: "/admin/job/create",
     element: <RegisterNewJob />,
+  },
+  {
+    path: "/admin/job/:jobID/applicants",
+    element: <AdminApplicantsTable />,
   },
   {
     path: "*",

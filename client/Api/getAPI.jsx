@@ -33,6 +33,12 @@ export const handleApplyForJob = (JobID) => {
   });
 };
 
+export const handleGetAllAppliedJobs = () => {
+  return api.get(`/api/v1/application/get`, {
+    withCredentials: true,
+  });
+};
+
 //ADMIN
 export const handleGetSingleCompanyDes = (companyID) => {
   return api.get(`/api/v1/company/get/${companyID}`, {
@@ -48,6 +54,12 @@ export const handleGetAllCompanyDes = () => {
 
 export const handleGetAllAdminJobs = () => {
   return api.get(`/api/v1/job/getadminjobs`, {
+    withCredentials: true,
+  });
+};
+
+export const handleGetAllApplicantsAPI = (jobID) => {
+  return api.get(`api/v1/application/${jobID}/applicants`, {
     withCredentials: true,
   });
 };
