@@ -1,32 +1,31 @@
 import { useDispatch, useSelector } from "react-redux";
-import useGetSingleJob from "../Hooks/getSingleJobByItsID";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../Components/Shared/Navbar";
-import { handleApplyForJob } from "../../Api/getAPI";
+import { handleApplyForJob, handleGetSingleJob } from "../../Api/getAPI";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setSingleJobData } from "../../store/jobSlice";
 
 export const JobProfile = () => {
   //JOB ID TO FETCH JOB DESCRIPTION
   const { jobID } = useParams();
 
-  //DISPATCH FUNCTION TO UPDATE JOB DATA SO IF USER APPLIES TO JOB IT SHOWS REAL TIME DATA
-  const dispatch = useDispatch();
-
-  //CUSTOM HOOK WHICH WILL FETCH JOB DATA BASES ON JOB ID AND STORE JOB DATA ON REDUX STORE
-  useGetSingleJob(jobID);
-
-  //JOB DATA FROM REDUX STORE
-  const { singleJobData } = useSelector((store) => store.job);
   //LOGGED IN USER DATA FROM REDUX STORE
   const { loggedInUser: user } = useSelector((store) => store.auth);
 
+  //JOB DATA FROM REDUX STORE
+  const { singleJobData } = useSelector((store) => store.job);
   //INITIAL STATE WHICH WILL HELP TO FIND OUT WHETHER JOB IS ALREADY APPLIED OR NOT
-  const initialState = singleJobData?.application?.some((application) => {
-    return application?.applicant === user?._id; //RETURN TRUE IF USER ALREADY AN APPLICANT OTHERWISE FALSE
-  });
+
+  const initialState =
+    singleJobData?.application?.some((application) => {
+      return application?.applicant === user?._id; //RETURN TRUE IF USER ALREADY AN APPLICANT OTHERWISE FALSE
+    }) || false;
+
   const [alreadyApplied, setAlreadyApplied] = useState(initialState);
+
+  //DISPATCH FUNCTION TO UPDATE JOB DATA SO IF USER APPLIES TO JOB IT SHOWS REAL TIME DATA
+  const dispatch = useDispatch();
 
   //HANDLE APPLY FOR JOB
   const applyForJob = async () => {
@@ -35,7 +34,6 @@ export const JobProfile = () => {
       if (response.data.SUCCESS) {
         toast.success(response.data.MESSAGE); //TOAST FOR USER
         setAlreadyApplied(true); //UPDATE LOCAL STATE TO DISABLE APPLY BUTTON
-
         //UPDATING JOB DATA (REAL TIME DATA) IN REDUX STORE
         const updateSingleData = {
           ...singleJobData,
@@ -49,6 +47,30 @@ export const JobProfile = () => {
       toast.error(error.response.data.MESSAGE);
     }
   };
+
+  // useGetSingleJob(jobID);
+  useEffect(() => {
+    //FUNCTION DEFINED TO FETCH ALL JOBS
+    const fetchSingleJob = async (jobID) => {
+      try {
+        const response = await handleGetSingleJob(jobID);
+        //IF DATA FETCHED SUCCESSFULLY
+        if (response.data.SUCCESS) {
+          dispatch(setSingleJobData(response.data.job));
+          setAlreadyApplied(
+            response.data.job?.application?.some((application) => {
+              return application?.applicant === user?._id; //RETURN TRUE IF USER ALREADY AN APPLICANT OTHERWISE FALSE
+            })
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    //CALLING OUT FUNCTION
+    fetchSingleJob(jobID);
+  }, [jobID, dispatch, user?._id]);
 
   return (
     <>
@@ -91,7 +113,7 @@ export const JobProfile = () => {
             </div>
             <div>
               <span className="text-xl font-semibold">Location </span>
-              Mohali
+              {singleJobData?.location}
             </div>
             <div>
               <span className="text-xl font-semibold">Description </span>

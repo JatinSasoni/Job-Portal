@@ -25,7 +25,7 @@ export const AppliedJobs = () => {
 
   return (
     <section className="mt-4">
-      <h2 className="text-2xl mb-3">Applied jobs</h2>
+      <h2 className="text-2xl mb-3">Applied jobs - {allAppliedJobs?.length}</h2>
 
       {/* TABLE CONTAINING JOBS APPLIEND TO */}
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

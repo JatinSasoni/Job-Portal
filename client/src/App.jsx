@@ -13,6 +13,7 @@ import { ErrorPage } from "./Components/ErrorPage";
 import { AdminJobs } from "./Components/admin/AdminJobs";
 import { RegisterNewJob } from "./Components/admin/RegisterNewJob";
 import { AdminApplicantsTable } from "./Components/admin/AdminApplicantsTable";
+import ProtectAdminRoute from "./Components/admin/ProtectAdminRoute";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -51,27 +52,51 @@ const AppRouter = createBrowserRouter([
   //ADMIN/RECRUITER ROUTES
   {
     path: "/admin/companies",
-    element: <AdminCompanies />,
+    element: (
+      <ProtectAdminRoute>
+        <AdminCompanies />
+      </ProtectAdminRoute>
+    ),
   },
   {
     path: "/admin/register",
-    element: <RegisterNewCompany />,
+    element: (
+      <ProtectAdminRoute>
+        <RegisterNewCompany />
+      </ProtectAdminRoute>
+    ),
   },
   {
     path: "/admin/company/update/:companyID",
-    element: <UpdateCompany />,
+    element: (
+      <ProtectAdminRoute>
+        <UpdateCompany />
+      </ProtectAdminRoute>
+    ),
   },
   {
     path: "/admin/jobs",
-    element: <AdminJobs />,
+    element: (
+      <ProtectAdminRoute>
+        <AdminJobs />
+      </ProtectAdminRoute>
+    ),
   },
   {
     path: "/admin/job/create",
-    element: <RegisterNewJob />,
+    element: (
+      <ProtectAdminRoute>
+        <RegisterNewJob />
+      </ProtectAdminRoute>
+    ),
   },
   {
     path: "/admin/job/:jobID/applicants",
-    element: <AdminApplicantsTable />,
+    element: (
+      <ProtectAdminRoute>
+        <AdminApplicantsTable />
+      </ProtectAdminRoute>
+    ),
   },
   {
     path: "*",

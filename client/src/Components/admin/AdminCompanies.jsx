@@ -71,7 +71,11 @@ export const AdminCompanies = () => {
         {/* TABLE CONTAINING LIST OF REGISTERED COMPANIES */}
         <main className="mt-5">
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <RegisteredComTable allCompanies={filterData} />
+            {filterData?.length === 0 ? (
+              <span>You don't have any company registered</span>
+            ) : (
+              <RegisteredComTable allCompanies={filterData} />
+            )}
           </div>
         </main>
       </section>

@@ -4,11 +4,12 @@ import { toast } from "react-toastify";
 import { handleSignupAPICall } from "../../Api/postAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../store/authSlice";
+import { useEffect } from "react";
 
 export const Signup = () => {
   //DISPATCHER
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.auth);
+  const { loading, loggedInUser } = useSelector((state) => state.auth);
 
   //NAVIGATION
   const Navigate = useNavigate();
@@ -42,6 +43,13 @@ export const Signup = () => {
       dispatch(setLoading(false));
     }
   };
+
+  //IF USER ALREADY LOGGED IN
+  useEffect(() => {
+    if (loggedInUser) {
+      Navigate("/");
+    }
+  }, []);
 
   return (
     <>

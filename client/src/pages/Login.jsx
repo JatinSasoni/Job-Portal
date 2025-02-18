@@ -5,6 +5,7 @@ import { handleLoginAPICall } from "../../Api/postAPI";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setLoggedInUser } from "../../store/authSlice";
+import { useEffect } from "react";
 
 //LOGIN PAGE
 export const Login = () => {
@@ -15,7 +16,7 @@ export const Login = () => {
   const dispatch = useDispatch();
 
   //SELECTOR
-  const { loading } = useSelector((state) => state.auth);
+  const { loading, loggedInUser } = useSelector((state) => state.auth);
 
   //USE FORM HOOK
   const {
@@ -47,6 +48,13 @@ export const Login = () => {
       dispatch(setLoading(false));
     }
   };
+
+  //IF USER ALREADY LOGGED IN
+  useEffect(() => {
+    if (loggedInUser) {
+      Navigate("/");
+    }
+  }, []);
 
   return (
     <>

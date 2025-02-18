@@ -73,7 +73,11 @@ export const AdminJobs = () => {
         {/* TABLE CONTAINING LIST OF REGISTERED COMPANIES */}
         <main className="mt-5">
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <RegisteredJobTable allAdminJobs={filterData} />
+            {!filterData ? (
+              <span>You didn't posted any job</span>
+            ) : (
+              <RegisteredJobTable allAdminJobs={filterData} />
+            )}
           </div>
         </main>
       </section>

@@ -6,13 +6,15 @@ const JobOfDayCard = ({ cardData }) => {
     <div className="card">
       <div className="header">
         {/* company logo */}
-        <span className="icon">
-          <svg
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          ></svg>
-        </span>
+        <div className="rounded-full size-10 border overflow-hidden">
+          <img
+            src={cardData?.CompanyID?.logo}
+            alt="logo"
+            width="60"
+            height="20"
+            className="size-full"
+          />
+        </div>
 
         {/* company name */}
         <p className="alert">{cardData?.CompanyID?.companyName}</p>

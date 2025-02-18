@@ -13,6 +13,8 @@ const useGetSingleJob = (jobID) => {
     //FUNCTION DEFINED TO FETCH ALL JOBS
     const fetchSingleJob = async (jobID) => {
       try {
+        console.log("useGetSingleJob called");
+
         const response = await handleGetSingleJob(jobID);
         //IF DATA FETCHED SUCCESSFULLY
         if (response.data.SUCCESS) {
@@ -25,7 +27,7 @@ const useGetSingleJob = (jobID) => {
 
     //CALLING OUT FUNCTION
     fetchSingleJob(jobID);
-  }, []);
+  }, [jobID]);
 };
 
 export default useGetSingleJob;

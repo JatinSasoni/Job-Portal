@@ -10,13 +10,15 @@ export const AllJobsCard = ({ cardData }) => {
       <div className="card ">
         <div className="header">
           {/* company logo */}
-          <span className="icon size-10">
-            <svg
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            ></svg>
-          </span>
+          <div className="rounded-full size-10 border overflow-hidden">
+            <img
+              src={cardData?.CompanyID?.logo}
+              alt="logo"
+              width="60"
+              height="20"
+              className="size-full"
+            />
+          </div>
 
           {/* company name */}
           <p className="font-bold text-lg text-blue-950">
@@ -37,7 +39,7 @@ export const AllJobsCard = ({ cardData }) => {
               {" "}
               {getDateDifference(cardData?.createdAt) === 0
                 ? "Today"
-                : `${getDateDifference(cardData?.createdAt)} Days Ago`}
+                : `${getDateDifference(cardData?.createdAt)} Day Ago`}
             </span>
           </p>
         </div>
