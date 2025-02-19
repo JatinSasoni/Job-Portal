@@ -1,30 +1,38 @@
 import { useEffect } from "react";
 import { handleGetAllJobs } from "../../Api/getAPI";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAllJobs } from "../../store/jobSlice";
 
-//WHERE EVER THIS CUSTOM HOOK IS USED useEffect EXECUTE ACC TO ITS WORKING
 const useGetAllJobs = () => {
-  //DISPATCH
   const dispatch = useDispatch();
+  const { filterQuery, filterSalary } = useSelector((store) => store.job);
 
   useEffect(() => {
-    //FUNCTION DEFINED TO FETCH ALL JOBS
     const fetchAllJobs = async () => {
       try {
-        const response = await handleGetAllJobs();
-        //IF DATA FETCHED SUCCESSFULLY
+        const response = await handleGetAllJobs(filterQuery);
+
         if (response.data.SUCCESS) {
-          dispatch(setAllJobs(response.data.allJobs));
+          let jobs = response.data.allJobs;
+
+          if (filterSalary.length === 2) {
+            const [minSalary, maxSalary] = filterSalary.map(parseFloat);
+            if (!isNaN(minSalary) && !isNaN(maxSalary)) {
+              jobs = jobs.filter(
+                ({ salary }) => salary >= minSalary && salary <= maxSalary
+              );
+            }
+          }
+
+          dispatch(setAllJobs(jobs));
         }
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching jobs:", error);
       }
     };
 
-    //CALLING OUT FUNCTION
     fetchAllJobs();
-  }, []);
+  }, [filterQuery, filterSalary, dispatch]);
 };
 
 export default useGetAllJobs;

@@ -7,6 +7,8 @@ const initialState = {
   allAdminJobs: [],
   allAppliedJobs: [],
   searchedQuery: "",
+  filterQuery: "",
+  filterSalary: [],
 };
 
 //JOB SLICE
@@ -30,6 +32,12 @@ const jobSlice = createSlice({
     setSearchQuery: (state, action) => {
       state.searchedQuery = action.payload;
     },
+    setFilterQuery: (state, action) => {
+      state.filterQuery = action.payload;
+    },
+    setFilterSalary: (state, action) => {
+      state.filterSalary = action.payload.map(Number);
+    },
   },
 });
 
@@ -40,6 +48,8 @@ export const {
   setAllAdminJobs,
   setAllAppliedJobs,
   setSearchQuery,
+  setFilterQuery,
+  setFilterSalary,
 } = jobSlice.actions;
 
 //EXPORTING JOBSLICE'S ALL REDUCERS TO SPECIFY REDUX STORE
