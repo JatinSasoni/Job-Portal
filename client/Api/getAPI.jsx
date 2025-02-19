@@ -13,8 +13,8 @@ export const handleLogoutAPICall = () => {
 };
 
 //GET ALL JOBS API
-export const handleGetAllJobs = () => {
-  return api.get("/api/v1/job/get", {
+export const handleGetAllJobs = (keyword = "") => {
+  return api.get(`/api/v1/job/get?keyword=${keyword}`, {
     withCredentials: true,
   });
 };

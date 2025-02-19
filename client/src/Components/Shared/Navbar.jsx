@@ -18,10 +18,10 @@ export const Navbar = () => {
       const response = await handleLogoutAPICall();
 
       if (response.data.SUCCESS) {
+        toast.success(response.data.MESSAGE);
         //---IF USER SUCCESSFULLY LOGGED IN--
         dispatch(setLoggedInUser(null));
         Navigate("/"); //NAVIGATE TO HOME PAGE IF LOGIN SUCCESSFUL
-        toast.success(response.data.MESSAGE);
       }
     } catch (error) {
       toast.error(error.data.MESSAGE);
@@ -71,7 +71,7 @@ export const Navbar = () => {
                   <NavLink to="/jobs">Jobs</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/">Browse</NavLink>
+                  <NavLink to="/browse">Browse</NavLink>
                 </li>
               </>
             )}
@@ -80,9 +80,9 @@ export const Navbar = () => {
         <div>
           <div>
             {loggedInUser ? (
-              <div>
+              <div className="relative">
                 <div
-                  className="size-9 rounded-full cursor-pointer  bg-blue-400 overflow-hidden"
+                  className="size-9 rounded-full cursor-pointer  bg-blue-400 overflow-hidden "
                   onClick={() => setProfileClicked(!profileClicked)}
                 >
                   <img
@@ -93,9 +93,8 @@ export const Navbar = () => {
                 </div>
 
                 {/* profile-box */}
-
                 {profileClicked && (
-                  <div className="w-72 bg-white z-10 rounded-md  absolute right-10 p-4 flex flex-col gap-2">
+                  <div className="w-72 bg-white z-20 rounded-md  absolute right-10 p-4 flex flex-col gap-2">
                     <div className="flex gap-3">
                       <div className="size-9 rounded-full cursor-pointer  bg-blue-400 overflow-hidden">
                         <img

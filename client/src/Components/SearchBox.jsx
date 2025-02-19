@@ -1,0 +1,57 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchQuery } from "../../store/jobSlice";
+import { useNavigate } from "react-router-dom";
+
+export const SearchBox = () => {
+  const { searchedQuery } = useSelector((store) => store.job);
+  const [search, setSearch] = useState({
+    keyword: searchedQuery?.keyword,
+    city: searchedQuery?.city,
+  });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //handleSearchLogic
+  const handleSearchLogic = (e) => {
+    e.preventDefault();
+    dispatch(setSearchQuery(search));
+    navigate("/browse");
+  };
+
+  const handleSearchChange = (e) => {
+    setSearch((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+
+  return (
+    <div className="z-0 my-3 w-full p-1 mx-auto rounded-2xl bg-white  drop-shadow-lg shadow-black  ">
+      <form
+        autoComplete="off"
+        onSubmit={handleSearchLogic}
+        className="grid grid-cols-4  [&>input]:p-3 [&>*]:outline-none  "
+      >
+        <input
+          type="text"
+          placeholder="Enter Keyword...."
+          name="keyword"
+          value={search.keyword}
+          onChange={handleSearchChange}
+        />
+        <input
+          type="text"
+          placeholder="Enter City...."
+          name="city"
+          value={search.city}
+          onChange={handleSearchChange}
+        />
+        <input type="text" placeholder="Enter something..." />
+        <div className="grid place-items-center">
+          <button className="button-34 ">Search</button>
+        </div>
+      </form>
+    </div>
+  );
+};

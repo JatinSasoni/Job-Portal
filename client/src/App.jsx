@@ -14,6 +14,7 @@ import { AdminJobs } from "./Components/admin/AdminJobs";
 import { RegisterNewJob } from "./Components/admin/RegisterNewJob";
 import { AdminApplicantsTable } from "./Components/admin/AdminApplicantsTable";
 import ProtectAdminRoute from "./Components/admin/ProtectAdminRoute";
+import { BrowsePage } from "./Components/BrowsePage";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -41,6 +42,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/browse",
+        element: <BrowsePage />,
       },
     ],
   },

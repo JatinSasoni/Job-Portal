@@ -1,3 +1,5 @@
+import { SearchBox } from "../SearchBox";
+
 export const JobSearchCard = () => {
   return (
     <section className="">
@@ -15,18 +17,8 @@ export const JobSearchCard = () => {
         </div>
 
         {/* JOB SEARCH */}
-        <div className="my-3 w-1/2 p-1 mx-auto rounded-2xl bg-white drop-shadow-lg shadow-black ">
-          <form
-            action=""
-            className="grid grid-cols-4  [&>input]:p-3 [&>*]:outline-none "
-          >
-            <input type="text" placeholder="Enter something." />
-            <input type="text" placeholder="Enter something." />
-            <input type="text" placeholder="Enter something..." />
-            <div className="grid place-items-center">
-              <button className="button-34 ">Search</button>
-            </div>
-          </form>
+        <div className="w-1/2 mx-auto">
+          <SearchBox />
         </div>
       </div>
     </section>

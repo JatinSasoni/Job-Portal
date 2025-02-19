@@ -1,3 +1,5 @@
+import { SearchBox } from "./SearchBox";
+
 export const HeroContainer = () => {
   return (
     <main>
@@ -18,19 +20,7 @@ export const HeroContainer = () => {
             </p>
 
             {/* hero-search */}
-            <div className="my-3 w-full rounded-md bg-white drop-shadow-lg shadow-black ">
-              <form
-                action=""
-                className="grid grid-cols-4  [&>input]:p-4 [&>*]:outline-none"
-              >
-                <input type="text" placeholder="Enter something." />
-                <input type="text" placeholder="Enter something." />
-                <input type="text" placeholder="Enter something..." />
-                <div className="grid place-items-center">
-                  <button className="button-34 ">Search</button>
-                </div>
-              </form>
-            </div>
+            <SearchBox />
 
             {/* popular search */}
             <p>
