@@ -76,7 +76,9 @@ const getAllJobs = async (req, res) => {
       ],
     };
 
-    const allJobs = await Job.find(query).populate("CompanyID");
+    const allJobs = await Job.find(query)
+      .sort({ createdAt: -1 })
+      .populate("CompanyID");
 
     //NO JOBS FOUND
     if (!allJobs) {

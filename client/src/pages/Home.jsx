@@ -7,43 +7,9 @@ import { TrustedCompanies } from "../Components/TrustedCompanies";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const trustedCompanies = [
-  {
-    name: "dell",
-    imgURL: "/trustedCompaniesLogo/amazon.png",
-  },
-  {
-    name: "dell",
-    imgURL: "/trustedCompaniesLogo/dell.png",
-  },
-  {
-    name: "dell",
-    imgURL: "/trustedCompaniesLogo/microsoft.png",
-  },
-  {
-    name: "dell",
-    imgURL: "/trustedCompaniesLogo/sony.png",
-  },
-  {
-    name: "dell",
-    imgURL: "/trustedCompaniesLogo/amazon.png",
-  },
-  {
-    name: "dell",
-    imgURL: "/trustedCompaniesLogo/dell.png",
-  },
-  {
-    name: "dell",
-    imgURL: "/trustedCompaniesLogo/dell.png",
-  },
-  {
-    name: "dell",
-    imgURL: "/trustedCompaniesLogo/dell.png",
-  },
-];
-
 export const Home = () => {
   const { loggedInUser } = useSelector((store) => store.auth);
+  const { allJobs } = useSelector((store) => store.job);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -69,7 +35,7 @@ export const Home = () => {
       <HeroContainer2 />
 
       {/* TopRecruiters */}
-      <TopRecruiters trustedCompanies={trustedCompanies} />
+      <TopRecruiters topRecruiterData={allJobs} />
     </>
   );
 };

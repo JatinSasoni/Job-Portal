@@ -40,7 +40,7 @@ export const BrowsePage = () => {
         <SearchBox />
       </div>
       <div className="">
-        <ul className="grid  grid-cols-3 gap-10 place-items-center p-10">
+        <ul className="grid  grid-cols-4 gap-10 place-items-center p-20">
           {filteredJobs?.length <= 0 ? (
             <div>No Jobs Found</div>
           ) : (

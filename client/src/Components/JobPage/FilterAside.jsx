@@ -44,7 +44,12 @@ export const FilterAside = () => {
         <div className="w-52">
           <div className="flex justify-between py-4 px-2 border-b-2">
             <p className="text-gray-500">Advance Filter</p>
-            <button onClick={resetFilters}>Reset</button>
+            <button
+              onClick={resetFilters}
+              className="bg-blue-800 px-2 rounded text-white"
+            >
+              Reset
+            </button>
           </div>
         </div>
 

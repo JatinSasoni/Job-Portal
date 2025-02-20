@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleLogoutAPICall } from "../../../Api/getAPI";
 import { setLoggedInUser } from "../../../store/authSlice";
 import { toast } from "react-toastify";
+import { NavItems } from "./Navbar Components/NavItems";
+import { NavProfileBox } from "./Navbar Components/NavProfileBox";
 
 export const Navbar = () => {
-  //DISPATCH
+  //DISPATCH TO PROVIDE ACTIONS TO REDUX STORE
   const dispatch = useDispatch();
 
   //FOR NAVIGATION
@@ -16,12 +18,10 @@ export const Navbar = () => {
   const handleLogoutUser = async () => {
     try {
       const response = await handleLogoutAPICall();
-
       if (response.data.SUCCESS) {
         toast.success(response.data.MESSAGE);
-        //---IF USER SUCCESSFULLY LOGGED IN--
         dispatch(setLoggedInUser(null));
-        Navigate("/"); //NAVIGATE TO HOME PAGE IF LOGIN SUCCESSFUL
+        Navigate("/"); //NAVIGATE TO HOME PAGE IF LOGOUT
       }
     } catch (error) {
       toast.error(error.data.MESSAGE);
@@ -37,6 +37,7 @@ export const Navbar = () => {
   return (
     <header className="py-7 bg-blue-50 drop-shadow-xl ">
       <div className="container mx-auto max-w-7xl flex justify-between px-5">
+        {/* COMPANY ICON */}
         <div>
           <div className="rounded-2xl size-10">
             <img
@@ -48,37 +49,13 @@ export const Navbar = () => {
             />
           </div>
         </div>
-        <div className="grid place-items-center xl:ml-32">
-          <ul className="flex gap-9 [&>*]:text-lg [&>*]:font-medium [&>*]:text-blue-950 ">
-            {loggedInUser?.role === "recruiter" ? (
-              <>
-                <li>
-                  <NavLink to="/admin/companies">Companies</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/admin/jobs">Jobs</NavLink>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <NavLink to="/">Home</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/">About us</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/jobs">Jobs</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/browse">Browse</NavLink>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
+
+        {/* NAV ITEMS */}
+        <NavItems loggedInUser={loggedInUser} />
+
         <div>
           <div>
+            {/* IF USER IS LOGGED IN SHOW HIS/HER PROFILE BOX ELSE REGISTER AND LOGIN */}
             {loggedInUser ? (
               <div className="relative">
                 <div
@@ -92,38 +69,12 @@ export const Navbar = () => {
                   />
                 </div>
 
-                {/* profile-box */}
+                {/* profile-box ---IF USER CLICKS ON PROFILE IMG*/}
                 {profileClicked && (
-                  <div className="w-72 bg-white z-20 rounded-md  absolute right-10 p-4 flex flex-col gap-2">
-                    <div className="flex gap-3">
-                      <div className="size-9 rounded-full cursor-pointer  bg-blue-400 overflow-hidden">
-                        <img
-                          src={loggedInUser?.profile?.profilePhoto}
-                          alt="pfp"
-                          className="size-full"
-                        />
-                      </div>
-                      <h2 className="mt-1 flex flex-col">
-                        ~{loggedInUser?.username}
-                      </h2>
-                    </div>
-
-                    <p className="text-gray-400">
-                      {loggedInUser?.profile?.bio}
-                    </p>
-
-                    <div className="flex gap-4">
-                      <button className="p-1 w-full bg-blue-300 rounded">
-                        <NavLink to="/profile">Profile</NavLink>
-                      </button>
-                      <button
-                        className="p-1 w-full  bg-blue-300 rounded"
-                        onClick={handleLogoutUser}
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  </div>
+                  <NavProfileBox
+                    loggedInUser={loggedInUser}
+                    handleLogoutUser={handleLogoutUser}
+                  />
                 )}
               </div>
             ) : (

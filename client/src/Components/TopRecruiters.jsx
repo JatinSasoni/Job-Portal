@@ -1,7 +1,7 @@
 import { TopRecruitersCard } from "./Cards/TopRecruitersCard";
 
 /* eslint-disable react/prop-types */
-export const TopRecruiters = ({ trustedCompanies }) => {
+export const TopRecruiters = ({ topRecruiterData }) => {
   return (
     <section>
       <div className="container mx-auto max-w-screen-xl mt-20">
@@ -17,9 +17,9 @@ export const TopRecruiters = ({ trustedCompanies }) => {
             </p>
 
             {/* JOB GRIDS */}
-            <div className="grid grid-cols-5  p-6 gap-y-4 place-items-center">
-              {trustedCompanies.map((card, index) => {
-                return <TopRecruitersCard key={index} />;
+            <div className="grid grid-cols-4  p-6 gap-4 place-items-center">
+              {topRecruiterData?.map((card, index) => {
+                return <TopRecruitersCard key={index} cardData={card} />;
               })}
             </div>
           </div>

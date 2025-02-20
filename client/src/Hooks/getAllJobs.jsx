@@ -3,7 +3,7 @@ import { handleGetAllJobs } from "../../Api/getAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllJobs } from "../../store/jobSlice";
 
-const useGetAllJobs = () => {
+const useGetAllJobs = (sortOrder) => {
   const dispatch = useDispatch();
   const { filterQuery, filterSalary } = useSelector((store) => store.job);
 
@@ -24,6 +24,11 @@ const useGetAllJobs = () => {
             }
           }
 
+          // Reverse the order only if sorting by oldest first
+          if (sortOrder === "oldest") {
+            jobs = jobs.reverse();
+          }
+
           dispatch(setAllJobs(jobs));
         }
       } catch (error) {
@@ -32,7 +37,7 @@ const useGetAllJobs = () => {
     };
 
     fetchAllJobs();
-  }, [filterQuery, filterSalary, dispatch]);
+  }, [filterQuery, filterSalary, dispatch, sortOrder]);
 };
 
 export default useGetAllJobs;

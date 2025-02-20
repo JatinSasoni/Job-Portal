@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { SearchBox } from "./SearchBox";
 
 export const HeroContainer = () => {
@@ -26,7 +27,9 @@ export const HeroContainer = () => {
             <p>
               Popular Searches :{" "}
               <span className="text-gray-500">
-                Designer, Web, IOS, Developer, PHP, Senior, Engineer,
+                <NavLink to="/browse">
+                  Designer, Web, IOS, Developer, PHP, Senior, Engineer,
+                </NavLink>
               </span>
             </p>
           </div>

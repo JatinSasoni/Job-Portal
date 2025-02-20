@@ -6,8 +6,8 @@ import { NavLink } from "react-router-dom";
 
 export const AllJobsCard = ({ cardData }) => {
   return (
-    <li>
-      <div className="card ">
+    <li className="card">
+      <div className="">
         <div className="header">
           {/* company logo */}
           <div className="rounded-full size-10 border overflow-hidden">
@@ -45,7 +45,11 @@ export const AllJobsCard = ({ cardData }) => {
         </div>
 
         {/* JOB DESC */}
-        <p className="my-3 text-sm text-slate-500">{cardData?.description}</p>
+        <p className="my-3 text-sm text-slate-500">
+          {cardData?.description.length > 25
+            ? `${cardData?.description?.slice(0, 25)}...`
+            : cardData?.description}
+        </p>
 
         {/* REQUIREMENTS */}
         <ul className="my-3 text-sm text-slate-500 flex gap-2 flex-wrap">
@@ -65,13 +69,13 @@ export const AllJobsCard = ({ cardData }) => {
 
         <div className="actions grid grid-cols-2 gap-2">
           <NavLink
-            className="bg-blue-700 text-white rounded p-2 text-center"
+            className="bg-blue-700 text-white rounded p-1 text-center"
             to={`/description/${cardData?._id}`}
           >
-            Apply now
+            View
           </NavLink>
 
-          <a className="border bg-slate-50 rounded p-2 text-center" href="">
+          <a className="border bg-slate-50 rounded p-1 text-center" href="">
             Save
           </a>
         </div>

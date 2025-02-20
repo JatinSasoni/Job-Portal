@@ -24,7 +24,11 @@ const JobOfDayCard = ({ cardData }) => {
       <h4 className="mt-2 font-semibold">{cardData?.title}</h4>
       <div className="flex gap-4 [&>p]:text-xs ">
         <p>{cardData?.jobType}</p>
-        <p>{getDateDifference(cardData?.createdAt)} Days Ago</p>
+        <p>
+          {getDateDifference(cardData?.createdAt) === 0
+            ? "Today"
+            : `${getDateDifference(cardData?.createdAt)} Days Ago`}
+        </p>
       </div>
 
       {/* JOB DESC */}

@@ -1,11 +1,31 @@
 import JobOfDayCard from "./Cards/JobOfDayCard";
-import useGetAllJobs from "../Hooks/getAllJobs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { handleGetAllJobs } from "../../Api/getAPI";
+import { setAllJobs } from "../../store/jobSlice";
+import { useEffect } from "react";
 
 /* eslint-disable react/prop-types */
 export const JobOfTheDay = () => {
-  useGetAllJobs();
+  const dispatch = useDispatch();
 
+  //EXECUTES WHEN COMPONENT MOUNTS FOR THE FIRST TIME ONLY
+  useEffect(() => {
+    const fetchAllJobs = async () => {
+      try {
+        const response = await handleGetAllJobs();
+
+        if (response.data.SUCCESS) {
+          dispatch(setAllJobs(response.data.allJobs));
+        }
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      }
+    };
+
+    fetchAllJobs();
+  }, []);
+
+  //ALL JOBS FROM STORE
   const { allJobs } = useSelector((store) => store.job);
 
   return (
@@ -21,9 +41,9 @@ export const JobOfTheDay = () => {
       </p>
 
       {/* JOB GRIDS */}
-      <div className="grid grid-cols-3  p-6 gap-y-14 place-items-center">
+      <div className="grid grid-cols-3  p-10 px-20  place-items-center gap-14">
         {allJobs?.length <= 0 ? (
-          <div>No Jobs Found :(</div>
+          <p className="text-2xl font-semibold  ">No Jobs Found :(</p>
         ) : (
           allJobs?.slice(0, 6).map((card, index) => {
             return <JobOfDayCard key={index} cardData={card} />;

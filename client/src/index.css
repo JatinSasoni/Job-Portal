@@ -168,7 +168,8 @@ header {
 /* JOB CARD HOME PAGE */
 
 .card {
-  max-width: 320px;
+  width: 100%;
+  height: 100%;
   border-width: 1px;
   border-color: rgba(219, 234, 254, 1);
   border-radius: 1rem;
