@@ -2,6 +2,7 @@ const User = require("../models/user-model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const uploadToCloudinary = require("../utils/cloudinary");
+const transporter = require("../utils/nodemailer");
 
 //HANDLING USER REGISTER
 const register = async (req, res) => {
@@ -35,6 +36,15 @@ const register = async (req, res) => {
       password: hashedPassword,
       role: role,
     });
+
+    const mailOption = {
+      from: "jatinhubhai6284@gmail.com",
+      to: email,
+      subject: "Welcome to Job Portal",
+      text: `Greeting!! You have registered with Job Portal with email : ${email}`,
+    };
+
+    await transporter.sendMail(mailOption);
 
     return res.status(201).json({
       MESSAGE: "User Registered Successfully",
