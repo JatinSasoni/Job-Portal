@@ -32,7 +32,6 @@ const postJobForAdmin = async (req, res) => {
     ) {
       return res.status(400).json({
         MESSAGE: "Please fill out every detail",
-
         SUCCESS: false,
       });
     }

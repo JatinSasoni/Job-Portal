@@ -35,6 +35,16 @@ const userSchema = new Schema(
         default: "/Logo/defaultpfp.jpg",
       },
     },
+    otpForPass: {
+      //STORES OTP
+      type: String,
+      default: "",
+    },
+    otpForPassExpiresIn: {
+      //THIS FIELD WILL STORE VALUE OF Date.Now()
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

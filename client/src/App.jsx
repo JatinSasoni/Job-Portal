@@ -15,6 +15,10 @@ import { RegisterNewJob } from "./Components/admin/RegisterNewJob";
 import { AdminApplicantsTable } from "./Components/admin/AdminApplicantsTable";
 import ProtectAdminRoute from "./Components/admin/ProtectAdminRoute";
 import { BrowsePage } from "./Components/BrowsePage";
+import { ResetPassPage } from "./pages/ResetPassPage";
+import { VerifyOTPPage } from "./pages/VerifyOTPPage";
+import { ChangePasswordPage } from "./pages/ChangePasswordPage";
+import { ProtectedChangePassword } from "./pages/protect/ProtectChangePassword";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -46,6 +50,22 @@ const AppRouter = createBrowserRouter([
       {
         path: "/browse",
         element: <BrowsePage />,
+      },
+      {
+        path: "/user/reset-pass",
+        element: <ResetPassPage />,
+      },
+      {
+        path: "/user/:userID/verify-otp",
+        element: <VerifyOTPPage />,
+      },
+      {
+        path: "/user/change/:userID/password",
+        element: (
+          <ProtectedChangePassword>
+            <ChangePasswordPage />
+          </ProtectedChangePassword>
+        ),
       },
     ],
   },

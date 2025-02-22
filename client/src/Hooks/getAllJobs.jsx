@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { handleGetAllJobs } from "../../Api/getAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllJobs } from "../../store/jobSlice";
-
+import { toast } from "react-toastify";
 const useGetAllJobs = (sortOrder) => {
   const dispatch = useDispatch();
   const { filterQuery, filterSalary } = useSelector((store) => store.job);
@@ -33,6 +33,7 @@ const useGetAllJobs = (sortOrder) => {
         }
       } catch (error) {
         console.error("Error fetching jobs:", error);
+        toast.error(error?.response?.data?.MESSAGE);
       }
     };
 

@@ -1,24 +1,22 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setFilterQuery, setFilterSalary } from "../../../store/jobSlice";
 
 export const FilterAside = () => {
   const dispatch = useDispatch();
-  const { filterQuery, filterSalary } = useSelector((store) => store.job); // Get Redux values
+  const { filterQuery, filterSalary } = useSelector(
+    (store) => ({
+      filterQuery: store.job.filterQuery,
+      filterSalary: store.job.filterSalary,
+    }),
+    shallowEqual // Prevents re-renders if values don't change
+  );
 
   // Initialize local state with Redux values
   const [filterState, setFilterState] = useState({
     keyword: filterQuery || "", // Use Redux state if available
     salaryRange: filterSalary.length ? filterSalary : [0, 999],
   });
-
-  // Sync local state with Redux state when Redux state changes
-  useEffect(() => {
-    setFilterState({
-      keyword: filterQuery || "",
-      salaryRange: filterSalary.length ? filterSalary : [0, 999],
-    });
-  }, [filterQuery, filterSalary]);
 
   const handlePopKeyChange = (e) => {
     const keyword = e.target.value;

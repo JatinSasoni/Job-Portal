@@ -3,6 +3,7 @@ import { AllJobsCard } from "./Cards/AllJobsCard";
 import { useEffect, useState } from "react";
 import { handleGetAllJobs } from "../../Api/getAPI";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export const BrowsePage = () => {
   const { searchedQuery } = useSelector((store) => store.job);
@@ -11,9 +12,13 @@ export const BrowsePage = () => {
 
   useEffect(() => {
     const fetchFilteredData = async () => {
-      const response = await handleGetAllJobs(searchedQuery.keyword);
-      if (response.data.SUCCESS) {
-        setAllJobs(response.data.allJobs); // Store all jobs first
+      try {
+        const response = await handleGetAllJobs(searchedQuery.keyword);
+        if (response.data.SUCCESS) {
+          setAllJobs(response.data.allJobs); // Store all jobs first
+        }
+      } catch (error) {
+        toast.error(error.response?.data?.MESSAGE);
       }
     };
 

@@ -231,9 +231,183 @@ const updateProfile = async (req, res) => {
   }
 };
 
+//HANDLING FORGET PASSWORD
+const sendOTPForPass = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    //NO EMAIL
+    if (!email) {
+      return res.status(400).json({
+        MESSAGE: "Please provide registered email",
+        SUCCESS: false,
+      });
+    }
+
+    //USER EXISTS WITH PROVIDED EMAIL?
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        MESSAGE: "Account does not exist",
+
+        SUCCESS: false,
+      });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000);
+
+    //SENDING OTP
+    const mailOptions = {
+      from: "jatinhubhai6284@gmail.com", // Replace with your email
+      to: user.email,
+      subject: "Your OTP Code for Verification",
+      html: `
+        <p>Dear User,</p>
+        <p>Your One-Time Password (OTP) for verification is:</p>
+        <h2 style="color: #2d89ef; text-align: center;">${otp}</h2>
+        <p>This OTP is valid for 10 minutes. Please do not share it with anyone.</p>
+        <p>If you did not request this, please ignore this email.</p>
+        <p>Best regards,</p>
+        <p><strong>Job Portal</strong></p>
+      `,
+    };
+    //MAIL SENT
+    await transporter.sendMail(mailOptions);
+    user.otpForPass = otp;
+    user.otpForPassExpiresIn = Date.now() + 10 * 60 * 1000; //10 MINUTES
+    await user.save();
+
+    return res.status(200).json({
+      MESSAGE: "OTP sent to your email",
+      userID: user._id,
+      SUCCESS: true,
+    });
+  } catch (error) {
+    console.log(error);
+    console.log("ERROR WHILE RESETTING PASSWORD");
+  }
+};
+
+//VALIDATING PASSWORD OTP
+const validateOTPToChangePass = async (req, res) => {
+  try {
+    const { otp, userID } = req.body;
+
+    if (!otp || !userID) {
+      return res.status(400).json({
+        MESSAGE: "Something is missing",
+        SUCCESS: false,
+      });
+    }
+
+    const user = await User.findById(userID);
+    if (!user) {
+      return res.status(400).json({
+        MESSAGE: "User not found",
+        SUCCESS: false,
+      });
+    }
+
+    if (user.otpForPass === "" || user.otpForPass !== otp) {
+      return res.status(400).json({
+        MESSAGE: "Invalid OTP",
+        SUCCESS: false,
+      });
+    }
+
+    if (user.otpForPassExpiresIn < Date.now()) {
+      return res.status(400).json({
+        MESSAGE: "OTP Expired",
+        SUCCESS: false,
+      });
+    }
+
+    user.otpForPass = "";
+    user.otpForPassExpiresIn = 0;
+    await user.save();
+
+    const token = jwt.sign({ optVerified: true }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
+
+    return res
+      .status(200)
+      .cookie("auth", token, { maxAge: 5 * 60 * 1000 }) //5 Minutes
+      .json({
+        MESSAGE: "OTP VERIFIED",
+        SUCCESS: true,
+      });
+  } catch (error) {
+    console.log(error);
+    console.log("ERROR WHILE RESETTING PASSWORD");
+  }
+};
+
+const ChangePassword = async (req, res) => {
+  try {
+    const auth = req.cookies.auth;
+
+    //TOKEN EXISTS?
+    if (!auth) {
+      return res.status(401).json({
+        MESSAGE: "Please do the OTP step",
+        SUCCESS: false,
+      });
+    }
+
+    try {
+      const tokenDecode = jwt.verify(auth, process.env.SECRET_KEY);
+    } catch (error) {
+      return res.status(401).json({
+        MESSAGE: "Not Authorized",
+        SUCCESS: false,
+      });
+    }
+
+    const { userID, newPassword } = req.body;
+
+    if (!userID || !newPassword) {
+      return res.status(400).json({
+        MESSAGE: "Something is missing",
+        SUCCESS: false,
+      });
+    }
+    const user = await User.findById(userID);
+
+    if (!user) {
+      return res.status(400).json({
+        MESSAGE: "User not found",
+        SUCCESS: false,
+      });
+    }
+
+    //HASHING PASSWORD
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.status(200).json({
+      MESSAGE: "Password Changed",
+      SUCCESS: true,
+    });
+  } catch (error) {
+    console.log(error);
+    console.log("ERROR WHILE CHANGING PASSWORD");
+
+    return res.status(500).json({
+      MESSAGE: "Internal Server Error",
+      SUCCESS: false,
+      ERROR: error.message,
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
   updateProfile,
   logout,
+  sendOTPForPass,
+  validateOTPToChangePass,
+  ChangePassword,
 };

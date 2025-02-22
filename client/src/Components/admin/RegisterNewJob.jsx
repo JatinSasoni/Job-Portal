@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { handlePostJobAPI } from "../../../Api/postAPI";
-import { PostJobForm } from "./PostJobForm";
+import { PostJobForm } from "./admin components/PostJobForm";
 
 export const RegisterNewJob = () => {
   const navigate = useNavigate();

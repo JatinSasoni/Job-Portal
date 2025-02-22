@@ -16,5 +16,7 @@ router
     upload.fields([{ name: "file" }, { name: "profilePhoto" }]),
     userController.updateProfile
   );
-
+router.route("/reset-password").post(userController.sendOTPForPass);
+router.route("/verify-otp").post(userController.validateOTPToChangePass);
+router.route("/change-password").post(userController.ChangePassword);
 module.exports = router;

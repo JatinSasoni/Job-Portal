@@ -76,3 +76,30 @@ export const handleStatusUpdateAPI = (status, applicationID) => {
     }
   );
 };
+
+export const generateOTPForPassAPI = (data) => {
+  return api.post(`/api/v1/user/reset-password`, data, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+};
+
+export const verifyOTPForPassAPI = (data) => {
+  return api.post(`/api/v1/user/verify-otp`, data, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+};
+
+export const changePasswordAPI = (data) => {
+  return api.post(`/api/v1/user/change-password`, data, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+};

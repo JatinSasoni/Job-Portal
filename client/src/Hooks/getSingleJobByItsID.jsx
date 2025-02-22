@@ -27,7 +27,7 @@ const useGetSingleJob = (jobID) => {
 
     //CALLING OUT FUNCTION
     fetchSingleJob(jobID);
-  }, [jobID]);
+  }, [jobID, dispatch]);
 };
 
 export default useGetSingleJob;

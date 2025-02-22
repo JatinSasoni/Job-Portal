@@ -21,6 +21,7 @@ export const Navbar = () => {
       if (response.data.SUCCESS) {
         toast.success(response.data.MESSAGE);
         dispatch(setLoggedInUser(null));
+
         Navigate("/"); //NAVIGATE TO HOME PAGE IF LOGOUT
       }
     } catch (error) {

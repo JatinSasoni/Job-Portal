@@ -7,13 +7,13 @@ const isAuthentication = async (req, res, next) => {
     //TOKEN EXISTS?
     if (!token) {
       return res.status(401).json({
-        MESSAGE: "User not authorized",
+        MESSAGE: "Please Login first",
         SUCCESS: false,
       });
     }
 
     //DECODING TOKEN
-    const tokenDecode = await jwt.verify(token, process.env.SECRET_KEY);
+    const tokenDecode = jwt.verify(token, process.env.SECRET_KEY);
     if (!tokenDecode) {
       return res.status(401).json({
         MESSAGE: "Invalid token",
