@@ -1,5 +1,6 @@
 const Application = require("../models/application-model");
 const Job = require("../models/job-model");
+const transporter = require("../utils/nodemailer");
 
 //STUDENT|| JobSEEKER APPLYING FOR JOB
 const applyForJob = async (req, res) => {
@@ -107,9 +108,10 @@ const updateApplicationStatus = async (req, res) => {
       });
     }
 
-    //FIND APPLICATION BY APPLICATION ID
-
-    const application = await Application.findOne({ _id: applicationID });
+    // FIND APPLICATION BY APPLICATION ID
+    const application = await Application.findOne({ _id: applicationID })
+      .populate("applicant")
+      .populate("job");
 
     if (!application) {
       return res.status(400).json({
@@ -118,17 +120,85 @@ const updateApplicationStatus = async (req, res) => {
       });
     }
 
-    //UPDATE STATUS
+    // UPDATE STATUS
     application.status = status.toLowerCase();
     await application.save();
+
+    // Email content based on status
+    let mailOptions;
+    if (application.status === "accepted") {
+      mailOptions = {
+        from: "jatinhubhai6284@gmail.com",
+        to: application?.applicant?.email,
+        subject: "Your Job Request Has Been Accepted!",
+        html: `
+        <p>Dear ${application.applicant.username},</p>
+        <p>We are pleased to inform you that your job request for <strong>${
+          application.job.title
+        }</strong> has been successfully accepted. Our team is now preparing to proceed with your request.</p>
+        <h3>Job Details:</h3>
+        <ul>
+          <li><strong>Job Title:</strong> ${application.job.title}</li>
+          <li><strong>Reference Number:</strong> ${application.job._id}</li>
+          <li><strong>Applied at:</strong> ${
+            application?.createdAt
+              ? new Date(application.createdAt).toLocaleDateString()
+              : "N/A"
+          }</li>
+        </ul>
+        <p>If you have any questions or need further assistance, feel free to reach out to us at <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a>.</p>
+        <p>Thank you for choosing <strong>Job Portal</strong>. We look forward to serving you!</p>
+        <p>Best regards,</p>
+        <p><strong>Jatin</strong><br>
+        Job Portal<br>
+        Contact: <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a></p>
+      `,
+      };
+    } else if (application.status === "rejected") {
+      mailOptions = {
+        from: "jatinhubhai6284@gmail.com",
+        to: application?.applicant?.email,
+        subject: "Your Job Application Status Update",
+        html: `
+        <p>Dear ${application.applicant.username},</p>
+        <p>We regret to inform you that your job application for <strong>${
+          application.job.title
+        }</strong> has not been accepted at this time.</p>
+        <p>We appreciate the time and effort you put into your application. While this opportunity didn’t work out, we encourage you to apply for future openings that match your skills and experience.</p>
+        <h3>Job Details:</h3>
+        <ul>
+          <li><strong>Job Title:</strong> ${application.job.title}</li>
+          <li><strong>Reference Number:</strong> ${application.job._id}</li>
+          <li><strong>Applied at:</strong> ${
+            application?.createdAt
+              ? new Date(application.createdAt).toLocaleDateString()
+              : "N/A"
+          }</li>
+        </ul>
+        <p>We wish you the best in your job search. If you have any questions, feel free to reach out to us at <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a>.</p>
+        <p>Best regards,</p>
+        <p><strong>Jatin</strong><br>
+        Job Portal<br>
+        Contact: <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a></p>
+      `,
+      };
+    }
+
+    // Send email only if mailOptions is set
+    if (mailOptions) {
+      await transporter.sendMail(mailOptions);
+    }
 
     return res.status(200).json({
       MESSAGE: "Application Status Updated",
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
-    console.log("Error while updating status of application");
+    console.error("Error while updating status of application:", error);
+    return res.status(500).json({
+      MESSAGE: "Internal Server Error",
+      SUCCESS: false,
+    });
   }
 };
 

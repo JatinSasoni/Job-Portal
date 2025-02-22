@@ -147,6 +147,7 @@ export const Login = () => {
                 <input
                   type="radio"
                   value="student"
+                  id="student"
                   {...register("role", {
                     required: {
                       value: true,
@@ -157,8 +158,13 @@ export const Login = () => {
                 <label htmlFor="student">Student</label>
               </div>
               <div>
-                <input type="radio" value="recruiter" {...register("role")} />
-                <label htmlFor="">Recruiter</label>
+                <input
+                  type="radio"
+                  value="recruiter"
+                  {...register("role")}
+                  id="role"
+                />
+                <label htmlFor="role">Recruiter</label>
               </div>
               {errors.role && (
                 <span className="text-blue-900">*{errors.role.message}</span>

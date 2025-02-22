@@ -1,18 +1,22 @@
 import { Navbar } from "../Shared/Navbar";
 import { useGetAllApplicants } from "../../Hooks/getAllApplicants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleStatusUpdateAPI } from "../../../Api/postAPI";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { setLoading } from "../../../store/authSlice";
 
 export const AdminApplicantsTable = () => {
   const { jobID } = useParams();
   useGetAllApplicants(jobID);
   const navigate = useNavigate();
   const { allApplicants } = useSelector((store) => store.application);
+  const { loading } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
 
   const handleUpdateStatus = async (status, applicationID) => {
     try {
+      dispatch(setLoading(true));
       const response = await handleStatusUpdateAPI({ status }, applicationID);
       if (response.data.SUCCESS) {
         toast.success(response.data.MESSAGE);
@@ -20,6 +24,8 @@ export const AdminApplicantsTable = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -89,23 +95,29 @@ export const AdminApplicantsTable = () => {
                   <td className="px-6 py-4">
                     {application?.status === "pending" ? (
                       <div>
-                        <button
-                          onClick={() =>
-                            handleUpdateStatus("accepted", application?._id)
-                          }
-                          className="bg-green-500 px-5 py-2 text-white rounded-full hover:scale-105"
-                        >
-                          Accept
-                        </button>
-
-                        <button
-                          onClick={() =>
-                            handleUpdateStatus("rejected", application?._id)
-                          }
-                          className=" bg-red-500 px-5 py-2 text-white rounded-full hover:scale-105"
-                        >
-                          Reject
-                        </button>
+                        {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE BUTTONS */}
+                        {loading ? (
+                          <div className="animate-bounce ">...</div>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() =>
+                                handleUpdateStatus("accepted", application?._id)
+                              }
+                              className="bg-green-500 px-5 py-2 text-white rounded-full hover:scale-105"
+                            >
+                              Accept
+                            </button>
+                            <button
+                              onClick={() =>
+                                handleUpdateStatus("rejected", application?._id)
+                              }
+                              className=" bg-red-500 px-5 py-2 text-white rounded-full hover:scale-105"
+                            >
+                              Reject
+                            </button>
+                          </>
+                        )}
                       </div>
                     ) : application?.status === "accepted" ? (
                       "Accepted"
