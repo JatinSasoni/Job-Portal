@@ -1,9 +1,18 @@
 /* eslint-disable react/prop-types */
 import { NavLink } from "react-router-dom";
 import { getDateDifference } from "../../../util/getDateDifference";
+import { TiBriefcase } from "react-icons/ti";
+import { LuClock9 } from "react-icons/lu";
+import { motion } from "motion/react";
+
 const JobOfDayCard = ({ cardData }) => {
   return (
-    <div className="card">
+    <motion.div
+      initial={{ opacity: 0, y: 150 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring", bounce: 0.4 }}
+      className="card"
+    >
       <div className="header">
         {/* company logo */}
         <div className="rounded-full size-10 border overflow-hidden">
@@ -17,37 +26,70 @@ const JobOfDayCard = ({ cardData }) => {
         </div>
 
         {/* company name */}
-        <p className="alert">{cardData?.CompanyID?.companyName}</p>
+        <p className="font-bold text-lg text-blue-950">
+          {cardData?.CompanyID?.companyName?.length > 13
+            ? `${cardData?.CompanyID?.companyName?.slice(0, 13)}...`
+            : cardData?.CompanyID?.companyName}
+        </p>
       </div>
 
       {/* TITLE AND JOB TYPE */}
-      <h4 className="mt-2 font-semibold">{cardData?.title}</h4>
+      <h4 className="mt-4 font-semibold text-blue-950">
+        {cardData?.title?.length > 20
+          ? `${cardData?.title?.slice(0, 20)}...`
+          : cardData?.title}
+      </h4>
       <div className="flex gap-4 [&>p]:text-xs ">
-        <p>{cardData?.jobType}</p>
-        <p>
-          {getDateDifference(cardData?.createdAt) === 0
-            ? "Today"
-            : `${getDateDifference(cardData?.createdAt)} Days Ago`}
+        <p className="flex gap-px text-gray-400">
+          <TiBriefcase className="my-auto" />
+          <span>{cardData?.jobType}</span>
+        </p>
+        <p className="flex gap-px text-gray-400 align-middle">
+          <LuClock9 className="my-auto" />
+          <span>
+            {getDateDifference(cardData?.createdAt) === 0
+              ? "Today"
+              : `${getDateDifference(cardData?.createdAt)} Day Ago`}
+          </span>
         </p>
       </div>
 
       {/* JOB DESC */}
-      <p className="message">{cardData?.description}</p>
-
-      <p className="font-bold">
-        <span className="text-blue-500 text-md">{cardData?.salary}</span>LPA
+      <p className="my-3 text-sm text-slate-500">
+        {cardData?.description.length > 25
+          ? `${cardData?.description?.slice(0, 25)}...`
+          : cardData?.description}
       </p>
 
-      <div className="actions">
-        <NavLink className="read" to={`/description/${cardData._id}`}>
-          Take a Look
+      {/* REQUIREMENTS */}
+      <ul className="my-3 text-sm text-slate-500 flex gap-2 flex-wrap">
+        {cardData?.requirements?.map((requirement, index) => {
+          return (
+            <li key={index} className="border rounded p-1 bg-gray-100">
+              {requirement}
+            </li>
+          );
+        })}
+      </ul>
+
+      <p className="font-bold text-blue-700 text-xl">
+        {cardData?.salary}
+        <span className="text-sm text-slate-500 font-light">LPA</span>
+      </p>
+
+      <div className="actions grid grid-cols-2 gap-2">
+        <NavLink
+          className="bg-blue-700 text-white rounded p-1 text-center"
+          to={`/description/${cardData?._id}`}
+        >
+          View
         </NavLink>
 
-        <NavLink className="mark-as-read" href="">
-          Save for later
-        </NavLink>
+        <a className="border bg-slate-50 rounded p-1 text-center" href="">
+          Save
+        </a>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleUpdateAPICall } from "../../Api/postAPI";
 import { setLoading, setLoggedInUser } from "../../store/authSlice";
 import { toast } from "react-toastify";
+import { motion } from "motion/react";
 /* eslint-disable react/prop-types */
 export const UpdateProfile = ({ setIsUpdateProfile }) => {
   //LOGIC FOR DISABLING BACKGROUND SCROLL BEHAVIOR WHILE MODAL/DIALOGUE BOX
@@ -19,11 +20,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
   const { loggedInUser } = useSelector((state) => state.auth);
 
   //USE FORM HOOK
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       username: loggedInUser?.username,
       email: loggedInUser?.email,
@@ -81,7 +78,11 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
   return (
     <section>
       <div className="backdrop-blur-sm fixed left-0 right-0 bottom-0 top-0 grid place-items-center">
-        <div className="bg-white fixed px-8 py-4 rounded-md border  ">
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-white fixed px-8 py-4 rounded-xl border w-1/3 shadow-2xl"
+        >
           {/* HEADER */}
           <div className="text-3xl font-bold mb-2 text-[#1e0e4b] flex justify-between">
             <div>
@@ -209,7 +210,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
               {loading ? <div className="loader"></div> : "Submit"}
             </button>
           </form>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

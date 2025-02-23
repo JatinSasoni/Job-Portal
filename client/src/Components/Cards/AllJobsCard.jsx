@@ -3,11 +3,17 @@ import { TiBriefcase } from "react-icons/ti";
 import { LuClock9 } from "react-icons/lu";
 import { getDateDifference } from "../../../util/getDateDifference";
 import { NavLink } from "react-router-dom";
+import { motion } from "motion/react";
 
 export const AllJobsCard = ({ cardData }) => {
   return (
-    <li className="card">
-      <div className="">
+    <motion.li
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ opacity: 0, x: -100 }}
+      className="card"
+    >
+      <div>
         <div className="header">
           {/* company logo */}
           <div className="rounded-full size-10 border overflow-hidden">
@@ -22,21 +28,26 @@ export const AllJobsCard = ({ cardData }) => {
 
           {/* company name */}
           <p className="font-bold text-lg text-blue-950">
-            {cardData?.CompanyID?.companyName}
+            {cardData?.CompanyID?.companyName?.length > 13
+              ? `${cardData?.CompanyID?.companyName?.slice(0, 13)}...`
+              : cardData?.CompanyID?.companyName}
           </p>
         </div>
 
         {/* TITLE AND JOB TYPE */}
-        <h4 className="mt-4 font-semibold text-blue-950">{cardData?.title}</h4>
+        <h4 className="mt-4 font-semibold text-blue-950">
+          {cardData?.title?.length > 20
+            ? `${cardData?.title?.slice(0, 20)}...`
+            : cardData?.title}
+        </h4>
         <div className="flex gap-4 [&>p]:text-xs ">
           <p className="flex gap-px text-gray-400">
             <TiBriefcase className="my-auto" />
             <span>{cardData?.jobType}</span>
           </p>
           <p className="flex gap-px text-gray-400 align-middle">
-            <LuClock9 className="my-auto" />{" "}
+            <LuClock9 className="my-auto" />
             <span>
-              {" "}
               {getDateDifference(cardData?.createdAt) === 0
                 ? "Today"
                 : `${getDateDifference(cardData?.createdAt)} Day Ago`}
@@ -80,6 +91,6 @@ export const AllJobsCard = ({ cardData }) => {
           </a>
         </div>
       </div>
-    </li>
+    </motion.li>
   );
 };

@@ -9,7 +9,7 @@ export const Jobs = () => {
       <JobSearchCard />
 
       {/* JOBS VIEW CARD */}
-      <main className="flex gap-2">
+      <main className="flex gap-2 pb-10">
         {/* FILTER LEFT SIDE */}
         <FilterAside />
         {/* JOBS RIGHT SIDE */}

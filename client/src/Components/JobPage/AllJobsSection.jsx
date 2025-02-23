@@ -29,7 +29,7 @@ export const AllJobsSection = () => {
       <div className="">
         <ul className="grid grid-cols-4 gap-8 place-items-center p-6 ">
           {allJobs?.length <= 0 ? (
-            <div>No Jobs Found</div>
+            <div>Jobs Not Found</div>
           ) : (
             allJobs?.map((job, i) => {
               return <AllJobsCard key={i} cardData={job} />;

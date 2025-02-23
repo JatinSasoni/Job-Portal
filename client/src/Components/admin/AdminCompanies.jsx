@@ -5,6 +5,8 @@ import { handleGetAllCompanyDes } from "../../../Api/getAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllCompanies } from "../../../store/companySlice";
 import { RegisteredComTable } from "./RegisteredComTable";
+import { motion } from "motion/react";
+
 export const AdminCompanies = () => {
   const dispatch = useDispatch();
   const [filterInput, setFilterInput] = useState("");
@@ -70,13 +72,20 @@ export const AdminCompanies = () => {
 
         {/* TABLE CONTAINING LIST OF REGISTERED COMPANIES */}
         <main className="mt-5">
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            {filterData?.length === 0 ? (
-              <span>You don't have any company registered</span>
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", duration: 1 }}
+            className="relative  "
+          >
+            {!filterData ? (
+              <span className="p-4">
+                You don&apos;t have any company registered
+              </span>
             ) : (
               <RegisteredComTable allCompanies={filterData} />
             )}
-          </div>
+          </motion.div>
         </main>
       </section>
     </>

@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
+import { motion } from "motion/react";
 
 /* eslint-disable react/prop-types */
 export const RegisteredComTable = ({ allCompanies }) => {
   return (
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 drop-shadow-xl">
       {/* TABLE HEAD */}
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
@@ -34,7 +35,10 @@ export const RegisteredComTable = ({ allCompanies }) => {
       <tbody>
         {allCompanies?.map((company, indx) => {
           return (
-            <tr
+            <motion.tr
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", duration: 1 }}
               key={indx}
               className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
             >
@@ -68,7 +72,7 @@ export const RegisteredComTable = ({ allCompanies }) => {
                   Delete
                 </button>
               </td>
-            </tr>
+            </motion.tr>
           );
         })}
       </tbody>

@@ -20,7 +20,7 @@ export const NavItems = ({ loggedInUser }) => {
               <NavLink to="/">Home</NavLink>
             </li>
             <li>
-              <NavLink to="/">About us</NavLink>
+              <NavLink to="/about">About us</NavLink>
             </li>
             <li>
               <NavLink to="/jobs">Jobs</NavLink>

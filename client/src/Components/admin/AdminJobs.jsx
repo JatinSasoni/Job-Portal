@@ -5,6 +5,8 @@ import { handleGetAllAdminJobs } from "../../../Api/getAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { RegisteredJobTable } from "./RegisteredJobTable";
 import { setAllAdminJobs } from "../../../store/jobSlice";
+import { motion } from "motion/react";
+
 export const AdminJobs = () => {
   const dispatch = useDispatch();
   const [filterInput, setFilterInput] = useState("");
@@ -72,13 +74,18 @@ export const AdminJobs = () => {
 
         {/* TABLE CONTAINING LIST OF REGISTERED COMPANIES */}
         <main className="mt-5">
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", duration: 1 }}
+            className="relative overflow-x-auto shadow-md sm:rounded-lg"
+          >
             {!filterData ? (
-              <span>You didn't posted any job</span>
+              <span>You didn&apos;t posted any job</span>
             ) : (
               <RegisteredJobTable allAdminJobs={filterData} />
             )}
-          </div>
+          </motion.div>
         </main>
       </section>
     </>

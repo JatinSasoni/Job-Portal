@@ -1,7 +1,19 @@
 /* eslint-disable react/prop-types */
+
+import { motion } from "motion/react";
 export const TopRecruitersCard = ({ cardData }) => {
   return (
-    <div className="card">
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 100,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      className="card"
+    >
       <div className="header">
         {/* company logo */}
         <div className="rounded-full size-10 border overflow-hidden">
@@ -24,6 +36,6 @@ export const TopRecruitersCard = ({ cardData }) => {
           Since : {cardData?.CompanyID?.createdAt?.split("-")[0]}
         </span>
       </p>
-    </div>
+    </motion.div>
   );
 };

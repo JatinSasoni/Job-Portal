@@ -1,3 +1,5 @@
+import { motion } from "motion/react";
+
 const useCases = [
   {
     figure: 25,
@@ -30,9 +32,17 @@ export const HeroContainer2 = () => {
       <section className="container mx-auto max-w-7xl  ">
         <div className="grid grid-cols-2 p-3 mb-8">
           {/* hero-img */}
-          <div className="hero-img flex pt-5 ">
-            <img src="/images/bg2.jpg" alt="" />
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 150 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              type: "spring",
+              duration: 2,
+            }}
+            className="hero-img flex pt-5 "
+          >
+            <img src="/images/bg2.webp" alt="random" />
+          </motion.div>
 
           {/* hero-content */}
           <div className="hero-content pt-14 px-16 flex flex-col gap-8">
@@ -60,11 +70,19 @@ export const HeroContainer2 = () => {
           </div>
         </div>
 
-        {/* SHAPE DIVIDER */}
         <div className="p-4 grid grid-cols-4 place-items-center gap-4">
           {useCases.map((cases, index) => {
             return (
-              <div key={index} className="flex flex-col gap-2">
+              <motion.div
+                initial={{ opacity: 0, y: 150 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  duration: 2,
+                }}
+                key={index}
+                className="flex flex-col gap-2"
+              >
                 <p className=" p-2 text-center rounded-xl text-blue-800 text-6xl font-extrabold">
                   {cases.figure}K+
                 </p>
@@ -74,7 +92,7 @@ export const HeroContainer2 = () => {
                 <p className="  text-center rounded-xl text-slate-500">
                   {cases.description}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
         </div>

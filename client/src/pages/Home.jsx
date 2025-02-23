@@ -26,9 +26,6 @@ export const Home = () => {
       {/* TRUSTED-COMPANIES */}
       <TrustedCompanies />
 
-      {/* CARASAUL */}
-      {/* <Carasoul /> */}
-
       {/* JOB OF THE DAY */}
       <JobOfTheDay />
 
