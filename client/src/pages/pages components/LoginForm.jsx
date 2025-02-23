@@ -118,7 +118,16 @@ export const LoginForm = ({ onSubmit }) => {
         className="bg-[#7747ff] w-max m-auto px-6 py-2 rounded text-white text-sm font-normal"
       >
         {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE SUBMIT BUTTON */}
-        {loading ? <div className="loader"></div> : "Submit"}
+        {loading ? (
+          <>
+            <div className="flex gap-2">
+              <div className="loader "></div>
+              {/* <span className="animate-bounce">wait</span> */}
+            </div>
+          </>
+        ) : (
+          "Submit"
+        )}
       </button>
     </form>
   );
