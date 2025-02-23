@@ -7,6 +7,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setLoading, setLoggedInUser } from "../../store/authSlice";
 import { useEffect } from "react";
 import { LoginForm } from "./pages components/LoginForm";
+import { motion } from "motion/react";
 
 //LOGIN PAGE
 export const Login = () => {
@@ -52,7 +53,14 @@ export const Login = () => {
 
   return (
     <>
-      <div className="py-8 ">
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          type: "tween",
+        }}
+        className="py-8 "
+      >
         <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl">
           <div className="text-5xl font-bold mb-2 text-[#1e0e4b] text-center">
             Welcome Back To <span className="text-[#7747ff]">Job Portal</span>
@@ -72,7 +80,7 @@ export const Login = () => {
             </NavLink>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

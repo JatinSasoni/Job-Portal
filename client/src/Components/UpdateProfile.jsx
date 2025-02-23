@@ -77,10 +77,13 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
 
   return (
     <section>
-      <div className="backdrop-blur-sm fixed left-0 right-0 bottom-0 top-0 grid place-items-center">
+      <div className="backdrop-blur-sm fixed left-0 right-0 bottom-0 top-0 grid place-items-center z-50">
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            type: "tween",
+          }}
           className="bg-white fixed px-8 py-4 rounded-xl border w-1/3 shadow-2xl"
         >
           {/* HEADER */}

@@ -33,8 +33,8 @@ export const HeroContainer2 = () => {
         <div className="grid grid-cols-2 p-3 mb-8">
           {/* hero-img */}
           <motion.div
-            initial={{ opacity: 0, y: 150 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -150 }}
+            whileInView={{ opacity: 1, x: 0 }}
             transition={{
               type: "spring",
               duration: 2,

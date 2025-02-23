@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../store/authSlice";
 import { useEffect } from "react";
 import { SignupForm } from "./pages components/SignupForm";
+import { motion } from "motion/react";
 
 export const Signup = () => {
   //DISPATCHER
@@ -45,7 +46,13 @@ export const Signup = () => {
 
   return (
     <>
-      <div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          type: "tween",
+        }}
+      >
         <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black bg-white shadow-black drop-shadow-2xl">
           <div className="text-5xl font-bold mb-4 pt-3 text-[#1e0e4b] text-center">
             Signup To <span className="text-[#7747ff]"> JobiFY</span>
@@ -61,7 +68,7 @@ export const Signup = () => {
             </NavLink>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };
