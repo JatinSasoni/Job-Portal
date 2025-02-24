@@ -1,6 +1,6 @@
 export const TrustedCompanies = () => {
   return (
-    <div className="flex justify-around p-4 shadow-sm border-2">
+    <div className="flex justify-around p-4 shadow-sm border-2 dark:text-white">
       <p className="font-bold">
         We’ve helped over 500,000 companies find the right talent.
       </p>

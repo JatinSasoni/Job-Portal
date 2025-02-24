@@ -11,7 +11,7 @@ export const AllJobsCard = ({ cardData }) => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       exit={{ opacity: 0, x: -100 }}
-      className="card"
+      className="card drop-shadow-xl dark:shadow-md dark:shadow-white dark:bg-blue-950"
     >
       <div>
         <div className="header">
@@ -27,7 +27,7 @@ export const AllJobsCard = ({ cardData }) => {
           </div>
 
           {/* company name */}
-          <p className="font-bold text-lg text-blue-950">
+          <p className="font-bold text-lg text-blue-950 dark:text-white">
             {cardData?.CompanyID?.companyName?.length > 13
               ? `${cardData?.CompanyID?.companyName?.slice(0, 13)}...`
               : cardData?.CompanyID?.companyName}
@@ -35,7 +35,7 @@ export const AllJobsCard = ({ cardData }) => {
         </div>
 
         {/* TITLE AND JOB TYPE */}
-        <h4 className="mt-4 font-semibold text-blue-950">
+        <h4 className="mt-4 font-semibold text-blue-950 dark:text-white">
           {cardData?.title?.length > 20
             ? `${cardData?.title?.slice(0, 20)}...`
             : cardData?.title}
@@ -56,7 +56,7 @@ export const AllJobsCard = ({ cardData }) => {
         </div>
 
         {/* JOB DESC */}
-        <p className="my-3 text-sm text-slate-500">
+        <p className="my-3 text-sm text-slate-500 dark:text-white">
           {cardData?.description.length > 25
             ? `${cardData?.description?.slice(0, 25)}...`
             : cardData?.description}
@@ -73,9 +73,11 @@ export const AllJobsCard = ({ cardData }) => {
           })}
         </ul>
 
-        <p className="font-bold text-blue-700 text-xl">
+        <p className="font-bold text-blue-700 text-xl dark:text-white">
           {cardData?.salary}
-          <span className="text-sm text-slate-500 font-light">LPA</span>
+          <span className="text-sm text-slate-500 font-semibold dark:text-blue-300">
+            LPA
+          </span>
         </p>
 
         <div className="actions grid grid-cols-2 gap-2">
@@ -86,7 +88,10 @@ export const AllJobsCard = ({ cardData }) => {
             View
           </NavLink>
 
-          <a className="border bg-slate-50 rounded p-1 text-center" href="">
+          <a
+            className="border bg-slate-50 rounded p-1 text-center text-black"
+            href=""
+          >
             Save
           </a>
         </div>

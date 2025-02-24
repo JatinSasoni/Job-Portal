@@ -44,10 +44,10 @@ export const Navbar = () => {
           right: 0,
           originX: 0,
         }}
-        className="w-full h-1 rounded-xl z-50 bg-blue-500"
+        className="w-full h-1 rounded-xl z-50 bg-blue-500  "
       ></motion.div>
 
-      <header className="py-7 bg-blue-50 drop-shadow-xl relative z-40">
+      <header className="py-7 bg-blue-50 drop-shadow-xl relative z-40 dark:bg-gray-900 dark:shadow-white dark:drop-shadow-2xl">
         <div className=" mx-auto max-w-7xl flex justify-between px-5">
           {/* COMPANY ICON */}
           <div>

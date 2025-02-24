@@ -13,6 +13,9 @@ header {
 .active {
   @apply font-bold text-blue-600;
 }
+body {
+  @apply dark:bg-gray-900;
+}
 
 /* CSS */
 .button-33 {

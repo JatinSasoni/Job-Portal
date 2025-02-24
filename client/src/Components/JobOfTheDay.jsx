@@ -37,7 +37,7 @@ export const JobOfTheDay = () => {
   // Memoize the job cards to prevent unnecessary re-renders
   const jobCards = useMemo(() => {
     return (allJobs ?? [])
-      .slice(0, 6)
+      .slice(0, 4)
       .map((card) =>
         card._id ? <JobOfDayCard key={card._id} cardData={card} /> : null
       );
@@ -50,11 +50,11 @@ export const JobOfTheDay = () => {
   return (
     <div className="pt-14 container max-w-screen-xl mx-auto flex flex-col gap-6">
       {/* TITLE */}
-      <h2 className="text-5xl text-blue-950 text-center font-semibold">
+      <h2 className="text-5xl text-blue-950 text-center font-semibold dark:text-white">
         Jobs Of The Day
       </h2>
 
-      <p className="text-center  text-slate-600 font-semibold">
+      <p className="text-center  text-slate-600 font-semibold dark:text-slate-400">
         Explore the different types of available jobs to apply and discover
         which is right for you.
       </p>

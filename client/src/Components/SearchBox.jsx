@@ -27,7 +27,7 @@ export const SearchBox = () => {
   };
 
   return (
-    <div className=" my-3 w-full p-1 mx-auto rounded-2xl bg-white drop-shadow-lg shadow-black relative z-0 ">
+    <div className=" my-3 w-full p-1 mx-auto rounded-2xl bg-white drop-shadow-lg shadow-black relative z-0 dark:text-black">
       <form
         autoComplete="off"
         onSubmit={handleSearchLogic}

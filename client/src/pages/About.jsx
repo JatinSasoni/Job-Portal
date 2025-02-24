@@ -20,10 +20,10 @@ export const About = () => {
                 transition={{
                   duration: 0.2,
                 }}
-                className="text-3xl "
+                className="text-3xl dark:text-white "
               >
                 Welcome{" "}
-                <span className="text-blue-900 font-bold inline-block">
+                <span className="text-blue-900 font-bold inline-block dark:text-blue-200 ">
                   {loggedInUser && loggedInUser?.username}
                 </span>{" "}
                 to our website
@@ -42,11 +42,11 @@ export const About = () => {
                   duration: 0.9,
                   type: "spring",
                 }}
-                className="text-6xl font-bold "
+                className="text-6xl font-bold dark:text-white "
               >
                 Why Choose Us?{" "}
               </motion.h1>
-              <p className="text-xl text-slate-600 leading-6 ">
+              <p className="text-xl text-slate-600 leading-6  ">
                 Expertise: Our team consists of experienced IT professionals who
                 are passionate about staying up-to-date with the latest industry
                 trends.

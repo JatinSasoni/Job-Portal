@@ -44,7 +44,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
 
       //FORM DATA
       const formData = new FormData();
-      formData.append("fullname", data.username);
+      formData.append("username", data.username);
       formData.append("email", data.email);
       formData.append("phoneNumber", data.number);
       formData.append("bio", data.bio);
@@ -84,10 +84,10 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
           transition={{
             type: "tween",
           }}
-          className="bg-white fixed px-8 py-4 rounded-xl border w-1/3 shadow-2xl"
+          className="bg-white fixed px-8 py-4 rounded-xl border w-1/3 shadow-2xl dark:bg-gray-900 dark:shadow-md dark:shadow-white"
         >
           {/* HEADER */}
-          <div className="text-3xl font-bold mb-2 text-[#1e0e4b] flex justify-between">
+          <div className="text-3xl font-bold mb-2 text-[#1e0e4b] flex justify-between dark:text-white">
             <div>
               Update <span className="text-[#7747ff]">Profile</span>
             </div>
@@ -102,7 +102,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
           {/* UPDATE FORM */}
           <form
             encType="multipart/form-data"
-            className="flex flex-col gap-3"
+            className="flex flex-col gap-3 dark:[&>div>label]:text-white"
             onSubmit={handleSubmit(onSubmit)}
           >
             {/* NAME */}
@@ -188,7 +188,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
                 type="file"
                 {...register("profilePhoto")}
                 accept="image/*"
-                className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block  m-0 p-[8px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+                className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block  m-0 p-[8px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:text-white"
               />
               <label
                 htmlFor="resume"
@@ -200,7 +200,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
                 type="file"
                 {...register("resume")}
                 accept="application/pdf,application/vnd.ms-excel"
-                className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block  m-0 p-[8px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+                className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block  m-0 p-[8px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:text-white"
               />
             </div>
 

@@ -39,19 +39,19 @@ export const HeroContainer2 = () => {
               type: "spring",
               duration: 2,
             }}
-            className="hero-img flex pt-5 "
+            className="hero-img flex pt-5  "
           >
             <img src="/images/bg2.webp" alt="random" />
           </motion.div>
 
           {/* hero-content */}
-          <div className="hero-content pt-14 px-16 flex flex-col gap-8">
+          <div className="hero-content pt-14 px-16 flex flex-col gap-8 ">
             {/* hero-heading */}
-            <h1 className="text-5xl font-bold leading-snug ">
+            <div className="text-5xl font-bold leading-snug dark:text-white ">
               <p className="text-slate-500 text-4xl">Millions Of Jobs.</p>
               Find The One That’s <span className="text-blue-600 ">Right </span>
               For You !
-            </h1>
+            </div>
 
             {/* hero-content */}
             <p className="text-gray-500 text-lg leading-tight">
@@ -83,10 +83,10 @@ export const HeroContainer2 = () => {
                 key={index}
                 className="flex flex-col gap-2"
               >
-                <p className=" p-2 text-center rounded-xl text-blue-800 text-6xl font-extrabold">
+                <p className=" p-2 text-center rounded-xl text-blue-600 text-6xl font-extrabold dark:text-blue-300">
                   {cases.figure}K+
                 </p>
-                <p className=" text-center rounded-xl text-black font-bold text-xl">
+                <p className=" text-center rounded-xl text-black font-bold text-xl dark:text-white">
                   {cases.title}
                 </p>
                 <p className="  text-center rounded-xl text-slate-500">

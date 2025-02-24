@@ -156,6 +156,7 @@ const logout = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { username, email, phoneNumber, bio, skills } = req.body;
+
     //resume
     const { file = [], profilePhoto = [] } = req.files || {};
 

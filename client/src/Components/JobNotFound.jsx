@@ -1,27 +1,7 @@
-import { motion } from "motion/react";
-export const LoadingPage = () => {
+export const JobNotFound = () => {
   return (
     <>
-      <div className="h-screen w-screen bg-blue-300 overflow-hidden relative dark:bg-gray-900 ">
-        <div className="relative w-screen h-screen">
-          <motion.div
-            initial={{
-              y: 200,
-              x: -300,
-              scale: 0,
-            }}
-            animate={{
-              x: -300,
-              y: 0,
-              scale: 1.1,
-            }}
-            transition={{ duration: 0.5, ease: [0, 0.71, 0.2, 1.01] }}
-            className="text-6xl  text-white font-extrabold absolute bottom-32 left-1/2 -translate-x-1/2"
-          >
-            <h1>Welcome to JobiFy</h1>
-          </motion.div>
-        </div>
-
+      <div className="h-full p-3 overflow-hidden relative  dark:bg-gray-900 ">
         <div className="box-of-star1">
           <div className="star star-position1"></div>
           <div className="star star-position2"></div>

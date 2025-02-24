@@ -4,15 +4,10 @@ import { motion } from "motion/react";
 export const TopRecruitersCard = ({ cardData }) => {
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        y: 100,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      className="card"
+      initial={{ opacity: 0, y: 100 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring" }}
+      className="card drop-shadow-md"
     >
       <div className="header">
         {/* company logo */}
@@ -28,14 +23,17 @@ export const TopRecruitersCard = ({ cardData }) => {
 
         {/* company name */}
         <p className="alert">{cardData?.CompanyID?.companyName}</p>
+        {/* <span className="text-gray-500 text-xs">
+          Since : {cardData?.CompanyID?.createdAt?.split("-")[0]}
+        </span> */}
       </div>
 
-      <p className="font-bold flex gap-3">
+      <div className="font-bold flex gap-3 w-2/3 mx-auto">
         <span className="text-gray-600 text-xs">{cardData?.location}</span>
         <span className="text-gray-500 text-xs">
           Since : {cardData?.CompanyID?.createdAt?.split("-")[0]}
         </span>
-      </p>
+      </div>
     </motion.div>
   );
 };

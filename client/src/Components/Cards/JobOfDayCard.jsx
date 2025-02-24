@@ -8,10 +8,10 @@ import { motion } from "motion/react";
 const JobOfDayCard = ({ cardData }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 150 }}
+      initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", bounce: 0.4 }}
-      className="card"
+      transition={{ type: "spring", bounce: 0.4, duration: 2 }}
+      className="card drop-shadow-xl dark:shadow-md dark:shadow-white dark:bg-blue-950"
     >
       <div className="header">
         {/* company logo */}
@@ -26,7 +26,7 @@ const JobOfDayCard = ({ cardData }) => {
         </div>
 
         {/* company name */}
-        <p className="font-bold text-lg text-blue-950">
+        <p className="font-bold text-lg text-blue-950 dark:text-white">
           {cardData?.CompanyID?.companyName?.length > 13
             ? `${cardData?.CompanyID?.companyName?.slice(0, 13)}...`
             : cardData?.CompanyID?.companyName}
@@ -34,7 +34,7 @@ const JobOfDayCard = ({ cardData }) => {
       </div>
 
       {/* TITLE AND JOB TYPE */}
-      <h4 className="mt-4 font-semibold text-blue-950">
+      <h4 className="mt-4 font-semibold text-blue-950 dark:text-white">
         {cardData?.title?.length > 20
           ? `${cardData?.title?.slice(0, 20)}...`
           : cardData?.title}
@@ -55,14 +55,14 @@ const JobOfDayCard = ({ cardData }) => {
       </div>
 
       {/* JOB DESC */}
-      <p className="my-3 text-sm text-slate-500">
+      <p className="my-3 text-sm text-slate-500 dark:text-white">
         {cardData?.description.length > 25
           ? `${cardData?.description?.slice(0, 25)}...`
           : cardData?.description}
       </p>
 
       {/* REQUIREMENTS */}
-      <ul className="my-3 text-sm text-slate-500 flex gap-2 flex-wrap">
+      <ul className="my-3 text-sm text-slate-500 flex gap-2 flex-wrap ">
         {cardData?.requirements?.map((requirement, index) => {
           return (
             <li key={index} className="border rounded p-1 bg-gray-100">
@@ -72,9 +72,11 @@ const JobOfDayCard = ({ cardData }) => {
         })}
       </ul>
 
-      <p className="font-bold text-blue-700 text-xl">
+      <p className="font-bold text-blue-700 text-xl dark:text-white">
         {cardData?.salary}
-        <span className="text-sm text-slate-500 font-light">LPA</span>
+        <span className="text-sm font-semibold text-slate-500  dark:text-blue-300 ">
+          LPA
+        </span>
       </p>
 
       <div className="actions grid grid-cols-2 gap-2">

@@ -75,7 +75,7 @@ export const JobProfile = () => {
   return (
     <>
       <Navbar />
-      <section className="mx-auto max-w-7xl my-4 p-6">
+      <section className="mx-auto max-w-7xl my-4 p-6 dark:text-white">
         {/* NAME AND APPLY BUTTON */}
         <div className="flex justify-between ">
           <h1 className="text-3xl font-bold">

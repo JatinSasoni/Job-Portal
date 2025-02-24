@@ -8,11 +8,11 @@ export const TopRecruiters = ({ topRecruiterData }) => {
         <div>
           <div className=" container max-w-screen-xl mx-auto flex flex-col gap-6">
             {/* TITLE */}
-            <h2 className="text-5xl text-blue-950 text-center font-semibold">
+            <h2 className="text-5xl text-blue-950 text-center font-semibold dark:text-white">
               Top Recruiters
             </h2>
 
-            <p className="text-center text-slate-600 font-semibold">
+            <p className="text-center text-slate-600 font-semibold dark:text-slate-500">
               Discover your next career move, freelance gig, or internship
             </p>
 

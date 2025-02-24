@@ -8,12 +8,12 @@ export const ProfileInfo = ({ setIsUpdateProfile }) => {
   const { loggedInUser } = useSelector((state) => state.auth);
 
   return (
-    <section className="flex flex-col gap-3 border p-3">
+    <section className="flex flex-col gap-3 border p-3 dark:text-white rounded-xl dark:shadow-md dark:shadow-white">
       {/* CONTAINER FOR PROFILE HEADER */}
       <div className=" flex justify-around">
         {/* PROFILE IMAGE AND NAME */}
         <div className="flex gap-4">
-          <div className="size-16 rounded-full cursor-pointer  bg-blue-400 overflow-hidden">
+          <div className="size-16 rounded-full cursor-pointer  bg-blue-400 overflow-hidden border">
             <img
               src={loggedInUser?.profile?.profilePhoto}
               alt="pfp"
@@ -79,9 +79,13 @@ export const ProfileInfo = ({ setIsUpdateProfile }) => {
       <div>
         <h3 className="text-xl">Resume :</h3>
         <div>
-          <a href={loggedInUser?.profile?.resume} className="text-blue-300">
-            {loggedInUser?.profile?.resumeOriginalName}
-          </a>
+          {loggedInUser?.profile?.resume ? (
+            <a href={loggedInUser?.profile?.resume} className="text-blue-300">
+              {loggedInUser?.profile?.resumeOriginalName}
+            </a>
+          ) : (
+            <p className="text-red-500">*Upload your resume</p>
+          )}
         </div>
       </div>
     </section>

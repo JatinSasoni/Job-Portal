@@ -36,10 +36,13 @@ const postJobForAdmin = async (req, res) => {
       });
     }
 
+    //REQUIREMENTS LOGIC
+    const requirementArray = requirements.split(",").map((elem) => elem);
+
     const postedJob = await Job.create({
       title,
       description,
-      requirements,
+      requirements: requirementArray,
       salary,
       location,
       jobType,

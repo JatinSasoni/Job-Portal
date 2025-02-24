@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { handleGetAllAppliedJobs } from "../../Api/getAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllAppliedJobs } from "../../store/jobSlice";
+import { motion } from "motion/react";
 
 export const AppliedJobs = () => {
   const dispatch = useDispatch();
@@ -24,11 +25,20 @@ export const AppliedJobs = () => {
   const { allAppliedJobs } = useSelector((store) => store.job);
 
   return (
-    <section className="mt-4">
-      <h2 className="text-2xl mb-3">Applied jobs - {allAppliedJobs?.length}</h2>
+    <section className="mt-10 mb-5">
+      <h2 className="text-2xl mb-3 dark:text-white font-bold ">
+        Applied jobs - {allAppliedJobs?.length}
+      </h2>
 
       {/* TABLE CONTAINING JOBS APPLIEND TO */}
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <motion.div
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{
+          duration: 0.5,
+        }}
+        className="relative overflow-x-auto shadow-md sm:rounded-lg"
+      >
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           {/* TABLE HEAD */}
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -86,14 +96,14 @@ export const AppliedJobs = () => {
                         : "text-red-500"
                     }`}
                   >
-                    {application?.status}
+                    {application?.status?.toUpperCase()}
                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
-      </div>
+      </motion.div>
     </section>
   );
 };
