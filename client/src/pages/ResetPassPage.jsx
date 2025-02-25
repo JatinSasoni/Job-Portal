@@ -34,14 +34,17 @@ export const ResetPassPage = () => {
 
   return (
     <div className="py-32">
-      <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl">
-        <div className="text-3xl font-bold mb-2 text-[#1e0e4b] text-center">
+      <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-blue-950">
+        <div className="text-3xl font-bold mb-2 text-[#1e0e4b] text-center dark:text-slate-200">
           Forgot Your Password?
           <span className="text-[#7747ff] block">We Are Here</span>
         </div>
 
         {/* LOGIN-FORM */}
-        <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="flex flex-col gap-3 dark:[&>div>label]:text-white"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           {/* EMAIL */}
           <div className="block relative">
             <label

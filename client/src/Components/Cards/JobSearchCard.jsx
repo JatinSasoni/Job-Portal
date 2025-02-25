@@ -5,7 +5,7 @@ export const JobSearchCard = () => {
   return (
     <section>
       {/* JOB HEADER || SEARCH */}
-      <motion.div className="py-8 flex flex-col gap-4 my-10 rounded-2xl shadow-md dark:shadow-white dark:text-white">
+      <motion.div className="py-8 flex flex-col gap-4 my-10 rounded-2xl shadow-md dark:shadow-white dark:text-white dark:bg-blue-950 ">
         {/* content */}
         <div className=" flex flex-col gap-2 max-w-96 mx-auto">
           <p className="text-center text-3xl font-extrabold">

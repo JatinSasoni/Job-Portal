@@ -33,10 +33,10 @@ export const AdminApplicantsTable = () => {
     <>
       <Navbar />
       <div className="relative overflow-x-auto my-8 mx-auto max-w-7xl z-0">
-        <h1 className="my-2 text-3xl mx-a">
+        <h1 className="my-3 text-5xl mx-a dark:text-slate-100 ">
           Applicants {allApplicants?.length}
         </h1>
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">

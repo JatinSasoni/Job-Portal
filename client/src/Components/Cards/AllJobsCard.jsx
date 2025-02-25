@@ -11,7 +11,7 @@ export const AllJobsCard = ({ cardData }) => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       exit={{ opacity: 0, x: -100 }}
-      className="card drop-shadow-xl dark:shadow-md dark:shadow-white dark:bg-blue-950"
+      className="card drop-shadow-xl dark:shadow-md dark:shadow-white dark:bg-blue-950 dark:hover:bg-slate-900 transition-colors"
     >
       <div>
         <div className="header">

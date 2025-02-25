@@ -12,11 +12,11 @@ export const HeroContainer = () => {
             <motion.h1
               initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", duration: 1 }}
+              transition={{ type: "spring", duration: 1.5 }}
               className="text-5xl font-semibold dark:text-white "
             >
               The{" "}
-              <span className="text-blue-600 font-extrabold ">
+              <span className="text-blue-600 font-extrabold dark:text-blue-300">
                 Easiest Way{" "}
               </span>
               To Get Your New Job
@@ -62,7 +62,7 @@ export const HeroContainer = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{
               type: "spring",
-              duration: 1,
+              duration: 1.5,
               delay: 0.1,
             }}
             className="hero-img [&>img]:w-[500px] grid place-items-center drop-shadow-lg "

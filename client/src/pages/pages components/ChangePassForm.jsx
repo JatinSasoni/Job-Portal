@@ -13,7 +13,10 @@ export const ChangePassForm = ({ onSubmit }) => {
     watch,
   } = useForm();
   return (
-    <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col gap-3 dark:[&>div>label]:text-white"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       {/* Password */}
       <div className="block relative">
         <label

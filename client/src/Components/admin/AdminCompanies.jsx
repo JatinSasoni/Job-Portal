@@ -1,11 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { Navbar } from "../Shared/Navbar";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { handleGetAllCompanyDes } from "../../../Api/getAPI";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setAllCompanies } from "../../../store/companySlice";
 import { RegisteredComTable } from "./RegisteredComTable";
 import { motion } from "motion/react";
+import { JobNotFound } from "../JobNotFound";
 
 export const AdminCompanies = () => {
   const dispatch = useDispatch();
@@ -21,33 +22,22 @@ export const AdminCompanies = () => {
           dispatch(setAllCompanies(response.data.companies));
         }
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching companies", error);
       }
     };
     getAllCompanies();
-  }, []);
+  }, [dispatch]);
 
-  const { allCompanies } = useSelector((store) => store.company);
-  const [filterData, setFilterData] = useState(allCompanies);
+  const { allCompanies } = useSelector((store) => store.company, shallowEqual);
 
-  //FILTER LOGIC -> EXECUTES FIRST TIME AND WHEN USER TYPES ON FILTER INPUT
-  useEffect(() => {
-    if (filterInput === "") {
-      setFilterData(allCompanies);
-      return;
-    }
-
-    const companyFilter = filterData?.filter((company) => {
-      if (
-        company?.companyName?.toLowerCase().includes(filterInput.toLowerCase())
-      ) {
-        return true;
-      }
-      return false;
-    });
-
-    setFilterData(companyFilter);
+  // Deriving filtered data dynamically instead of using state
+  const filteredCompanies = useMemo(() => {
+    if (!filterInput || filterInput?.length === 0) return allCompanies;
+    return allCompanies?.filter((company) =>
+      company?.companyName?.toLowerCase().includes(filterInput.toLowerCase())
+    );
   }, [filterInput, allCompanies]);
+  console.log("ok");
 
   return (
     <>
@@ -55,7 +45,9 @@ export const AdminCompanies = () => {
 
       <section className=" mx-auto max-w-7xl pt-8 p-4">
         <div className=" flex justify-between p-3 ">
-          <h1 className="text-3xl">Registered Companies</h1>
+          <h1 className="text-4xl font-bold dark:text-slate-100">
+            Registered Companies
+          </h1>
           <NavLink to="/admin/register">
             <button className="button-34">Register Company</button>
           </NavLink>
@@ -64,7 +56,7 @@ export const AdminCompanies = () => {
           <input
             type="text"
             placeholder="Filter By name..."
-            className="border p-2 outline-none rounded-md"
+            className="border p-2 outline-none rounded-md dark:bg-slate-600 dark:text-slate-50"
             value={filterInput}
             onChange={(e) => setFilterInput(e.target.value)}
           />
@@ -76,14 +68,14 @@ export const AdminCompanies = () => {
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", duration: 1 }}
-            className="relative  "
+            className="relative sm:rounded-lg"
           >
-            {!filterData ? (
-              <span className="p-4">
-                You don&apos;t have any company registered
-              </span>
+            {!filteredCompanies || filteredCompanies.length === 0 ? (
+              <div className="h-96 overflow-hidden">
+                <JobNotFound />
+              </div>
             ) : (
-              <RegisteredComTable allCompanies={filterData} />
+              <RegisteredComTable allCompanies={filteredCompanies} />
             )}
           </motion.div>
         </main>

@@ -29,22 +29,24 @@ export const RegisterNewCompany = () => {
     <section>
       <Navbar />
 
-      <div className=" mx-auto max-w-7xl pt-8 p-4">
+      <div className=" mx-auto max-w-7xl p-8 pt-16">
         <div className=" flex justify-between p-3">
-          <h1 className="text-3xl">Registered a new company</h1>
+          <h1 className="text-5xl dark:text-slate-100 font-bold ">
+            Registered a new company
+          </h1>
           <NavLink to="/admin/companies">
             <button className="button-34">Go Back</button>
           </NavLink>
         </div>
         <form
           action=""
-          className="flex flex-col gap-3 mt-4 p-4"
+          className="flex flex-col gap-6 mt-4 p-4 dark:[&>div>label]:text-slate-100"
           onSubmit={handleRegisterNewCompany}
         >
           <div className="">
             <label
               htmlFor="companyName"
-              className="block text-gray-600 cursor-text text-sm leading-[140%] font-normal mb-2"
+              className="block text-gray-600 cursor-text text-md leading-[140%] font-normal mb-2"
             >
               Company name
             </label>
@@ -54,7 +56,7 @@ export const RegisterNewCompany = () => {
               id="companyName"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
-              className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+              className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-slate-600 dark:text-white"
             />
           </div>
           <button className="button-34" type="submit">

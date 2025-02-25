@@ -59,13 +59,13 @@ export const Login = () => {
         transition={{
           type: "tween",
         }}
-        className="py-8 "
+        className="py-14"
       >
-        <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl">
-          <div className="text-5xl font-bold mb-2 text-[#1e0e4b] text-center">
+        <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-blue-950 dark:shadow dark:shadow-white">
+          <div className="text-5xl font-bold mb-2 text-[#1e0e4b] text-center dark:text-slate-100">
             Welcome Back To <span className="text-[#7747ff]">Job Portal</span>
           </div>
-          <div className="text-sm font-normal mb-4 text-center text-[#1e0e4b]">
+          <div className="text-sm font-normal mb-4 text-center text-[#1e0e4b] dark:text-slate-200">
             Log in to your account
           </div>
 
@@ -73,9 +73,12 @@ export const Login = () => {
           <LoginForm onSubmit={onSubmit} />
 
           {/* ADDITIONAL OPTION */}
-          <div className="text-sm text-center mt-[1.6rem]">
+          <div className="text-sm text-center mt-[1.6rem] dark:text-slate-300">
             Don’t have an account yet?{" "}
-            <NavLink className="text-sm text-[#7747ff]" to="/signup">
+            <NavLink
+              className="text-sm dark:text-[#a183f5] text-[#7747ff] hover:dark:text-white"
+              to="/signup"
+            >
               Sign up for free!
             </NavLink>
           </div>

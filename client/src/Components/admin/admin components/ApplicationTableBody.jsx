@@ -36,19 +36,25 @@ export const ApplicationTableBody = ({ handleUpdateStatus, allApplicants }) => {
             <td className="px-6 py-4">
               {application?.applicant?.createdAt?.split("T")[0]}
             </td>
-            <td className="px-6 py-4">
+            <td
+              className={`px-6 py-4 ${
+                application?.status === "accepted"
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
+            >
               {application?.status === "pending" ? (
                 <div>
                   {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE BUTTONS */}
                   {loading ? (
                     <div className="animate-bounce ">...</div>
                   ) : (
-                    <>
+                    <div className="flex gap-2">
                       <button
                         onClick={() =>
                           handleUpdateStatus("accepted", application?._id)
                         }
-                        className="bg-green-500 px-5 py-2 text-white rounded-full hover:scale-105"
+                        className="bg-green-500 px-3 py-2 text-white rounded-full hover:scale-105"
                       >
                         Accept
                       </button>
@@ -56,11 +62,11 @@ export const ApplicationTableBody = ({ handleUpdateStatus, allApplicants }) => {
                         onClick={() =>
                           handleUpdateStatus("rejected", application?._id)
                         }
-                        className=" bg-red-500 px-5 py-2 text-white rounded-full hover:scale-105"
+                        className=" bg-red-500 px-3 py-2 text-white rounded-full hover:scale-105"
                       >
                         Reject
                       </button>
-                    </>
+                    </div>
                   )}
                 </div>
               ) : application?.status === "accepted" ? (

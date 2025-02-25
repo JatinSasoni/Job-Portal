@@ -35,9 +35,11 @@ export const RegisterNewJob = () => {
     <section>
       <Navbar />
 
-      <div className=" mx-auto max-w-7xl pt-8 p-4">
+      <div className=" mx-auto max-w-7xl pt-8 p-4 ">
         <div className=" flex justify-between p-3">
-          <h1 className="text-3xl">Post new job</h1>
+          <h1 className="text-4xl  font-bold dark:text-slate-100">
+            Post new job
+          </h1>
           <NavLink to="/admin/jobs">
             <button className="button-34">Go Back</button>
           </NavLink>

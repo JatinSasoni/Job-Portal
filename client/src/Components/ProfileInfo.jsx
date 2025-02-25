@@ -56,38 +56,45 @@ export const ProfileInfo = ({ setIsUpdateProfile }) => {
       </div>
 
       {/* SKILLS */}
-      <div>
-        <h3 className="text-xl">Skills : </h3>
-        <div className="flex gap-3">
-          {loggedInUser?.profile?.skills?.length === 0
-            ? "NA"
-            : loggedInUser?.profile?.skills?.map((skill, ind) => {
-                return (
-                  <p
-                    key={ind}
-                    className="inline-block py-1 px-3 bg-black text-white rounded-md"
-                  >
-                    {skill}
-                  </p>
-                );
-              })}
-          {}
-        </div>
-      </div>
-
-      {/* RESUME */}
-      <div>
-        <h3 className="text-xl">Resume :</h3>
-        <div>
-          {loggedInUser?.profile?.resume ? (
-            <a href={loggedInUser?.profile?.resume} className="text-blue-300">
-              {loggedInUser?.profile?.resumeOriginalName}
-            </a>
-          ) : (
-            <p className="text-red-500">*Upload your resume</p>
-          )}
-        </div>
-      </div>
+      {loggedInUser?.role === "student" && (
+        <>
+          {" "}
+          <div>
+            <h3 className="text-xl">Skills : </h3>
+            <div className="flex gap-3">
+              {loggedInUser?.profile?.skills?.length === 0
+                ? "NA"
+                : loggedInUser?.profile?.skills?.map((skill, ind) => {
+                    return (
+                      <p
+                        key={ind}
+                        className="inline-block py-1 px-3 bg-black text-white rounded-md dark:bg-zinc-700"
+                      >
+                        {skill}
+                      </p>
+                    );
+                  })}
+              {}
+            </div>
+          </div>
+          {/* RESUME */}
+          <div>
+            <h3 className="text-xl">Resume :</h3>
+            <div>
+              {loggedInUser?.profile?.resume ? (
+                <a
+                  href={loggedInUser?.profile?.resume}
+                  className="text-blue-300"
+                >
+                  {loggedInUser?.profile?.resumeOriginalName}
+                </a>
+              ) : (
+                <p className="text-red-500">*Upload your resume</p>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 };

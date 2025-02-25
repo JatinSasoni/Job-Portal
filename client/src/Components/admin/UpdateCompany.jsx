@@ -75,15 +75,15 @@ export const UpdateCompany = () => {
       <Navbar />
       <>
         <div className="py-8 ">
-          <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl">
-            <div className="text-5xl font-bold mb-2 text-[#1e0e4b] text-center">
-              Update<span className="text-[#7747ff]"> Company</span>
+          <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-blue-950">
+            <div className="text-5xl font-bold mb-2 text-[#1e0e4b] text-center dark:text-white">
+              Update<span className="text-[#7747ff] "> Company</span>
             </div>
             <div className="text-sm font-normal mb-4 text-center text-[#1e0e4b]"></div>
 
             {/* LOGIN-FORM */}
             <form
-              className="flex flex-col gap-3"
+              className="flex flex-col gap-3 dark:[&>div>label]:text-white"
               onSubmit={handleSubmit(onSubmit)}
               encType="multipart/form-data"
             >
@@ -170,12 +170,14 @@ export const UpdateCompany = () => {
                 </label>
                 <input
                   type="text"
+                  id="website"
                   {...register("website", {
                     required: {
                       value: true,
                       message: "website is required",
                     },
                   })}
+                  placeholder="*NA if no website currently*"
                   className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
                 />
                 {errors.website && (
@@ -187,15 +189,16 @@ export const UpdateCompany = () => {
 
               <div className="block relative">
                 <label
-                  htmlFor="website"
+                  htmlFor="file"
                   className="block text-gray-600 cursor-text text-sm leading-[140%] font-normal mb-2"
                 >
                   Logo
                 </label>
                 <input
                   type="file"
+                  id="file"
                   {...register("companyLogo")}
-                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:text-white"
                 />
               </div>
 

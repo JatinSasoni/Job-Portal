@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { motion } from "motion/react";
 
 /* eslint-disable react/prop-types */
 export const RegisteredJobTable = ({ allAdminJobs }) => {
@@ -28,7 +29,10 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
       <tbody>
         {allAdminJobs?.map((job, indx) => {
           return (
-            <tr
+            <motion.tr
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", duration: 1 }}
               key={indx}
               className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
             >
@@ -44,7 +48,7 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
                   </button>
                 </NavLink>
               </td>
-            </tr>
+            </motion.tr>
           );
         })}
       </tbody>

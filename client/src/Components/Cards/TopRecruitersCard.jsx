@@ -1,17 +1,11 @@
 /* eslint-disable react/prop-types */
 
-import { motion } from "motion/react";
 export const TopRecruitersCard = ({ cardData }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 100 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring" }}
-      className="card drop-shadow-md"
-    >
+    <div className="card drop-shadow-md dark:bg-blue-950 dark:shadow-sm dark:shadow-white ">
       <div className="header">
         {/* company logo */}
-        <div className="rounded-full size-10 border overflow-hidden">
+        <div className="rounded-full size-10 border overflow-hidden ">
           <img
             src={cardData?.CompanyID?.logo}
             alt="logo"
@@ -22,18 +16,19 @@ export const TopRecruitersCard = ({ cardData }) => {
         </div>
 
         {/* company name */}
-        <p className="alert">{cardData?.CompanyID?.companyName}</p>
-        {/* <span className="text-gray-500 text-xs">
-          Since : {cardData?.CompanyID?.createdAt?.split("-")[0]}
-        </span> */}
+        <p className="alert dark:text-white">
+          {cardData?.CompanyID?.companyName}
+        </p>
       </div>
 
       <div className="font-bold flex gap-3 w-2/3 mx-auto">
-        <span className="text-gray-600 text-xs">{cardData?.location}</span>
-        <span className="text-gray-500 text-xs">
+        <span className="text-gray-600 text-xs dark:text-slate-50">
+          {cardData?.location}
+        </span>
+        <span className="text-gray-500 text-xs dark:text-white">
           Since : {cardData?.CompanyID?.createdAt?.split("-")[0]}
         </span>
       </div>
-    </motion.div>
+    </div>
   );
 };

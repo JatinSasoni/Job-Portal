@@ -1,4 +1,5 @@
 import { TopRecruitersCard } from "./Cards/TopRecruitersCard";
+import { motion } from "motion/react";
 
 /* eslint-disable react/prop-types */
 export const TopRecruiters = ({ topRecruiterData }) => {
@@ -17,11 +18,16 @@ export const TopRecruiters = ({ topRecruiterData }) => {
             </p>
 
             {/* JOB GRIDS */}
-            <div className="grid grid-cols-4  p-6 gap-4 place-items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 100 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", duration: 1.5 }}
+              className="grid grid-cols-4  p-6 gap-4 place-items-center"
+            >
               {topRecruiterData?.map((card, index) => {
                 return <TopRecruitersCard key={index} cardData={card} />;
               })}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

@@ -41,13 +41,16 @@ export const VerifyOTPPage = () => {
 
   return (
     <div className="py-32">
-      <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl">
+      <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-blue-950">
         <div className="text-3xl font-bold mb-2 text-[#1e0e4b] text-center">
           <span className="text-[#7747ff] block">Enter 6 Digit OTP</span>
         </div>
 
         {/* LOGIN-FORM */}
-        <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="flex flex-col gap-3 "
+          onSubmit={handleSubmit(onSubmit)}
+        >
           {/* EMAIL */}
           <div className="block relative">
             <label

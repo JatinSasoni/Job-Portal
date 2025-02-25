@@ -37,7 +37,7 @@ export const HeroContainer2 = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{
               type: "spring",
-              duration: 2,
+              duration: 1.5,
             }}
             className="hero-img flex pt-5  "
           >
@@ -49,7 +49,8 @@ export const HeroContainer2 = () => {
             {/* hero-heading */}
             <div className="text-5xl font-bold leading-snug dark:text-white ">
               <p className="text-slate-500 text-4xl">Millions Of Jobs.</p>
-              Find The One That’s <span className="text-blue-600 ">Right </span>
+              Find The One That’s{" "}
+              <span className="text-blue-600 dark:text-blue-300">Right </span>
               For You !
             </div>
 

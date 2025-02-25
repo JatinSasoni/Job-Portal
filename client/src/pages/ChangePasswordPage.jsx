@@ -32,7 +32,7 @@ export const ChangePasswordPage = () => {
 
   return (
     <div className="py-32">
-      <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl">
+      <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-blue-950">
         <div className="text-3xl font-bold mb-2 text-[#1e0e4b] text-center">
           <span className="text-[#7747ff] block">New Password</span>
         </div>

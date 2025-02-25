@@ -14,7 +14,10 @@ export const SignupForm = ({ onSubmit }) => {
   } = useForm();
 
   return (
-    <form className="flex flex-col gap-px" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col gap-px dark:[&>div>label]:text-white "
+      onSubmit={handleSubmit(onSubmit)}
+    >
       {/* Username */}
       <div className="block relative">
         <label
@@ -42,7 +45,7 @@ export const SignupForm = ({ onSubmit }) => {
           className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
         />
         {errors.username && (
-          <span className="text-blue-900 text-sm ">
+          <span className="text-blue-900 dark:text-slate-200 text-sm ">
             *{errors.username.message}
           </span>
         )}
@@ -71,7 +74,9 @@ export const SignupForm = ({ onSubmit }) => {
           className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
         />
         {errors.email && (
-          <span className="text-blue-900 text-sm">*{errors.email.message}</span>
+          <span className="text-blue-900 dark:text-slate-200 text-sm">
+            *{errors.email.message}
+          </span>
         )}
       </div>
 
@@ -104,7 +109,7 @@ export const SignupForm = ({ onSubmit }) => {
           className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
         />
         {errors.password && (
-          <span className="text-blue-900 text-sm">
+          <span className="text-blue-900 dark:text-slate-200 text-sm">
             *{errors.password.message}
           </span>
         )}
@@ -116,7 +121,7 @@ export const SignupForm = ({ onSubmit }) => {
           htmlFor="confirmPassword"
           className="block text-gray-600 cursor-text text-sm leading-[140%] font-normal mb-2"
         >
-          Password
+          Confirm Password
         </label>
         <input
           type="text"
@@ -134,7 +139,7 @@ export const SignupForm = ({ onSubmit }) => {
           className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
         />
         {errors.confirmPassword && (
-          <span className="text-blue-900 text-sm">
+          <span className="text-blue-900 dark:text-slate-200 text-sm">
             *{errors.confirmPassword.message}
           </span>
         )}
@@ -167,7 +172,7 @@ export const SignupForm = ({ onSubmit }) => {
           className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
         />
         {errors.phoneNumber && (
-          <span className="text-blue-900 text-sm">
+          <span className="text-blue-900 dark:text-slate-200 text-sm">
             *{errors.phoneNumber.message}
           </span>
         )}
@@ -179,6 +184,7 @@ export const SignupForm = ({ onSubmit }) => {
           <input
             type="radio"
             value="student"
+            id="student"
             {...register("role", {
               required: {
                 value: true,
@@ -186,14 +192,25 @@ export const SignupForm = ({ onSubmit }) => {
               },
             })}
           />
-          <label htmlFor="student">Student</label>
+          <label htmlFor="student" className="dark:text-white">
+            Student
+          </label>
         </div>
         <div>
-          <input type="radio" value="recruiter" {...register("role")} />
-          <label htmlFor="">Recruiter</label>
+          <input
+            type="radio"
+            value="recruiter"
+            {...register("role")}
+            id="recruiter"
+          />
+          <label htmlFor="recruiter" className="dark:text-white">
+            Recruiter
+          </label>
         </div>
         {errors.role && (
-          <span className="text-blue-900 text-sm">*{errors.role.message}</span>
+          <span className="text-blue-900 dark:text-slate-200 text-sm">
+            *{errors.role.message}
+          </span>
         )}
       </div>
 

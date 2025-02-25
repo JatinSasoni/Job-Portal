@@ -10,7 +10,7 @@ const JobOfDayCard = ({ cardData }) => {
     <motion.div
       initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", bounce: 0.4, duration: 2 }}
+      transition={{ type: "spring", duration: 1.5 }}
       className="card drop-shadow-xl dark:shadow-md dark:shadow-white dark:bg-blue-950"
     >
       <div className="header">

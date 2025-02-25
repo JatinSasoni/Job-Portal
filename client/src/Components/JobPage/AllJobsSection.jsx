@@ -3,6 +3,7 @@ import useGetAllJobs from "../../Hooks/getAllJobs";
 import { AllJobsCard } from "../Cards/AllJobsCard";
 import { useState } from "react";
 import { JobNotFound } from "../JobNotFound";
+import { motion } from "motion/react";
 
 export const AllJobsSection = () => {
   const [sortOrder, setSortOrder] = useState("newest"); // Default: Newest first
@@ -34,9 +35,13 @@ export const AllJobsSection = () => {
       </div>
       <div>
         {allJobs?.length <= 0 ? (
-          <div className=" w-full  h-96 ">
+          <motion.div
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            className=" w-full  h-96 "
+          >
             <JobNotFound />
-          </div>
+          </motion.div>
         ) : (
           <ul className="grid grid-cols-4 gap-8 place-items-center p-6 ">
             {allJobs?.map((job, i) => {

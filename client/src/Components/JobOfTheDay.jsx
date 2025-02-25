@@ -1,42 +1,32 @@
 import JobOfDayCard from "./Cards/JobOfDayCard";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
 import { handleGetAllJobs } from "../../Api/getAPI";
-import { setAllJobs } from "../../store/jobSlice";
-import { useEffect, useMemo } from "react";
-import { setLoading } from "../../store/authSlice";
+import { JobNotFound } from "./JobNotFound";
 
-/* eslint-disable react/prop-types */
 export const JobOfTheDay = () => {
-  const dispatch = useDispatch();
+  const [allJobs, setAllJobs] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Get jobs from Redux store and prevent unnecessary re-renders
-  const allJobs = useSelector((store) => store.job.allJobs, shallowEqual);
-  const { loading } = useSelector((store) => store.auth, shallowEqual);
-
-  // Fetch jobs only if not already in the store
   useEffect(() => {
-    if (!allJobs || allJobs.length === 0) {
-      const fetchAllJobs = async () => {
-        try {
-          dispatch(setLoading(true));
-          const response = await handleGetAllJobs();
-          if (response.data.SUCCESS) {
-            dispatch(setAllJobs(response.data.allJobs));
-          }
-        } catch (error) {
-          console.error("Error fetching jobs:", error);
-        } finally {
-          dispatch(setLoading(false));
+    const fetchAllJobs = async () => {
+      setLoading(true);
+      try {
+        const response = await handleGetAllJobs();
+        if (response.data.SUCCESS) {
+          setAllJobs(response.data.allJobs);
         }
-      };
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      fetchAllJobs();
-    }
-  }, [dispatch]);
+    fetchAllJobs();
+  }, []);
 
-  // Memoize the job cards to prevent unnecessary re-renders
   const jobCards = useMemo(() => {
-    return (allJobs ?? [])
+    return allJobs
       .slice(0, 4)
       .map((card) =>
         card._id ? <JobOfDayCard key={card._id} cardData={card} /> : null
@@ -49,24 +39,22 @@ export const JobOfTheDay = () => {
 
   return (
     <div className="pt-14 container max-w-screen-xl mx-auto flex flex-col gap-6">
-      {/* TITLE */}
       <h2 className="text-5xl text-blue-950 text-center font-semibold dark:text-white">
         Jobs Of The Day
       </h2>
-
-      <p className="text-center  text-slate-600 font-semibold dark:text-slate-400">
+      <p className="text-center text-slate-600 font-semibold dark:text-slate-400">
         Explore the different types of available jobs to apply and discover
         which is right for you.
       </p>
-
-      {/* JOB GRIDS */}
-      <div className="grid grid-cols-4 p-10 px-20 place-items-center gap-14">
-        {!allJobs || allJobs.length === 0 ? (
-          <p className="text-2xl font-semibold">No Jobs Found :(</p>
-        ) : (
-          jobCards
-        )}
-      </div>
+      {!allJobs.length ? (
+        <div className="h-96 w-full">
+          <JobNotFound />
+        </div>
+      ) : (
+        <div className="grid grid-cols-4 p-10 px-20 place-items-center gap-14">
+          {jobCards}
+        </div>
+      )}
     </div>
   );
 };

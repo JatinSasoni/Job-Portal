@@ -53,17 +53,20 @@ export const Signup = () => {
           type: "tween",
         }}
       >
-        <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black bg-white shadow-black drop-shadow-2xl">
-          <div className="text-5xl font-bold mb-4 pt-3 text-[#1e0e4b] text-center">
-            Signup To <span className="text-[#7747ff]"> JobiFY</span>
+        <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-blue-950 dark:shadow dark:shadow-white">
+          <div className="text-5xl font-bold mb-4 pt-3 text-[#1e0e4b] text-center dark:text-white">
+            Signup To <span className="text-[#7747ff] "> Job Portal</span>
           </div>
 
           {/* SIGNUP FORM */}
           <SignupForm onSubmit={onSubmit} />
           {/* ADDITIONAL DATA */}
-          <div className="text-sm text-center mt-[1rem] mb-2">
+          <div className="text-sm text-center mt-[1rem] mb-2 dark:text-slate-400">
             Already have an account?{" "}
-            <NavLink className="text-sm text-[#7747ff]" to="/login">
+            <NavLink
+              className="text-sm text-[#7747ff] hover:dark:text-slate-100"
+              to="/login"
+            >
               Login!
             </NavLink>
           </div>

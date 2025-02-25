@@ -14,7 +14,10 @@ export const LoginForm = ({ onSubmit }) => {
   } = useForm();
 
   return (
-    <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col gap-3 dark:[&>div>label]:text-white"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       {/* EMAIL */}
       <div className="block relative">
         <label
@@ -38,7 +41,9 @@ export const LoginForm = ({ onSubmit }) => {
           className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
         />
         {errors.email && (
-          <span className="text-blue-900">*{errors.email.message}</span>
+          <span className="text-blue-900 dark:text-slate-100">
+            *{errors.email.message}
+          </span>
         )}
       </div>
 
@@ -71,13 +76,18 @@ export const LoginForm = ({ onSubmit }) => {
           className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
         />
         {errors.password && (
-          <span className="text-blue-900">*{errors.password.message}</span>
+          <span className="text-blue-900 dark:text-slate-100">
+            *{errors.password.message}
+          </span>
         )}
       </div>
 
       {/* FORGET PASSWORD */}
       <div>
-        <NavLink className="text-sm text-[#7747ff]" to="/user/reset-pass">
+        <NavLink
+          className="text-sm text-[#7747ff] dark:text-slate-400 hover:dark:text-white"
+          to="/user/reset-pass"
+        >
           Forgot your password?
         </NavLink>
       </div>
@@ -96,7 +106,9 @@ export const LoginForm = ({ onSubmit }) => {
               },
             })}
           />
-          <label htmlFor="student">Student</label>
+          <label htmlFor="student" className="dark:text-white">
+            Student
+          </label>
         </div>
         <div>
           <input
@@ -105,10 +117,14 @@ export const LoginForm = ({ onSubmit }) => {
             {...register("role")}
             id="role"
           />
-          <label htmlFor="role">Recruiter</label>
+          <label htmlFor="role" className="dark:text-white">
+            Recruiter
+          </label>
         </div>
         {errors.role && (
-          <span className="text-blue-900">*{errors.role.message}</span>
+          <span className="text-blue-900 dark:text-slate-100">
+            *{errors.role.message}
+          </span>
         )}
       </div>
 

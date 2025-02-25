@@ -1,5 +1,6 @@
 const Application = require("../models/application-model");
 const Job = require("../models/job-model");
+const User = require("../models/user-model");
 const transporter = require("../utils/nodemailer");
 
 //STUDENT|| JobSEEKER APPLYING FOR JOB
@@ -30,7 +31,7 @@ const applyForJob = async (req, res) => {
     }
 
     //JOB EXISTS? IF EXISTS UPDATE ITS NO. OF APPLICATIONS
-    const job = await Job.findById(jobID);
+    const job = await Job.findById(jobID).populate("createdBy");
 
     if (!job) {
       return res.status(400).json({
@@ -44,6 +45,53 @@ const applyForJob = async (req, res) => {
       job: jobID,
       applicant: userID,
     });
+
+    //GETTING USER DETAILS THROUGH USER ID TO MAIL
+    const userData = await User.findById(userID);
+
+    //MAILING RECRUITER ABOUT NEW APPLICANT
+    const mailOptions = {
+      from: "jatinhubhai6284@gmail.com",
+      to: job?.createdBy?.email, // Sending to the recruiter's email
+      subject: `New Applicant for Your Job Posting: ${newApplication?.job?.title}`,
+      html: `
+        <p>Dear ${job?.createdBy?.username},</p>
+        <p>We are excited to inform you that a new applicant has applied for your job posting on <strong>Job Portal</strong>.</p>
+        
+        <h3>Applicant Details:</h3>
+        <ul>
+          <li><strong>Name:</strong> ${userData?.username}</li>
+          <li><strong>Email:</strong> ${userData?.email}</li>
+          <li><strong>Applied At:</strong> ${
+            newApplication?.createdAt
+              ? new Date(newApplication.createdAt).toLocaleDateString()
+              : "N/A"
+          }</li>
+        </ul>
+    
+        <h3>Job Details:</h3>
+        <ul>
+          <li><strong>Job Title:</strong> ${job?.title}</li>
+          <li><strong>Reference Number:</strong> ${
+            newApplication?.job?._id
+          }</li>
+        </ul>
+    
+        <p>You can review the applicant's profile and take the next steps at your earliest convenience.</p>
+        
+        <p>For any assistance, feel free to reach out to us at <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a>.</p>
+    
+        <p>Best regards,</p>
+        <p><strong>Jatin</strong><br>
+        Job Portal<br>
+        Contact: <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a></p>
+      `,
+    };
+
+    // Send email only if mailOptions is set
+    if (mailOptions) {
+      await transporter.sendMail(mailOptions);
+    }
 
     //UPDATE JOB COLLECTION
     job.application.push(newApplication._id);

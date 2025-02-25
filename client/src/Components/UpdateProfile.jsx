@@ -91,10 +91,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
             <div>
               Update <span className="text-[#7747ff]">Profile</span>
             </div>
-            <button
-              className="button-34"
-              onClick={() => setIsUpdateProfile(false)}
-            >
+            <button onClick={() => setIsUpdateProfile(false)}>
               <IoCloseSharp />
             </button>
           </div>
