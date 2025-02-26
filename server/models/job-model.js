@@ -16,6 +16,7 @@ const jobSchema = new Schema(
       },
     ],
     salary: {
+      //IN LPA
       type: Number,
       required: true,
     },
@@ -25,10 +26,12 @@ const jobSchema = new Schema(
     },
     //FULL TIME OR PART TIME
     jobType: {
+      //FULL-TIME , REMOTE etc
       type: String,
       required: true,
     },
     position: {
+      //Number of openings
       type: Number,
       required: true,
     },
@@ -46,6 +49,7 @@ const jobSchema = new Schema(
       ref: "User",
       required: true,
     },
+    //APPLICANTS
     application: [
       {
         type: mongoose.Schema.Types.ObjectId,

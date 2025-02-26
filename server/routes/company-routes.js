@@ -23,4 +23,8 @@ router
     companyController.updateCompany
   );
 
+router
+  .route("/remove/:companyID/delete")
+  .delete(isAuthentication, companyController.deleteCompanyByID);
+
 module.exports = router;

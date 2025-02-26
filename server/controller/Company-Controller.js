@@ -1,4 +1,6 @@
+const Application = require("../models/application-model");
 const Company = require("../models/company-model");
+const Job = require("../models/job-model");
 const uploadToCloudinary = require("../utils/cloudinary");
 
 //REGISTERING COMPANY BY USER(Recruiter)
@@ -181,9 +183,57 @@ const updateCompany = async (req, res) => {
   }
 };
 
+//DELETE COMPANY BY ID
+const deleteCompanyByID = async (req, res) => {
+  try {
+    const companyID = req.params.companyID;
+
+    if (!companyID) {
+      return res.status(400).json({
+        MESSAGE: "No Company ID provided",
+        SUCCESS: false,
+      });
+    }
+
+    //FIND AND DELETE
+    const company = await Company.findByIdAndDelete(companyID);
+
+    //HANDLING IF NO COMPANY WITH SUCH ID
+    if (!company) {
+      return res.status(400).json({
+        MESSAGE: "No Company Found",
+        SUCCESS: false,
+      });
+    }
+
+    //JOBS ASSOCIATED WITH COMPANY
+    const jobsCreatedByCompany = await Job.find({ CompanyID: companyID });
+
+    // GET JOB IDs INTO ARRAY
+    const jobIDs = jobsCreatedByCompany.map((job) => job._id);
+
+    if (jobIDs.length > 0) {
+      await Promise.all([
+        Application.deleteMany({ job: { $in: jobIDs } }), // Delete all related applications
+        Job.deleteMany({ _id: { $in: jobIDs } }), // Delete all related jobs
+      ]);
+    }
+
+    return res.status(200).json({
+      MESSAGE:
+        "Company and all related jobs and applications removed successfully",
+      SUCCESS: true,
+    });
+  } catch (error) {
+    console.log(error);
+    console.log("Error while deleting company");
+  }
+};
+
 module.exports = {
   registerCompany,
   getCompanyCreatedByRecruiter,
   getCompanyByID,
   updateCompany,
+  deleteCompanyByID,
 };

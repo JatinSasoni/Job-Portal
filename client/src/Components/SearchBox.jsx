@@ -31,7 +31,7 @@ export const SearchBox = () => {
       <form
         autoComplete="off"
         onSubmit={handleSearchLogic}
-        className="grid grid-cols-3  [&>input]:p-2 [&>*]:outline-non [&>input]:dark:bg-transparent "
+        className="grid grid-cols-3  [&>input]:p-2 [&>*]:outline-non [&>input]:dark:bg-transparent  [&>input]:dark:outline-none"
       >
         <input
           type="text"

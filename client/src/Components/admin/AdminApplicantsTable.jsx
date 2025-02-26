@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { setLoading } from "../../../store/authSlice";
 import { ApplicationTableBody } from "./admin components/ApplicationTableBody";
+import { JobNotFound } from "../JobNotFound";
 
 export const AdminApplicantsTable = () => {
   const { jobID } = useParams();
@@ -29,6 +30,18 @@ export const AdminApplicantsTable = () => {
     }
   };
 
+  // if (!allApplicants || allApplicants?.length === 0) {
+  //   console.log("ij");
+
+  //   return (
+  //     <>
+  //       <Navbar />
+  //       <div className="overflow-hidden h-96 w-full">
+  //         <JobNotFound />
+  //       </div>
+  //     </>
+  //   );
+  // }
   return (
     <>
       <Navbar />
@@ -59,6 +72,7 @@ export const AdminApplicantsTable = () => {
               </th>
             </tr>
           </thead>
+
           <ApplicationTableBody
             handleUpdateStatus={handleUpdateStatus}
             allApplicants={allApplicants}

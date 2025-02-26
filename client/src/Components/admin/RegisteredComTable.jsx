@@ -1,8 +1,24 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
+import { deleteCompanyAPI } from "../../../Api/deleteAPI";
+import { toast } from "react-toastify";
 
 /* eslint-disable react/prop-types */
 export const RegisteredComTable = ({ allCompanies }) => {
+  const navigate = useNavigate();
+
+  const handleCompanyDelete = async (companyID) => {
+    try {
+      const response = await deleteCompanyAPI(companyID);
+      if (response.data.SUCCESS) {
+        toast.success(response.data.MESSAGE);
+        navigate(0);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 drop-shadow-xl ">
       {/* TABLE HEAD */}
@@ -68,7 +84,10 @@ export const RegisteredComTable = ({ allCompanies }) => {
                 </NavLink>
               </td>
               <td className="px-6 py-4">
-                <button className="p-2 bg-blue-800 text-white rounded-xl px-4">
+                <button
+                  className="p-2 bg-blue-800 text-white rounded-xl px-4"
+                  onClick={() => handleCompanyDelete(company?._id)}
+                >
                   Delete
                 </button>
               </td>

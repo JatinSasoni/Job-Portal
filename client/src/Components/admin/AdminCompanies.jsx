@@ -37,7 +37,6 @@ export const AdminCompanies = () => {
       company?.companyName?.toLowerCase().includes(filterInput.toLowerCase())
     );
   }, [filterInput, allCompanies]);
-  console.log("ok");
 
   return (
     <>

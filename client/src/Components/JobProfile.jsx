@@ -5,13 +5,14 @@ import { handleApplyForJob, handleGetSingleJob } from "../../Api/getAPI";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { setSingleJobData } from "../../store/jobSlice";
+import { setLoading } from "../../store/authSlice";
 
 export const JobProfile = () => {
   //JOB ID TO FETCH JOB DESCRIPTION
   const { jobID } = useParams();
 
   //LOGGED IN USER DATA FROM REDUX STORE
-  const { loggedInUser: user } = useSelector((store) => store.auth);
+  const { loggedInUser: user, loading } = useSelector((store) => store.auth);
 
   //JOB DATA FROM REDUX STORE
   const { singleJobData } = useSelector((store) => store.job);
@@ -30,6 +31,7 @@ export const JobProfile = () => {
   //HANDLE APPLY FOR JOB
   const applyForJob = async () => {
     try {
+      dispatch(setLoading(true));
       const response = await handleApplyForJob(jobID);
       if (response.data.SUCCESS) {
         toast.success(response.data.MESSAGE); //TOAST FOR USER
@@ -45,6 +47,8 @@ export const JobProfile = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.MESSAGE);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -86,7 +90,13 @@ export const JobProfile = () => {
             disabled={alreadyApplied}
             onClick={applyForJob}
           >
-            {alreadyApplied ? "Already applied" : "Apply now"}
+            {loading ? (
+              <div className="loader"></div>
+            ) : alreadyApplied ? (
+              "Already applied"
+            ) : (
+              "Apply now"
+            )}
           </button>
         </div>
         {/* positions and all */}

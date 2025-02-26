@@ -52,6 +52,33 @@ const postJobForAdmin = async (req, res) => {
       createdBy: userID,
     });
 
+    //SENDING MAIL
+    // const mailOption = {
+    //   from: '"Job Portal Team" <jatinhubhai6284@gmail.com>',
+    //   to: recruiterEmail, // Replace with the recruiter's email
+    //   subject: "Job Posting Confirmation - Job Portal",
+    //   text: `Dear Recruiter,
+
+    // Your job posting has been successfully published on Job Portal.
+
+    // Job Details:
+    // - **Title:** ${postedJob.title}
+    // - **Location:** ${postedJob.location}
+    // - **Job Type:** ${postedJob.jobType}
+    // - **Position:** ${postedJob.position}
+    // - **Experience Level:** ${postedJob.experienceLevel}
+    // - **Salary:** ${postedJob.salary ? `$${postedJob.salary}` : "Not specified"}
+
+    // Thank you for choosing Job Portal to connect with top talent. If you need any modifications or assistance, feel free to contact our support team.
+
+    // Best regards,
+    // Job Portal Team`,
+    // };
+
+    // if (mailOption) {
+    //   await transporter.sendMail(mailOption);
+    // }
+
     return res.status(201).json({
       MESSAGE: "Job Posted Successfully",
       postedJob,

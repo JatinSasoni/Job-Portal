@@ -16,7 +16,7 @@ export const Profile = () => {
       <ProfileInfo setIsUpdateProfile={setIsUpdateProfile} />
 
       {/* APPLIED JOBS */}
-      {loggedInUser?.role === "student " && <AppliedJobs />}
+      {loggedInUser?.role === "student" && <AppliedJobs />}
 
       {/* LOGIC FOR UPDATE PROFILE */}
 

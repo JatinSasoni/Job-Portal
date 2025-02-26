@@ -38,10 +38,19 @@ const register = async (req, res) => {
     });
 
     const mailOption = {
-      from: "jatinhubhai6284@gmail.com",
+      from: '"Job Portal Support" <jatinhubhai6284@gmail.com>',
       to: email,
       subject: "Welcome to Job Portal",
-      text: `Greeting!! You have registered into Job Portal with email : ${email}`,
+      text: `Dear User,
+    
+    Thank you for registering with Job Portal. We are excited to have you on board.
+    
+    You have successfully signed up with the email: ${email}.
+    
+    If you did not register or need any assistance, please contact our support team.
+    
+    Best regards,  
+    Job Portal Team`,
     };
 
     await transporter.sendMail(mailOption);

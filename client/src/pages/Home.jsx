@@ -6,6 +6,7 @@ import { TrustedCompanies } from "../Components/TrustedCompanies";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Carasoul } from "../Components/Carasoul";
 
 export const Home = () => {
   const { loggedInUser } = useSelector((store) => store.auth);
@@ -25,6 +26,8 @@ export const Home = () => {
 
       {/* TRUSTED-COMPANIES */}
       <TrustedCompanies />
+
+      {/* <Carasoul /> */}
 
       {/* JOB OF THE DAY */}
       <JobOfTheDay />

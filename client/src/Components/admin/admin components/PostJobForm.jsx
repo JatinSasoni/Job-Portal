@@ -8,13 +8,9 @@ export const PostJobForm = ({
 }) => {
   return (
     <motion.form
-      initial={{
-        scale: 0,
-      }}
-      animate={{
-        scale: 1,
-      }}
-      className="max-w-md mx-auto dark:[&>div>label]:text-slate-100 dark:[&>div>div>label]:text-slate-100"
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      className="max-w-md mx-auto dark:[&>div>label]:text-slate-100 dark:[&>div>div>label]:text-slate-100 "
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
     >

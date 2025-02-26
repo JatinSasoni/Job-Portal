@@ -63,13 +63,16 @@ const JobOfDayCard = ({ cardData }) => {
 
       {/* REQUIREMENTS */}
       <ul className="my-3 text-sm text-slate-500 flex gap-2 flex-wrap ">
-        {cardData?.requirements?.map((requirement, index) => {
+        {cardData?.requirements.slice(0, 2)?.map((requirement, index) => {
           return (
             <li key={index} className="border rounded p-1 bg-gray-100">
-              {requirement}
+              {requirement?.length <= 5
+                ? `${requirement}`
+                : `${requirement.slice(0, 10)}...`}
             </li>
           );
         })}
+        <li className="border rounded p-1 bg-gray-100">More...</li>
       </ul>
 
       <p className="font-bold text-blue-700 text-xl dark:text-white">
