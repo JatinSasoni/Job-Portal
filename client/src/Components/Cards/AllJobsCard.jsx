@@ -29,7 +29,7 @@ export const AllJobsCard = ({ cardData }) => {
           {/* company name */}
           <p className="font-bold text-lg text-blue-950 dark:text-white">
             {cardData?.CompanyID?.companyName?.length > 13
-              ? `${cardData?.CompanyID?.companyName?.slice(0, 13)}...`
+              ? `${cardData?.CompanyID?.companyName?.slice(0, 10)}...`
               : cardData?.CompanyID?.companyName}
           </p>
         </div>
@@ -65,7 +65,7 @@ export const AllJobsCard = ({ cardData }) => {
         {/* REQUIREMENTS */}
         {/* REQUIREMENTS */}
         <ul className="my-3 text-sm text-slate-500 flex gap-2 flex-wrap ">
-          {cardData?.requirements.slice(0, 2)?.map((requirement, index) => {
+          {cardData?.requirements.slice(0, 1)?.map((requirement, index) => {
             return (
               <li key={index} className="border rounded p-1 bg-gray-100">
                 {requirement?.length <= 5

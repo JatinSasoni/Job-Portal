@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const userRoute = require("./routes/user-routes");
 const companyRoute = require("./routes/company-routes");
 const jobRoute = require("./routes/job-routes");
+const contactRoute = require("./routes/Contact-Us-route");
 
 const applicationRoute = require("./routes/application-route");
 
@@ -33,6 +34,7 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
+app.use("/api/v1/contact", contactRoute);
 
 //listening
 connectDB().then(() => {

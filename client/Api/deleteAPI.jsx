@@ -13,3 +13,10 @@ export const deleteCompanyAPI = (companyID) => {
     withCredentials: true,
   });
 };
+
+//DELETE JOB API
+export const deleteJobAPI = (jobID) => {
+  return api.delete(`/api/v1/job/remove/${jobID}/delete`, {
+    withCredentials: true,
+  });
+};

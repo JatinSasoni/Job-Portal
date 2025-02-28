@@ -1,21 +1,28 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { deleteCompanyAPI } from "../../../Api/deleteAPI";
+import { FaUserEdit } from "react-icons/fa";
+import { MdDeleteSweep } from "react-icons/md";
+
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 /* eslint-disable react/prop-types */
 export const RegisteredComTable = ({ allCompanies }) => {
   const navigate = useNavigate();
+  const [loadingID, setLoadingID] = useState(null);
 
   const handleCompanyDelete = async (companyID) => {
     try {
+      setLoadingID(companyID);
       const response = await deleteCompanyAPI(companyID);
       if (response.data.SUCCESS) {
-        toast.success(response.data.MESSAGE);
         navigate(0);
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingID(null);
     }
   };
 
@@ -79,7 +86,7 @@ export const RegisteredComTable = ({ allCompanies }) => {
               <td className="px-6 py-4">
                 <NavLink to={`/admin/company/update/${company?._id}`}>
                   <button className="p-2 bg-blue-800 text-white rounded-xl px-4">
-                    Edit
+                    <FaUserEdit />
                   </button>
                 </NavLink>
               </td>
@@ -87,8 +94,13 @@ export const RegisteredComTable = ({ allCompanies }) => {
                 <button
                   className="p-2 bg-blue-800 text-white rounded-xl px-4"
                   onClick={() => handleCompanyDelete(company?._id)}
+                  disabled={loadingID === company?._id}
                 >
-                  Delete
+                  {loadingID === company?._id ? (
+                    <p className="animate-bounce">...</p>
+                  ) : (
+                    <MdDeleteSweep />
+                  )}
                 </button>
               </td>
             </motion.tr>

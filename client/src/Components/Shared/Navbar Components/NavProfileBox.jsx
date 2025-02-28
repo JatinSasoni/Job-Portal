@@ -17,8 +17,8 @@ export const NavProfileBox = ({
       exit={{ opacity: 0, x: 200 }}
       className="w-72 bg-white rounded-xl absolute right-8 p-4 flex flex-col gap-2 dark:bg-gray-950"
     >
-      <div className="flex gap-3">
-        <div className="size-9 rounded-full cursor-pointer  bg-blue-400 overflow-hidden border">
+      <div className="flex gap-px">
+        <div className="size-9 rounded-full cursor-pointer overflow-hidden border bg-red-500">
           <img
             src={loggedInUser?.profile?.profilePhoto}
             alt="pfp"
@@ -27,9 +27,7 @@ export const NavProfileBox = ({
         </div>
 
         <div>
-          <h2 className="mt-1 flex flex-col dark:text-white">
-            ~{loggedInUser?.username}
-          </h2>
+          <h2 className="mt-1 dark:text-white">~{loggedInUser?.username}</h2>
           <p className="text-gray-400 text-sm">@{loggedInUser?.email}</p>
         </div>
       </div>

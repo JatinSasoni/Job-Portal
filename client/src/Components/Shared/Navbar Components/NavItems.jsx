@@ -13,6 +13,9 @@ export const NavItems = ({ loggedInUser }) => {
             <li>
               <NavLink to="/admin/jobs">Jobs</NavLink>
             </li>
+            <li>
+              <NavLink to="/contact">Contact Us</NavLink>
+            </li>
           </>
         ) : (
           <>
@@ -20,7 +23,7 @@ export const NavItems = ({ loggedInUser }) => {
               <NavLink to="/">Home</NavLink>
             </li>
             <li>
-              <NavLink to="/about">About us</NavLink>
+              <NavLink to="/contact">Contact us</NavLink>
             </li>
             <li>
               <NavLink to="/jobs">Jobs</NavLink>

@@ -1,4 +1,7 @@
+const Application = require("../models/application-model");
 const Job = require("../models/job-model");
+const User = require("../models/user-model");
+const sendMailUsingTransporter = require("../utils/transporter");
 
 //CREATE JOB API FOR AUTHENTICATED ADMIN
 const postJobForAdmin = async (req, res) => {
@@ -17,6 +20,15 @@ const postJobForAdmin = async (req, res) => {
     } = req.body;
 
     const userID = req.id; //MIDDLEWARE
+
+    const user = await User.findById(userID);
+
+    if (!user || user.role !== "recruiter") {
+      return res.status(400).json({
+        MESSAGE: "User not found",
+        SUCCESS: false,
+      });
+    }
 
     //IF ANY FIELD LEFT OUT
     if (
@@ -52,32 +64,38 @@ const postJobForAdmin = async (req, res) => {
       createdBy: userID,
     });
 
-    //SENDING MAIL
-    // const mailOption = {
-    //   from: '"Job Portal Team" <jatinhubhai6284@gmail.com>',
-    //   to: recruiterEmail, // Replace with the recruiter's email
-    //   subject: "Job Posting Confirmation - Job Portal",
-    //   text: `Dear Recruiter,
+    // SENDING MAIL
+    const mailOption = {
+      from: `"${process.env.COMPANY_NAME}" <${process.env.COMPANY_EMAIL}>`,
+      to: user.email, // recruiter's email
+      subject: `Job Posting Confirmation - ${process.env.COMPANY_NAME}`,
+      text: `Dear Recruiter,
 
-    // Your job posting has been successfully published on Job Portal.
+    Your job posting has been successfully published on ${
+      process.env.COMPANY_NAME
+    }.
 
-    // Job Details:
-    // - **Title:** ${postedJob.title}
-    // - **Location:** ${postedJob.location}
-    // - **Job Type:** ${postedJob.jobType}
-    // - **Position:** ${postedJob.position}
-    // - **Experience Level:** ${postedJob.experienceLevel}
-    // - **Salary:** ${postedJob.salary ? `$${postedJob.salary}` : "Not specified"}
+    Job Details:
+    - Title: ${postedJob.title}
+    - Location: ${postedJob.location}
+    - Job Type: ${postedJob.jobType}
+    - Position: ${postedJob.position}
+    - Experience : ${postedJob.experienceLevel}
+    - Salary: ${
+      postedJob.salary ? `${postedJob.salary} (LPA)` : "Not specified"
+    }
 
-    // Thank you for choosing Job Portal to connect with top talent. If you need any modifications or assistance, feel free to contact our support team.
+    Thank you for choosing ${
+      process.env.COMPANY_NAME
+    } to connect with top talent. If you need any modifications or assistance, feel free to contact our support team.
 
-    // Best regards,
-    // Job Portal Team`,
-    // };
+    Best regards,
+    ${process.env.COMPANY_NAME} Team`,
+    };
 
-    // if (mailOption) {
-    //   await transporter.sendMail(mailOption);
-    // }
+    if (mailOption) {
+      sendMailUsingTransporter(mailOption);
+    }
 
     return res.status(201).json({
       MESSAGE: "Job Posted Successfully",
@@ -182,9 +200,44 @@ const getPostedJobByAdmin = async (req, res) => {
   }
 };
 
+//DELETE Job BY ID
+const deleteJobByID = async (req, res) => {
+  try {
+    const jobID = req.params.jobID;
+    if (!jobID) {
+      return res.status(400).json({
+        MESSAGE: "No jobID ID provided",
+        SUCCESS: false,
+      });
+    }
+
+    //FIND AND DELETE
+    const job = await Job.findByIdAndDelete(jobID);
+
+    //HANDLING IF NO job WITH SUCH ID
+    if (!job) {
+      return res.status(400).json({
+        MESSAGE: "Job not found",
+        SUCCESS: false,
+      });
+    }
+
+    const deletedApplications = await Application.deleteMany({ job: jobID });
+
+    return res.status(200).json({
+      MESSAGE: "Job Post and all related applications removed successfully",
+      SUCCESS: true,
+    });
+  } catch (error) {
+    console.log(error);
+    console.log("Error while deleting company");
+  }
+};
+
 module.exports = {
   postJobForAdmin,
   getAllJobs,
   getJobInfoById,
   getPostedJobByAdmin,
+  deleteJobByID,
 };

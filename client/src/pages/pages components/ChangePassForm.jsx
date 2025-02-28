@@ -46,7 +46,7 @@ export const ChangePassForm = ({ onSubmit }) => {
           className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
         />
         {errors.newPassword && (
-          <span className="text-blue-900 text-sm">
+          <span className="text-blue-900 text-sm dark:text-blue-200">
             *{errors.newPassword.message}
           </span>
         )}
@@ -76,7 +76,7 @@ export const ChangePassForm = ({ onSubmit }) => {
           className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
         />
         {errors.confirmPassword && (
-          <span className="text-blue-900 text-sm">
+          <span className="text-blue-900 text-sm dark:text-blue-200">
             *{errors.confirmPassword.message}
           </span>
         )}

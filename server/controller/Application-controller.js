@@ -2,6 +2,7 @@ const Application = require("../models/application-model");
 const Job = require("../models/job-model");
 const User = require("../models/user-model");
 const transporter = require("../utils/nodemailer");
+const sendMailUsingTransporter = require("../utils/transporter");
 
 //STUDENT|| JobSEEKER APPLYING FOR JOB
 const applyForJob = async (req, res) => {
@@ -51,9 +52,9 @@ const applyForJob = async (req, res) => {
 
     //MAILING RECRUITER ABOUT NEW APPLICANT
     const mailOptions = {
-      from: "jatinhubhai6284@gmail.com",
+      from: `"${process.env.COMPANY_NAME}" <${process.env.COMPANY_EMAIL}>`,
       to: job?.createdBy?.email, // Sending to the recruiter's email
-      subject: `New Applicant for Your Job Posting: ${newApplication?.job?.title}`,
+      subject: `New Applicant for Your Job Post: ${job?.title}`,
       html: `
         <p>Dear ${job?.createdBy?.username},</p>
         <p>We are excited to inform you that a new applicant has applied for your job posting on <strong>Job Portal</strong>.</p>
@@ -69,7 +70,7 @@ const applyForJob = async (req, res) => {
           }</li>
         </ul>
     
-        <h3>Job Details:</h3>
+        <h3>${process.env.COMPANY_NAME}</h3>
         <ul>
           <li><strong>Job Title:</strong> ${job?.title}</li>
           <li><strong>Reference Number:</strong> ${
@@ -79,18 +80,21 @@ const applyForJob = async (req, res) => {
     
         <p>You can review the applicant's profile and take the next steps at your earliest convenience.</p>
         
-        <p>For any assistance, feel free to reach out to us at <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a>.</p>
+        <p>For any assistance, feel free to reach out to us at <a href="mailto:${
+          process.env.COMPANY_EMAIL
+        }">${process.env.COMPANY_EMAIL}</a>.</p>
     
         <p>Best regards,</p>
-        <p><strong>Jatin</strong><br>
-        Job Portal<br>
-        Contact: <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a></p>
+        <p><strong>${process.env.COMPANY_NAME}</strong><br>
+        Contact: <a href="mailto:${process.env.COMPANY_EMAIL}">${
+        process.env.COMPANY_EMAIL
+      }</a></p>
       `,
     };
 
     // Send email only if mailOptions is set
     if (mailOptions) {
-      await transporter.sendMail(mailOptions);
+      sendMailUsingTransporter(mailOptions);
     }
 
     //UPDATE JOB COLLECTION
@@ -176,7 +180,7 @@ const updateApplicationStatus = async (req, res) => {
     let mailOptions;
     if (application.status === "accepted") {
       mailOptions = {
-        from: "jatinhubhai6284@gmail.com",
+        from: `"${process.env.COMPANY_NAME}" <${process.env.COMPANY_EMAIL}>`,
         to: application?.applicant?.email,
         subject: "Your Job Request Has Been Accepted!",
         html: `
@@ -194,17 +198,22 @@ const updateApplicationStatus = async (req, res) => {
               : "N/A"
           }</li>
         </ul>
-        <p>If you have any questions or need further assistance, feel free to reach out to us at <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a>.</p>
-        <p>Thank you for choosing <strong>Job Portal</strong>. We look forward to serving you!</p>
+        <p>If you have any questions or need further assistance, feel free to reach out to us at <a href="mailto:${
+          process.env.COMPANY_EMAIL
+        }">${process.env.COMPANY_EMAIL}</a>.</p>
+        <p>Thank you for choosing <strong>${
+          process.env.COMPANY_NAME
+        }</strong>. We look forward to serving you!</p>
         <p>Best regards,</p>
-        <p><strong>Jatin</strong><br>
-        Job Portal<br>
-        Contact: <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a></p>
+        <p><strong>${process.env.COMPANY_NAME}</strong><br>
+        Contact: <a href="mailto:${process.env.COMPANY_EMAIL}">${
+          process.env.COMPANY_EMAIL
+        }</a></p>
       `,
       };
     } else if (application.status === "rejected") {
       mailOptions = {
-        from: "jatinhubhai6284@gmail.com",
+        from: `"${process.env.COMPANY_NAME}" <${process.env.COMPANY_EMAIL}>`,
         to: application?.applicant?.email,
         subject: "Your Job Application Status Update",
         html: `
@@ -223,18 +232,21 @@ const updateApplicationStatus = async (req, res) => {
               : "N/A"
           }</li>
         </ul>
-        <p>We wish you the best in your job search. If you have any questions, feel free to reach out to us at <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a>.</p>
+        <p>We wish you the best in your job search. If you have any questions, feel free to reach out to us at <a href="mailto:${
+          process.env.COMPANY_EMAIL
+        }">${process.env.COMPANY_EMAIL}</a>.</p>
         <p>Best regards,</p>
-        <p><strong>Jatin</strong><br>
-        Job Portal<br>
-        Contact: <a href="mailto:jatinhubhai6284@gmail.com">jatinhubhai6284@gmail.com</a></p>
+        <p><strong>${process.env.COMPANY_NAME}</strong><br>
+        Contact: <a href="mailto:${process.env.COMPANY_EMAIL}">${
+          process.env.COMPANY_EMAIL
+        }</a></p>
       `,
       };
     }
 
     // Send email only if mailOptions is set
     if (mailOptions) {
-      await transporter.sendMail(mailOptions);
+      sendMailUsingTransporter(mailOptions);
     }
 
     return res.status(200).json({

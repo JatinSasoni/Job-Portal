@@ -58,14 +58,14 @@ export const HeroContainer = () => {
           {/* hero-img */}
 
           <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{
               type: "spring",
               duration: 1.5,
               delay: 0.1,
             }}
-            className="hero-img [&>img]:w-[500px] grid place-items-center drop-shadow-lg "
+            className="hero-img [&>img]:w-[500px] grid place-items-center drop-shadow-lg overflow-hidden "
           >
             <img src="/images/network.webp" alt="hero-img" />
           </motion.div>

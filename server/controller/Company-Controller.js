@@ -154,25 +154,6 @@ const updateCompany = async (req, res) => {
 
     await company.save();
 
-    //UPDATING COMPANY PROFILE
-    // const updatedCompanyData = await Company.findByIdAndUpdate(
-    //   companyID,
-    //   {
-    //     companyName,
-    //     description,
-    //     website,
-    //     location,
-    //   },
-    //   { new: true } //RETURNS DOCUMENT AFTER UPDATE APPLIED
-    // );
-
-    // if (!updatedCompanyData) {
-    //   return res.status(400).json({
-    //     MESSAGE: "UPDATE FAILED",
-    //     SUCCESS: false,
-    //   });
-    // }
-
     return res.status(201).json({
       MESSAGE: "Company Information Updated",
       SUCCESS: true,

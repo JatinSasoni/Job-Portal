@@ -65,7 +65,7 @@ export const AdminJobs = () => {
 
         {/* TABLE CONTAINING LIST OF REGISTERED COMPANIES */}
         <main className="mt-5">
-          <div className="relative  ">
+          <div className="relative ">
             {!filteredJobs || filteredJobs.length === 0 ? (
               <div className="h-96 overflow-hidden">
                 <JobNotFound />

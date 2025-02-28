@@ -19,7 +19,7 @@ import { ResetPassPage } from "./pages/ResetPassPage";
 import { VerifyOTPPage } from "./pages/VerifyOTPPage";
 import { ChangePasswordPage } from "./pages/ChangePasswordPage";
 import { ProtectedChangePassword } from "./pages/protect/ProtectChangePassword";
-import { About } from "./pages/About";
+import { Contact } from "./pages/Contact";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -32,8 +32,8 @@ const AppRouter = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/about",
-        element: <About />,
+        path: "/contact",
+        element: <Contact />,
       },
       {
         path: "/login",

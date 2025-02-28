@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const uploadToCloudinary = require("../utils/cloudinary");
 const transporter = require("../utils/nodemailer");
+const sendMailUsingTransporter = require("../utils/transporter");
 
 //HANDLING USER REGISTER
 const register = async (req, res) => {
@@ -38,22 +39,30 @@ const register = async (req, res) => {
     });
 
     const mailOption = {
-      from: '"Job Portal Support" <jatinhubhai6284@gmail.com>',
+      from: `"${process.env.COMPANY_NAME} Support" <${process.env.COMPANY_EMAIL}>`,
       to: email,
-      subject: "Welcome to Job Portal",
-      text: `Dear User,
-    
-    Thank you for registering with Job Portal. We are excited to have you on board.
-    
-    You have successfully signed up with the email: ${email}.
-    
-    If you did not register or need any assistance, please contact our support team.
-    
-    Best regards,  
-    Job Portal Team`,
+      subject: `Welcome to ${process.env.COMPANY_NAME}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9;">
+          <h2 style="color: #333; text-align: center;">Welcome to ${
+            process.env.COMPANY_NAME
+          }!</h2>
+          <p style="color: #555;">Dear User (${
+            role === "recruiter" ? "Recruiter" : "Job-seeker"
+          }),</p>
+          <p style="color: #555;">Thank you for registering with Job Portal. We are excited to have you on board.</p>
+          <p style="color: #555;">You have successfully signed up with the email: <strong>${email}</strong>.</p>
+          <p style="color: #555;">If you did not register or need any assistance, please contact our support team.</p>
+          <p style="color: #555; text-align: center;">Best regards,<br>${
+            process.env.COMPANY_NAME
+          } Team</p>
+        </div>
+      `,
     };
 
-    await transporter.sendMail(mailOption);
+    if (mailOption) {
+      sendMailUsingTransporter(mailOption);
+    }
 
     return res.status(201).json({
       MESSAGE: "User Registered Successfully",
@@ -268,23 +277,24 @@ const sendOTPForPass = async (req, res) => {
 
     //SENDING OTP
     const mailOptions = {
-      from: "jatinhubhai6284@gmail.com", // Replace with your email
+      from: `"${process.env.COMPANY_NAME}" <${process.env.COMPANY_EMAIL}>`, // Replace with your email
       to: user.email,
       subject: "Your OTP Code for Verification",
       html: `
         <p>Dear User,</p>
         <p>Your One-Time Password (OTP) for verification is:</p>
         <h2 style="color: #2d89ef; text-align: center;">${otp}</h2>
-        <p>This OTP is valid for 10 minutes. Please do not share it with anyone.</p>
+        <p>This OTP is valid for 5 minutes. Please do not share it with anyone.</p>
         <p>If you did not request this, please ignore this email.</p>
         <p>Best regards,</p>
-        <p><strong>Job Portal</strong></p>
+        <p><strong>${process.env.COMPANY_NAME}</strong></p>
       `,
     };
     //MAIL SENT
-    await transporter.sendMail(mailOptions);
+    sendMailUsingTransporter(mailOptions);
+
     user.otpForPass = otp;
-    user.otpForPassExpiresIn = Date.now() + 10 * 60 * 1000; //10 MINUTES
+    user.otpForPassExpiresIn = Date.now() + 5 * 60 * 1000; //5 MINUTES
     await user.save();
 
     return res.status(200).json({
@@ -395,6 +405,26 @@ const ChangePassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
     await user.save();
+
+    const mailOptions = {
+      from: `"${process.env.COMPANY_NAME}" <${process.env.COMPANY_EMAIL}>`,
+      to: user.email, // User's email
+      subject: "Password Changed Successfully",
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; text-align: center;">
+          <h2>Password Changed Successfully</h2>
+          <p>Hello ${user.username},</p>
+          <p>Your password has been changed successfully.</p>
+          <p>If you did not make this change, please contact our support team immediately.</p>
+          <p>Thank you for using our service!</p>
+          <br/>
+          <p>Best Regards,</p>
+          <p>${process.env.COMPANY_NAME}</p>
+        </div>
+      `,
+    };
+
+    sendMailUsingTransporter(mailOptions);
 
     return res.status(200).json({
       MESSAGE: "Password Changed",
