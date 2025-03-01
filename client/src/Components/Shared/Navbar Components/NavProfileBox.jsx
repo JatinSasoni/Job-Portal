@@ -3,6 +3,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaArrowRight } from "react-icons/fa6";
 import { TbLogout2 } from "react-icons/tb";
 import { motion } from "motion/react";
+import Switch from "../../Switch";
 
 /* eslint-disable react/prop-types */
 export const NavProfileBox = ({
@@ -18,7 +19,7 @@ export const NavProfileBox = ({
       className="w-72 bg-white rounded-xl absolute right-8 p-4 flex flex-col gap-2 dark:bg-gray-950"
     >
       <div className="flex gap-px">
-        <div className="size-9 rounded-full cursor-pointer overflow-hidden border bg-red-500">
+        <div className="size-9 rounded-full cursor-pointer overflow-hidden border bg-red-100">
           <img
             src={loggedInUser?.profile?.profilePhoto}
             alt="pfp"
@@ -29,6 +30,9 @@ export const NavProfileBox = ({
         <div>
           <h2 className="mt-1 dark:text-white">~{loggedInUser?.username}</h2>
           <p className="text-gray-400 text-sm">@{loggedInUser?.email}</p>
+        </div>
+        <div>
+          <Switch />
         </div>
       </div>
 

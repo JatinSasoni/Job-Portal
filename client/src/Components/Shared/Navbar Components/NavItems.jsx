@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 
 export const NavItems = ({ loggedInUser }) => {
   return (
-    <div className="grid place-items-center xl:ml-32 ">
-      <ul className="flex gap-9 [&>*]:text-lg [&>*]:font-medium [&>*]:text-blue-950  dark:[&>*]:text-white">
+    <div className="grid place-items-center">
+      <ul className="flex gap-9 [&>*]:text-lg  [&>*]:text-gray-600 dark:[&>li]:text-gray-400 ">
         {loggedInUser?.role === "recruiter" ? (
           <>
             <li>

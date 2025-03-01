@@ -13,7 +13,7 @@ const persistor = persistStore(store);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
+      <PersistGate persistor={persistor} loading={<div>Loading...</div>}>
         <ToastContainer
           position="bottom-right"
           autoClose={5000}
