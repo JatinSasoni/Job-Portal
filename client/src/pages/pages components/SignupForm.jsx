@@ -15,7 +15,7 @@ export const SignupForm = ({ onSubmit }) => {
 
   return (
     <form
-      className="flex flex-col gap-px dark:[&>div>label]:text-white "
+      className="flex flex-col gap-0.5 dark:[&>div>label]:text-white p-1 "
       onSubmit={handleSubmit(onSubmit)}
     >
       {/* Username */}
@@ -42,10 +42,10 @@ export const SignupForm = ({ onSubmit }) => {
               message: "Username cannot be that long",
             },
           })}
-          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:border-none dark:text-gray-100"
         />
         {errors.username && (
-          <span className="text-blue-900 dark:text-slate-200 text-sm ">
+          <span className="text-blue-900 dark:text-blue-300 text-xs">
             *{errors.username.message}
           </span>
         )}
@@ -71,10 +71,10 @@ export const SignupForm = ({ onSubmit }) => {
               message: "Invalid email format",
             },
           })}
-          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:border-none dark:text-gray-100"
         />
         {errors.email && (
-          <span className="text-blue-900 dark:text-slate-200 text-sm">
+          <span className="text-blue-900 dark:text-blue-300  text-xs">
             *{errors.email.message}
           </span>
         )}
@@ -106,10 +106,10 @@ export const SignupForm = ({ onSubmit }) => {
                 "Password should contain at least One Capital letter, Small letter, Number and Symbol",
             },
           })}
-          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:border-none dark:text-gray-100"
         />
         {errors.password && (
-          <span className="text-blue-900 dark:text-slate-200 text-sm">
+          <span className="text-blue-900 dark:text-blue-300  text-xs">
             *{errors.password.message}
           </span>
         )}
@@ -136,10 +136,10 @@ export const SignupForm = ({ onSubmit }) => {
               }
             },
           })}
-          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:border-none dark:text-gray-100"
         />
         {errors.confirmPassword && (
-          <span className="text-blue-900 dark:text-slate-200 text-sm">
+          <span className="text-blue-900 dark:text-blue-300  text-xs">
             *{errors.confirmPassword.message}
           </span>
         )}
@@ -169,10 +169,10 @@ export const SignupForm = ({ onSubmit }) => {
               message: "Phone number cannot be that long",
             },
           })}
-          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
+          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0 dark:bg-zinc-700 dark:border-none dark:text-gray-100"
         />
         {errors.phoneNumber && (
-          <span className="text-blue-900 dark:text-slate-200 text-sm">
+          <span className="text-blue-900 dark:text-blue-300  text-xs">
             *{errors.phoneNumber.message}
           </span>
         )}
@@ -207,20 +207,20 @@ export const SignupForm = ({ onSubmit }) => {
             Recruiter
           </label>
         </div>
-        {errors.role && (
-          <span className="text-blue-900 dark:text-slate-200 text-sm">
-            *{errors.role.message}
-          </span>
-        )}
       </div>
+      {errors.role && (
+        <span className="text-blue-900 dark:text-blue-300 text-center  text-xs">
+          *{errors.role.message}
+        </span>
+      )}
 
       {/* SUBMIT BUTTON */}
       <button
         type="submit"
-        className="bg-[#7747ff] w-max m-auto px-6 py-2 rounded text-white text-sm font-normal"
+        className="bg-blue-400 font-medium w-full m-auto px-6 py-2 rounded  text-sm text-white  "
       >
         {/* WHILE LOADING SHOW LOADER */}
-        {loading ? <div className="loader"></div> : "Submit"}
+        {loading ? <div className="loader"></div> : "Sign up"}
       </button>
     </form>
   );

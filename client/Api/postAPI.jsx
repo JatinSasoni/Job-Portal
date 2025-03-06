@@ -103,3 +103,13 @@ export const changePasswordAPI = (data) => {
     },
   });
 };
+
+//CONTACT FORM API
+export const contactFormAPI = (data) => {
+  return api.post(`/api/v1/contact/reach-out`, data, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+};

@@ -14,19 +14,18 @@ export const AllJobsSection = () => {
   return (
     <div className="w-full">
       <div className="flex justify-between py-4 px-2 border-b-2 ">
-        <p className="text-gray-500 dark:text-white">
-          Showing{" "}
-          <span className="text-blue-950 dark:text-blue-500">
-            {allJobs?.length}
-          </span>{" "}
-          jobs
+        <p className="text-gray-500 dark:text-white text-md">
+          Showing{" : "}
+          <span className="text-blue-950 font-bold text-bold dark:text-blue-400 text-md">
+            {allJobs?.length} JOBS
+          </span>
         </p>
         <div>
           <select
             name="dateFilter"
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="dark:text-black rounded-md outline-none"
+            className=" rounded-md outline-none  dark:bg-zinc-900 px-2"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
@@ -49,13 +48,6 @@ export const AllJobsSection = () => {
             })}
           </ul>
         )}
-        {/* {allJobs?.length <= 0 ? (
-          <div>Job Not Found</div>
-        ) : (
-          allJobs?.map((job, i) => {
-            return <AllJobsCard key={i} cardData={job} />;
-          })
-        )} */}
       </div>
     </div>
   );

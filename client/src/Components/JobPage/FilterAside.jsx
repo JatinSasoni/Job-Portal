@@ -44,7 +44,7 @@ export const FilterAside = () => {
             <p className="text-gray-500 dark:text-white">Advance Filter</p>
             <button
               onClick={resetFilters}
-              className="bg-blue-800 px-2 rounded text-white"
+              className=" px-3 rounded-md text-white hover:scale-105 bg-zinc-800 transition"
             >
               Reset
             </button>

@@ -2,8 +2,8 @@ const User = require("../models/user-model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const uploadToCloudinary = require("../utils/cloudinary");
-const transporter = require("../utils/nodemailer");
-const sendMailUsingTransporter = require("../utils/transporter");
+const { transporter } = require("../utils/nodemailer");
+const { sendMailUsingTransporter } = require("../utils/transporter");
 
 //HANDLING USER REGISTER
 const register = async (req, res) => {

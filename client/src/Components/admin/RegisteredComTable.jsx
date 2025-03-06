@@ -4,7 +4,6 @@ import { deleteCompanyAPI } from "../../../Api/deleteAPI";
 import { FaUserEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 
-import { toast } from "react-toastify";
 import { useState } from "react";
 
 /* eslint-disable react/prop-types */
@@ -29,7 +28,7 @@ export const RegisteredComTable = ({ allCompanies }) => {
   return (
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 drop-shadow-xl ">
       {/* TABLE HEAD */}
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-zinc-800 dark:text-gray-400">
         <tr>
           <th scope="col" className="px-6 py-3">
             Logo
@@ -63,7 +62,7 @@ export const RegisteredComTable = ({ allCompanies }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", duration: 1 }}
               key={indx}
-              className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
+              className="odd:bg-white odd:dark:bg-zinc-900 even:bg-gray-50 even:dark:bg-zinc-800 border-b dark:border-gray-700 border-gray-200"
             >
               <td
                 scope="row"
@@ -85,21 +84,21 @@ export const RegisteredComTable = ({ allCompanies }) => {
               <td className="px-6 py-4">{company?.createdAt?.split("T")[0]}</td>
               <td className="px-6 py-4">
                 <NavLink to={`/admin/company/update/${company?._id}`}>
-                  <button className="p-2 bg-blue-800 text-white rounded-xl px-4">
-                    <FaUserEdit />
+                  <button className="p-2 text-white rounded-xl px-4 ">
+                    <FaUserEdit className="text-black size-6 hover:scale-125 transition-all dark:text-gray-100" />
                   </button>
                 </NavLink>
               </td>
               <td className="px-6 py-4">
                 <button
-                  className="p-2 bg-blue-800 text-white rounded-xl px-4"
+                  className="p-2 text-white rounded-xl px-4"
                   onClick={() => handleCompanyDelete(company?._id)}
                   disabled={loadingID === company?._id}
                 >
                   {loadingID === company?._id ? (
                     <p className="animate-bounce">...</p>
                   ) : (
-                    <MdDeleteSweep />
+                    <MdDeleteSweep className="text-black size-6 hover:scale-125 transition-all dark:text-gray-100" />
                   )}
                 </button>
               </td>

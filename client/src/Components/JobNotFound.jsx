@@ -1,7 +1,7 @@
 export const JobNotFound = () => {
   return (
     <>
-      <div className="h-full p-3 overflow-hidden relative  dark:bg-gray-900 ">
+      <div className="h-full p-3 overflow-hidden relative  dark:bg-zinc-900 drop-shadow-md">
         <div className="box-of-star1">
           <div className="star star-position1"></div>
           <div className="star star-position2"></div>

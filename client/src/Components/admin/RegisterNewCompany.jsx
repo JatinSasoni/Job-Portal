@@ -3,6 +3,7 @@ import { Navbar } from "../Shared/Navbar";
 import { handleRegisterComAPI } from "../../../Api/postAPI";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { motion } from "motion/react";
 
 export const RegisterNewCompany = () => {
   const [companyName, setCompanyName] = useState("");
@@ -31,9 +32,17 @@ export const RegisterNewCompany = () => {
 
       <div className=" mx-auto max-w-7xl p-8 pt-16">
         <div className=" flex justify-between p-3">
-          <h1 className="text-5xl dark:text-slate-100 font-bold ">
+          <motion.h1
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              type: "tween",
+              duration: 1,
+            }}
+            className="text-5xl dark:text-slate-100 font-bold "
+          >
             Registered a new company
-          </h1>
+          </motion.h1>
           <NavLink to="/admin/companies">
             <button className="button-34">Go Back</button>
           </NavLink>
@@ -56,7 +65,7 @@ export const RegisterNewCompany = () => {
               id="companyName"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
-              className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-slate-600 dark:text-white"
+              className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-white dark:border-none"
             />
           </div>
           <button className="button-34" type="submit">

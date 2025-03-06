@@ -1,7 +1,7 @@
 const Application = require("../models/application-model");
 const Job = require("../models/job-model");
 const User = require("../models/user-model");
-const sendMailUsingTransporter = require("../utils/transporter");
+const { sendMailUsingTransporter } = require("../utils/transporter");
 
 //CREATE JOB API FOR AUTHENTICATED ADMIN
 const postJobForAdmin = async (req, res) => {

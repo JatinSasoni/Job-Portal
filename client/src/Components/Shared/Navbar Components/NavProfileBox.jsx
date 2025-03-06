@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowRight } from "react-icons/fa6";
 import { TbLogout2 } from "react-icons/tb";
@@ -16,29 +16,35 @@ export const NavProfileBox = ({
       initial={{ x: 100 }}
       animate={{ x: 0 }}
       exit={{ opacity: 0, x: 200 }}
-      className="w-72 bg-white rounded-xl absolute right-8 p-4 flex flex-col gap-2 dark:bg-gray-950"
+      className="w-72 bg-white drop-shadow-md rounded-xl absolute right-8 p-4 flex flex-col gap-2 dark:bg-neutral-900 dark:shadow-white dark:shadow-sm"
     >
       <div className="flex gap-px">
-        <div className="size-9 rounded-full cursor-pointer overflow-hidden border bg-red-100">
-          <img
-            src={loggedInUser?.profile?.profilePhoto}
-            alt="pfp"
-            className="size-full"
-          />
-        </div>
+        <div className=" w-full">
+          <div className="flex gap-36">
+            <div className="size-9 rounded-full cursor-pointer overflow-hidden border bg-red-100">
+              <img
+                src={loggedInUser?.profile?.profilePhoto}
+                alt="pfp"
+                className="size-full"
+              />
+            </div>
+            <div>
+              <Switch />
+            </div>
+          </div>
 
-        <div>
-          <h2 className="mt-1 dark:text-white">~{loggedInUser?.username}</h2>
-          <p className="text-gray-400 text-sm">@{loggedInUser?.email}</p>
-        </div>
-        <div>
-          <Switch />
+          <div className="">
+            <h2 className="mt-1 dark:text-white break-words">
+              ~{loggedInUser?.username}
+            </h2>
+            <p className="text-gray-400 text-sm">@{loggedInUser?.email} </p>
+          </div>
         </div>
       </div>
 
       <p className="text-gray-400">{loggedInUser?.profile?.bio}</p>
 
-      <NavLink
+      <Link
         to="/profile"
         className="hover:scale-105 transition-all"
         onClick={() => setProfileClicked(false)}
@@ -50,7 +56,7 @@ export const NavProfileBox = ({
           </p>
           <FaArrowRight className="my-auto size-4 " />
         </button>
-      </NavLink>
+      </Link>
 
       <div>
         <button

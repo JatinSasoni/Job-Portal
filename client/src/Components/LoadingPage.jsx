@@ -5,7 +5,7 @@ export const LoadingPage = () => {
   return (
     <>
       <section className={`${isDarkMode && "dark"}`}>
-        <div className="h-screen w-screen bg-blue-300 overflow-hidden relative dark:bg-gray-900 ">
+        <div className="h-screen w-screen bg-blue-300 overflow-hidden relative dark:bg-zinc-900 ">
           <div className="relative w-screen h-screen">
             <motion.div
               initial={{

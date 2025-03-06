@@ -1,7 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
-import { Signup } from "./pages/Signup";
 import { AppLayout } from "./Layout/AppLayout";
 import { Jobs } from "./pages/Jobs";
 import { Profile } from "./Components/Profile";
@@ -20,6 +19,7 @@ import { VerifyOTPPage } from "./pages/VerifyOTPPage";
 import { ChangePasswordPage } from "./pages/ChangePasswordPage";
 import { ProtectedChangePassword } from "./pages/protect/ProtectChangePassword";
 import { Contact } from "./pages/Contact";
+import RegisterPage from "./pages/RegisterPage";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -34,14 +34,6 @@ const AppRouter = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <Signup />,
       },
       {
         path: "/jobs",
@@ -77,6 +69,14 @@ const AppRouter = createBrowserRouter([
   {
     path: "/description/:jobID",
     element: <JobProfile />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <RegisterPage />,
   },
 
   //ADMIN/RECRUITER ROUTES

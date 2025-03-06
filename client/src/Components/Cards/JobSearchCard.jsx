@@ -5,15 +5,25 @@ export const JobSearchCard = () => {
   return (
     <section>
       {/* JOB HEADER || SEARCH */}
-      <motion.div className="py-8 flex flex-col gap-4 my-10 rounded-2xl shadow-md dark:shadow-white dark:text-white dark:bg-blue-950 ">
+      <motion.div className="flex flex-col gap-4 m-1 dark:text-white">
         {/* content */}
-        <div className=" flex flex-col gap-2 max-w-96 mx-auto">
-          <p className="text-center text-3xl font-extrabold">
-            <span className="text-blue-900  dark:text-blue-500">22 Jobs</span>{" "}
-            Available Now
-          </p>
-          <p className="text-center text-slate-900 text-sm dark:text-white">
-            Find your dream job with our powerful job search platform—browse
+        <div className=" flex flex-col gap-2 p-2 mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              type: "tween",
+              duration: 1,
+            }}
+            className="text-center text-blue-950 text-3xl font-semibold dark:text-zinc-200 leading-5"
+          >
+            Talent Meets{" "}
+            <p className="text-blue-400 text-5xl dark:text-blue-300 font-extrabold text-center">
+              Opportunity!
+            </p>
+          </motion.div>
+          <p className="text-center text-slate-900 text-sm dark:text-zinc-300 max-w-lg">
+            Find your dream job with our powerful job search platform and browse
             thousands of openings and apply with ease!
           </p>
         </div>

@@ -7,6 +7,7 @@ import useGetSingleCompanyData from "../../Hooks/getSingleCompanyByItsID";
 import { setLoading } from "../../../store/authSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { motion } from "motion/react";
 
 export const UpdateCompany = () => {
   const { companyID } = useParams();
@@ -74,11 +75,19 @@ export const UpdateCompany = () => {
     <section>
       <Navbar />
       <>
-        <div className="py-8 ">
-          <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-blue-950">
-            <div className="text-5xl font-bold mb-2 text-[#1e0e4b] text-center dark:text-white">
-              Update<span className="text-[#7747ff] "> Company</span>
-            </div>
+        <div>
+          <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-zinc-900 dark:drop-shadow-none">
+            <motion.div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                type: "tween",
+                duration: 1,
+              }}
+              className="text-5xl font-semibold mb-2 text-[#1e0e4b] text-center dark:text-white"
+            >
+              Update<span className="text-[#7747ff] font-bold"> Company</span>
+            </motion.div>
             <div className="text-sm font-normal mb-4 text-center text-[#1e0e4b]"></div>
 
             {/* LOGIN-FORM */}
@@ -103,7 +112,7 @@ export const UpdateCompany = () => {
                       message: "companyName is required",
                     },
                   })}
-                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-10 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-gray-50 dark:border-none"
                 />
                 {errors.companyName && (
                   <span className="text-blue-900">
@@ -128,7 +137,7 @@ export const UpdateCompany = () => {
                       message: "description is required",
                     },
                   })}
-                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
+                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-10 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-gray-50 dark:border-none"
                 />
                 {errors.description && (
                   <span className="text-blue-900">
@@ -152,7 +161,7 @@ export const UpdateCompany = () => {
                       message: "location is required",
                     },
                   })}
-                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-10 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-gray-50 dark:border-none"
                 />
                 {errors.location && (
                   <span className="text-blue-900">
@@ -178,7 +187,7 @@ export const UpdateCompany = () => {
                     },
                   })}
                   placeholder="*NA if no website currently*"
-                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-10 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-gray-50 dark:border-none"
                 />
                 {errors.website && (
                   <span className="text-blue-900">
@@ -198,17 +207,23 @@ export const UpdateCompany = () => {
                   type="file"
                   id="file"
                   {...register("companyLogo")}
-                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:text-white"
+                  className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-10 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-gray-50 dark:border-none"
                 />
               </div>
 
               {/* SUBMIT BUTTON */}
               <button
                 type="submit"
-                className="bg-[#7747ff] w-max m-auto px-6 py-2 rounded text-white text-sm font-normal"
+                className="bg-blue-400 w-full rounded-xl m-auto px-6 py-2 rounded text-white text-sm font-normal"
               >
                 {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE SUBMIT BUTTON */}
-                {loading ? <div className="loader"></div> : "Submit"}
+                {loading ? (
+                  <div className="grid place-items-center">
+                    <div className="loader"></div>
+                  </div>
+                ) : (
+                  "Submit"
+                )}
               </button>
             </form>
           </div>

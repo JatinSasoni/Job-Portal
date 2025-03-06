@@ -1,8 +1,8 @@
 const Application = require("../models/application-model");
 const Job = require("../models/job-model");
 const User = require("../models/user-model");
-const transporter = require("../utils/nodemailer");
-const sendMailUsingTransporter = require("../utils/transporter");
+const { transporter } = require("../utils/nodemailer");
+const { sendMailUsingTransporter } = require("../utils/transporter");
 
 //STUDENT|| JobSEEKER APPLYING FOR JOB
 const applyForJob = async (req, res) => {

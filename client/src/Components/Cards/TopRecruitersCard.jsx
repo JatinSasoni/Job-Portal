@@ -2,7 +2,7 @@
 
 export const TopRecruitersCard = ({ cardData }) => {
   return (
-    <div className="card drop-shadow-md dark:bg-blue-950 dark:shadow-sm dark:shadow-white ">
+    <div className="card drop-shadow-md dark:bg-zinc-800 dark:shadow-sm dark:shadow-white ">
       <div className="header">
         {/* company logo */}
         <div className="rounded-full size-10 border overflow-hidden ">

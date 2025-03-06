@@ -27,11 +27,11 @@ export const SearchBox = () => {
   };
 
   return (
-    <div className=" my-3 w-full p-1 mx-auto rounded-2xl bg-white drop-shadow-lg shadow-black relative z-0 dark:text-black  ">
+    <div className=" my-3 w-full p-1 mx-auto rounded-2xl bg-white drop-shadow-lg shadow-black relative z-0 dark:text-black  dark:bg-zinc-700">
       <form
         autoComplete="off"
         onSubmit={handleSearchLogic}
-        className="grid grid-cols-3  [&>input]:p-2 [&>*]:outline-non [&>input]:dark:bg-transparent  [&>input]:dark:outline-none"
+        className="grid grid-cols-3  [&>input]:p-2 [&>*]:outline-non [&>input]:dark:bg-transparent  [&>input]:outline-none [&>input]:dark:text-white [&>input]:dark:placeholder:text-gray-100"
       >
         <input
           type="text"
@@ -49,7 +49,7 @@ export const SearchBox = () => {
         />
         {/* <input type="text" placeholder="Enter something..." /> */}
         <div className="grid place-items-center">
-          <button className="bg-blue-600 text-white size-full rounded-2xl  transition-all ">
+          <button className="bg-blue-400 text-white size-full rounded-2xl  transition-all dark:bg-blue-400 dark:hover:bg-blue-500 ">
             Search
           </button>
         </div>

@@ -30,7 +30,7 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
   return (
     <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
       {/* TABLE HEAD */}
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-zinc-800 dark:text-gray-400">
         <tr>
           <th scope="col" className="px-6 py-3">
             Company
@@ -61,7 +61,7 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", duration: 1 }}
               key={indx}
-              className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
+              className="odd:bg-white odd:dark:bg-zinc-900 even:bg-gray-50 even:dark:bg-zinc-800 border-b dark:border-gray-700 border-gray-200"
             >
               <td className="px-6 py-4">{job?.CompanyID?.companyName}</td>
               <td className="px-6 py-4">{job?.title}</td>
@@ -71,8 +71,8 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
               <td className="px-6 py-4 ">
                 {/* api/v1/application/67b1b795b77e1e0e315b168a/applicants */}
                 <NavLink to={`/admin/job/${job?._id}/applicants`}>
-                  <button className="p-2 bg-blue-800 text-white rounded-xl px-4 ">
-                    <FaUsers />
+                  <button className="p-2 text-white rounded-xl px-4 ">
+                    <FaUsers className="text-black size-6 hover:scale-125 transition-all dark:text-gray-100" />
                   </button>
                 </NavLink>
               </td>
@@ -80,14 +80,14 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
                 {/* api/v1/application/67b1b795b77e1e0e315b168a/applicants */}
 
                 <button
-                  className="p-2 bg-blue-800 text-white rounded-xl px-4"
+                  className="p-2 text-white rounded-xl px-4"
                   onClick={() => handleJobDelete(job?._id)}
                   disabled={loadingID === job?._id}
                 >
                   {loadingID === job?._id ? (
                     <p className="animate-bounce">...</p>
                   ) : (
-                    <MdDeleteSweep />
+                    <MdDeleteSweep className="text-black size-6 hover:scale-125 transition-all dark:text-gray-100" />
                   )}
                 </button>
               </td>

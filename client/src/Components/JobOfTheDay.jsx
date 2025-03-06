@@ -1,7 +1,8 @@
-import JobOfDayCard from "./Cards/JobOfDayCard";
 import { useEffect, useMemo, useState } from "react";
 import { handleGetAllJobs } from "../../Api/getAPI";
 import { JobNotFound } from "./JobNotFound";
+import { AllJobsCard } from "./Cards/AllJobsCard";
+import { motion } from "motion/react";
 
 export const JobOfTheDay = () => {
   const [allJobs, setAllJobs] = useState([]);
@@ -29,7 +30,7 @@ export const JobOfTheDay = () => {
     return allJobs
       .slice(0, 4)
       .map((card) =>
-        card._id ? <JobOfDayCard key={card._id} cardData={card} /> : null
+        card._id ? <AllJobsCard key={card._id} cardData={card} /> : null
       );
   }, [allJobs]);
 
@@ -38,23 +39,30 @@ export const JobOfTheDay = () => {
   }
 
   return (
-    <div className="pt-14 container max-w-screen-xl mx-auto flex flex-col gap-6">
-      <h2 className="text-5xl text-blue-950 text-center font-semibold dark:text-white">
+    <motion.div
+      initial={{ opacity: 0, y: 100 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }}
+      className="mt-20 container max-w-screen-xl mx-auto flex flex-col gap-3"
+    >
+      <h2 className="text-5xl text-center font-semibold dark:text-white">
         Jobs Of The Day
       </h2>
-      <p className="text-center text-slate-600 font-semibold dark:text-slate-400">
+      <p className="text-center text-slate-600 font-semibold dark:text-gray-500">
         Explore the different types of available jobs to apply and discover
         which is right for you.
       </p>
-      {!allJobs.length ? (
-        <div className="h-96 w-full">
-          <JobNotFound />
-        </div>
-      ) : (
-        <div className="grid grid-cols-4 p-10 px-20 place-items-center gap-14">
-          {jobCards}
-        </div>
-      )}
-    </div>
+      <div>
+        {!allJobs.length ? (
+          <div className="h-96 w-full">
+            <JobNotFound />
+          </div>
+        ) : (
+          <ul className="grid grid-cols-4 gap-8 place-items-center px-32 py-6 ">
+            {jobCards}
+          </ul>
+        )}
+      </div>
+    </motion.div>
   );
 };

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { handlePostJobAPI } from "../../../Api/postAPI";
 import { PostJobForm } from "./admin components/PostJobForm";
+import { motion } from "motion/react";
 
 export const RegisterNewJob = () => {
   const navigate = useNavigate();
@@ -36,14 +37,22 @@ export const RegisterNewJob = () => {
       <Navbar />
 
       <div className=" mx-auto max-w-7xl pt-8 p-4 ">
-        <div className=" flex justify-between p-3">
-          <h1 className="text-4xl  font-bold dark:text-slate-100">
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "tween",
+            duration: 1,
+          }}
+          className=" flex justify-center p-3 gap-40 mb-4"
+        >
+          <h1 className="text-4xl text-zinc-800 font-bold dark:text-slate-100 ">
             Post new job
           </h1>
           <NavLink to="/admin/jobs">
             <button className="button-34">Go Back</button>
           </NavLink>
-        </div>
+        </motion.div>
 
         <PostJobForm
           allCompanies={allCompanies}

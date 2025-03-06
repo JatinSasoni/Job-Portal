@@ -38,6 +38,29 @@ input[type="number"] {
 
 /* CSS */
 
+/* CUSTOM SCROLL BAR */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+/* ::-webkit-scrollbar-track {
+  @apply dark:bg-white;
+} */
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-600 rounded-full;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* CUSTOM SCROLL BAR */
+
 /* CSS */
 .button-34 {
   background: #5e5df0;

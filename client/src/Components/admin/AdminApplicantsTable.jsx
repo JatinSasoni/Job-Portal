@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { setLoading } from "../../../store/authSlice";
 import { ApplicationTableBody } from "./admin components/ApplicationTableBody";
+import { motion } from "motion/react";
 import { JobNotFound } from "../JobNotFound";
 
 export const AdminApplicantsTable = () => {
@@ -21,7 +22,7 @@ export const AdminApplicantsTable = () => {
       const response = await handleStatusUpdateAPI({ status }, applicationID);
       if (response.data.SUCCESS) {
         toast.success(response.data.MESSAGE);
-        navigate(-1);
+        navigate(0);
       }
     } catch (error) {
       console.log(error);
@@ -45,12 +46,20 @@ export const AdminApplicantsTable = () => {
   return (
     <>
       <Navbar />
-      <div className="relative overflow-x-auto my-8 mx-auto max-w-7xl z-0">
-        <h1 className="my-3 text-5xl mx-a dark:text-slate-100 ">
+      <div className="relative  my-8 mx-auto max-w-7xl z-0">
+        <motion.h1
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "tween",
+            duration: 1,
+          }}
+          className="mb-8 text-5xl mx-a dark:text-slate-100 "
+        >
           Applicants {allApplicants?.length}
-        </h1>
+        </motion.h1>
         <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-zinc-800 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Name

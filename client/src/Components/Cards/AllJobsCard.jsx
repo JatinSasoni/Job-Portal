@@ -10,13 +10,13 @@ export const AllJobsCard = ({ cardData }) => {
     <motion.li
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      exit={{ opacity: 0, x: -100 }}
-      className="card drop-shadow-xl dark:shadow-md dark:shadow-white dark:bg-blue-950 dark:hover:bg-slate-900 transition-colors"
+      transition={{}}
+      className="card drop-shadow-xl dark:shadow-md dark:shadow-white dark:bg-zinc-800 "
     >
       <div>
         <div className="header">
           {/* company logo */}
-          <div className="rounded-full size-10 border overflow-hidden">
+          <div className="rounded-full size-10 overflow-hidden">
             <img
               src={cardData?.CompanyID?.logo}
               alt="logo"
@@ -86,7 +86,7 @@ export const AllJobsCard = ({ cardData }) => {
 
         <div className="actions grid grid-cols-2 gap-2">
           <NavLink
-            className="bg-blue-700 text-white rounded p-1 text-center"
+            className="bg-blue-400 text-white rounded p-1 text-center"
             to={`/description/${cardData?._id}`}
           >
             View

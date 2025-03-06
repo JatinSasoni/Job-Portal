@@ -46,7 +46,7 @@ export const AdminJobs = () => {
 
       <section className=" mx-auto max-w-7xl pt-8 p-4">
         <div className=" flex justify-between p-3 ">
-          <h1 className="text-4xl font-bold dark:text-slate-100">
+          <h1 className="text-4xl text-slate-800 font-semibold dark:text-slate-100">
             Posted Jobs
           </h1>
           <NavLink to="/admin/job/create">
@@ -57,7 +57,7 @@ export const AdminJobs = () => {
           <input
             type="text"
             placeholder="Filter by company or role..."
-            className="border p-2 outline-none rounded-md dark:bg-slate-600 dark:text-slate-50"
+            className="border p-2 outline-none rounded-md dark:bg-zinc-800 dark:text-slate-50"
             value={filterInput}
             onChange={(e) => setFilterInput(e.target.value)}
           />

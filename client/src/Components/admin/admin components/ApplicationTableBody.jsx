@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useSelector } from "react-redux";
+import { motion } from "motion/react";
 
 export const ApplicationTableBody = ({ handleUpdateStatus, allApplicants }) => {
   const { loading } = useSelector((store) => store.auth);
@@ -8,9 +9,13 @@ export const ApplicationTableBody = ({ handleUpdateStatus, allApplicants }) => {
     <tbody>
       {allApplicants?.map((application, index) => {
         return (
-          <tr
+          <motion.tr
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", duration: 1 }}
+            key={indx}
             key={index}
-            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
+            className="odd:bg-white odd:dark:bg-zinc-900 even:bg-gray-50 even:dark:bg-zinc-800 border-b dark:border-gray-700 border-gray-200"
           >
             <td
               scope="row"
@@ -75,7 +80,7 @@ export const ApplicationTableBody = ({ handleUpdateStatus, allApplicants }) => {
                 "Rejected"
               )}
             </td>
-          </tr>
+          </motion.tr>
         );
       })}
     </tbody>

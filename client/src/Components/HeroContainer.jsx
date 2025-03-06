@@ -6,19 +6,25 @@ export const HeroContainer = () => {
   return (
     <main>
       <section className="container mx-auto max-w-7xl">
-        <div className="grid grid-cols-2 p-3 my-4">
+        <div className="grid grid-cols-2 p-3 ">
           <div className=" pt-14 px-16 flex flex-col gap-4">
             {/* hero-heading */}
             <motion.h1
-              initial={{ opacity: 0, y: 100 }}
+              initial={{
+                opacity: 0,
+                y: 100,
+              }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", duration: 1 }}
+              transition={{
+                duration: 1,
+                delay: 0.1,
+              }}
               className="text-5xl font-semibold dark:text-white "
             >
               The{" "}
-              <span className="text-blue-600 font-extrabold dark:text-blue-300">
+              <p className="text-blue-400 font-extrabold dark:text-blue-300 inline-block">
                 Easiest Way{" "}
-              </span>
+              </p>
               To Get Your New Job
             </motion.h1>
 
@@ -30,8 +36,7 @@ export const HeroContainer = () => {
               }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{
-                type: "spring",
-                duration: 1,
+                duration: 1.2,
                 delay: 0.1,
               }}
               className="text-gray-500 text-lg leading-tight"
@@ -57,16 +62,7 @@ export const HeroContainer = () => {
 
           {/* hero-img */}
 
-          <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              type: "spring",
-              duration: 1,
-              delay: 0.1,
-            }}
-            className="hero-img [&>img]:w-[500px] grid place-items-center drop-shadow-lg overflow-hidden "
-          >
+          <motion.div className="hero-img [&>img]:w-[500px] grid place-items-center drop-shadow-lg overflow-hidden ">
             <img src="/images/network.webp" alt="hero-img" />
           </motion.div>
         </div>

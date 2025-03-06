@@ -10,4 +10,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-module.exports = transporter;
+const transporterContact = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "jatinhubhai6284@gmail.com",
+    pass: "derl wbtg rzbq dema",
+  },
+});
+
+module.exports = { transporter, transporterContact };
+
+// hezc zmct jqrz lztl

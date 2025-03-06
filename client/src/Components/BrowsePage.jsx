@@ -51,7 +51,7 @@ export const BrowsePage = () => {
             <JobNotFound />
           </div>
         ) : (
-          <ul className="grid  grid-cols-4 gap-10 place-items-center p-20">
+          <ul className="grid  grid-cols-4 gap-10 place-items-center px-20 py-10">
             {filteredJobs?.map((job, i) => {
               return <AllJobsCard key={i} cardData={job} />;
             })}

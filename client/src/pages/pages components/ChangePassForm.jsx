@@ -12,9 +12,10 @@ export const ChangePassForm = ({ onSubmit }) => {
     formState: { errors },
     watch,
   } = useForm();
+
   return (
     <form
-      className="flex flex-col gap-3 dark:[&>div>label]:text-white"
+      className="flex flex-col gap-4 dark:[&>div>label]:text-white"
       onSubmit={handleSubmit(onSubmit)}
     >
       {/* Password */}
@@ -43,10 +44,10 @@ export const ChangePassForm = ({ onSubmit }) => {
                 "Password should contain at least One Capital letter, Small letter, Number and Symbol",
             },
           })}
-          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:border-none dark:text-white "
         />
         {errors.newPassword && (
-          <span className="text-blue-900 text-sm dark:text-blue-200">
+          <span className="text-blue-900 text-sm dark:text-red-500 ">
             *{errors.newPassword.message}
           </span>
         )}
@@ -73,10 +74,10 @@ export const ChangePassForm = ({ onSubmit }) => {
               }
             },
           })}
-          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+          className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:border-none dark:text-white"
         />
         {errors.confirmPassword && (
-          <span className="text-blue-900 text-sm dark:text-blue-200">
+          <span className="text-blue-900 dark:text-red-500 text-sm">
             *{errors.confirmPassword.message}
           </span>
         )}
@@ -85,10 +86,16 @@ export const ChangePassForm = ({ onSubmit }) => {
       {/* SUBMIT BUTTON */}
       <button
         type="submit"
-        className="bg-[#7747ff] w-max m-auto px-6 py-2 rounded text-white text-sm font-normal"
+        className="bg-blue-400 w-full m-auto px-6 py-2 rounded-xl text-white text-sm font-normal"
       >
         {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE SUBMIT BUTTON */}
-        {loading ? <div className="loader"></div> : "Submit"}
+        {loading ? (
+          <div className="grid place-items-center">
+            <div className="loader"></div>{" "}
+          </div>
+        ) : (
+          "Submit"
+        )}
       </button>
     </form>
   );

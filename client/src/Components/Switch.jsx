@@ -15,7 +15,7 @@ const Switch = () => {
           type="checkbox"
           className="theme-switch__checkbox"
           checked={isDarkMode}
-          onClick={() => dispatch(toggleDarkMode())}
+          onChange={() => dispatch(toggleDarkMode())}
         />
         <div className="theme-switch__container">
           <div className="theme-switch__circle-container">

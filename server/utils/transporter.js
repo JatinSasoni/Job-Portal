@@ -1,4 +1,4 @@
-const transporter = require("./nodemailer");
+const { transporter, transporterContact } = require("./nodemailer");
 
 const sendMailUsingTransporter = async (mailOption) => {
   try {
@@ -8,4 +8,12 @@ const sendMailUsingTransporter = async (mailOption) => {
   }
 };
 
-module.exports = sendMailUsingTransporter;
+const sendMailUsingTransporterContact = async (mailOption) => {
+  try {
+    await transporterContact.sendMail(mailOption);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { sendMailUsingTransporter, sendMailUsingTransporterContact };

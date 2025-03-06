@@ -8,6 +8,7 @@ import { setLoading, setLoggedInUser } from "../../store/authSlice";
 import { useEffect } from "react";
 import { LoginForm } from "./pages components/LoginForm";
 import { motion } from "motion/react";
+import { Navbar } from "../Components/Shared/Navbar";
 
 //LOGIN PAGE
 export const Login = () => {
@@ -53,18 +54,21 @@ export const Login = () => {
 
   return (
     <>
+      <Navbar />
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{
-          type: "tween",
-        }}
-        className="py-14"
+        transition={{ type: "tween", duration: 0.5 }}
+        className="mt-4"
       >
-        <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-blue-950 dark:shadow dark:shadow-white">
-          <div className="text-5xl font-bold mb-2 text-[#1e0e4b] text-center dark:text-slate-100">
-            Welcome Back To <span className="text-[#7747ff]">Job Portal</span>
-          </div>
+        <div className="text-5xl font-bold mb-2 text-[#1e0e4b] text-center dark:text-slate-100">
+          Welcome Back To{" "}
+          <span className=" font-extrabold text-5xl text-blue-300">
+            TalentNest
+          </span>
+        </div>
+
+        <div className=" mx-auto max-w-lg relative flex flex-col p-3  rounded-3xl text-black bg-white dark:bg-zinc-900  ">
           <div className="text-sm font-normal mb-4 text-center text-[#1e0e4b] dark:text-slate-200">
             Log in to your account
           </div>

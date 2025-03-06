@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogoutAPICall } from "../../../Api/getAPI";
 import { setLoggedInUser } from "../../../store/authSlice";
@@ -54,7 +54,7 @@ export const Navbar = () => {
           right: 0,
           originX: 0,
         }}
-        className="w-full h-1 rounded-2xl z-50 bg-blue-600  "
+        className="w-full h-1 rounded-2xl z-50 bg-blue-600 dark:bg-blue-300 "
       ></motion.div>
 
       {/* HEADER */}
@@ -65,15 +65,17 @@ export const Navbar = () => {
           {/* COMPANY ICON */}
           <div>
             <div className="rounded-2xl size-16 overflow-hidden ">
-              <img
-                src={`${
-                  isDarkMode ? "/Logo/newlogodark.png" : "/Logo/newlogo.png"
-                } `}
-                alt="logo"
-                width="60"
-                height="20"
-                className="size-full scale-150"
-              />
+              <Link to="/">
+                <img
+                  src={`${
+                    isDarkMode ? "/Logo/newlogodark.png" : "/Logo/newlogo.png"
+                  } `}
+                  alt="logo"
+                  width="60"
+                  height="20"
+                  className="size-full scale-150 "
+                />
+              </Link>
             </div>
           </div>
 
@@ -109,7 +111,7 @@ export const Navbar = () => {
               <div className=" flex gap-3">
                 <div>
                   <NavLink to="/login">
-                    <button className="flex gap-px  p-2 px-3 rounded-full font-medium group hover:bg-gray-100 hover:shadow-inner transition dark:text-white dark:hover:text-black">
+                    <button className="flex gap-px  p-2 px-3 rounded-full font-medium group hover:bg-gray-100 hover:shadow-inner transition dark:text-white dark:hover:bg-zinc-500">
                       <CiLock className="my-auto transition-transform duration-300 group-hover:scale-110 " />
                       Login
                     </button>
@@ -119,7 +121,7 @@ export const Navbar = () => {
                   <NavLink to="/signup">
                     <button
                       type="submit"
-                      className="flex justify-center gap-2 items-center mx-auto backdrop-blur-md lg:font-medium isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-blue-500 hover:text-gray-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-2 py-1 overflow-hidden border-4 rounded-full group dark:border-zinc-700 dark:text-white dark:before:bg-zinc-700"
+                      className="flex justify-center gap-2 items-center mx-auto backdrop-blur-md lg:font-medium isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-blue-500 hover:text-gray-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-3 py-1 overflow-hidden border-2 rounded-full group dark:border-zinc-700 dark:text-white dark:before:bg-zinc-700"
                     >
                       Register
                       <svg
