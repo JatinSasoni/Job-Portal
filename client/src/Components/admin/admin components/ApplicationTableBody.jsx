@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useSelector } from "react-redux";
 import { motion } from "motion/react";
+import { CgProfile } from "react-icons/cg";
+import { Link } from "react-router-dom";
 
 export const ApplicationTableBody = ({ handleUpdateStatus, allApplicants }) => {
   const { loading } = useSelector((store) => store.auth);
+
+  console.log(allApplicants);
 
   return (
     <tbody>
@@ -13,7 +17,6 @@ export const ApplicationTableBody = ({ handleUpdateStatus, allApplicants }) => {
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", duration: 1 }}
-            key={indx}
             key={index}
             className="odd:bg-white odd:dark:bg-zinc-900 even:bg-gray-50 even:dark:bg-zinc-800 border-b dark:border-gray-700 border-gray-200"
           >
@@ -40,6 +43,11 @@ export const ApplicationTableBody = ({ handleUpdateStatus, allApplicants }) => {
             </td>
             <td className="px-6 py-4">
               {application?.applicant?.createdAt?.split("T")[0]}
+            </td>
+            <td className="px-6 py-4">
+              <Link to="/admin/applicant/view">
+                <button>View</button>
+              </Link>
             </td>
             <td
               className={`px-6 py-4 ${

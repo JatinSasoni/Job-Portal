@@ -220,7 +220,13 @@ export const SignupForm = ({ onSubmit }) => {
         className="bg-blue-400 font-medium w-full m-auto px-6 py-2 rounded  text-sm text-white  "
       >
         {/* WHILE LOADING SHOW LOADER */}
-        {loading ? <div className="loader"></div> : "Sign up"}
+        {loading ? (
+          <div className="grid place-items-center">
+            <div className="loader"></div>{" "}
+          </div>
+        ) : (
+          "Sign up"
+        )}
       </button>
     </form>
   );

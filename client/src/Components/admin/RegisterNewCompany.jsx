@@ -4,6 +4,7 @@ import { handleRegisterComAPI } from "../../../Api/postAPI";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { motion } from "motion/react";
+import { Footer } from "../Shared/Footer";
 
 export const RegisterNewCompany = () => {
   const [companyName, setCompanyName] = useState("");
@@ -73,6 +74,7 @@ export const RegisterNewCompany = () => {
           </button>
         </form>
       </div>
+      <Footer />
     </section>
   );
 };

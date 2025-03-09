@@ -108,6 +108,69 @@ const postJobForAdmin = async (req, res) => {
   }
 };
 
+const editJobPost = async (req, res) => {
+  try {
+    const { jobID } = req.params; // Get Job ID from URL params
+    const userId = req.id; // Get logged-in user's ID (assuming authentication middleware)
+
+    // Fields that can be updated
+    const updatableFields = [
+      "title",
+      "description",
+      "requirements",
+      "salary",
+      "location",
+      "jobType",
+      "position",
+      "experienceLevel",
+      "CompanyID",
+    ];
+
+    // Create an update object with only provided fields
+    const updateData = {};
+    updatableFields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        updateData[field] = req.body[field];
+      }
+    });
+
+    if (updateData.requirements) {
+      updateData.requirements = updateData.requirements
+        .split(",")
+        .map((elem) => elem.trim());
+    }
+
+    // Check if job exists
+    const job = await Job.findById(jobID);
+    if (!job) {
+      return res.status(404).json({ MESSAGE: "Job not found", SUCCESS: false });
+    }
+
+    // Ensure only the creator or admin can edit the job
+    if (job.CompanyID.toString() !== userId && req.role !== "recruiter") {
+      return res
+        .status(403)
+        .json({ MESSAGE: "Unauthorized to edit this job", SUCCESS: false });
+    }
+
+    // Update the job post
+    const updatedJob = await Job.findByIdAndUpdate(
+      jobID,
+      { $set: updateData },
+      { new: true, runValidators: true } //By default, findByIdAndUpdate() bypasses schema validation.
+    );
+
+    res.status(200).json({
+      MESSAGE: "Job post updated successfully",
+      job: updatedJob,
+      SUCCESS: true,
+    });
+  } catch (error) {
+    console.error("Error updating job post:", error);
+    res.status(500).json({ MESSAGE: "Internal server error", SUCCESS: false });
+  }
+};
+
 //API FOR FETCHING JOBS FOR STUDENT || JobSEEKER
 const getAllJobs = async (req, res) => {
   try {
@@ -173,6 +236,38 @@ const getJobInfoById = async (req, res) => {
   }
 };
 
+//API FOR FETCHING JOB DESCRIPTION BY JOB-ID FOR RECRUITER
+const getJobInfoByIdForAdmin = async (req, res) => {
+  try {
+    const jobID = req.params.jobID;
+    const job = await Job.findById(jobID);
+
+    // Ensure only the creator or admin can edit the job
+    if (req.role !== "recruiter") {
+      return res
+        .status(403)
+        .json({ MESSAGE: "Unauthorized to edit this job", SUCCESS: false });
+    }
+
+    //INVALID JOB_ID OR NO JOB WITH SUC JOB_ID
+    if (!job) {
+      return res.status(400).json({
+        MESSAGE: "Job not found",
+        SUCCESS: false,
+      });
+    }
+
+    return res.status(200).json({
+      MESSAGE: `Jobs found successfully`,
+      job,
+      SUCCESS: true,
+    });
+  } catch (error) {
+    console.log("Error while fetching job info");
+    res.status(500).json({ MESSAGE: "Internal server error" });
+  }
+};
+
 //API FOR FETCHING JOBS POSTED BY AUTHENTICATED ADMIN || RECRUITER
 const getPostedJobByAdmin = async (req, res) => {
   try {
@@ -234,10 +329,42 @@ const deleteJobByID = async (req, res) => {
   }
 };
 
+//GET SAVED JOB
+const getSavedJobs = async (req, res) => {
+  const userId = req.id;
+
+  try {
+    const user = await User.findById(userId).populate({
+      path: "savedJobs",
+      populate: {
+        path: "CompanyID",
+      },
+    });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ MESSAGE: "User not found", SUCCESS: false });
+    }
+
+    res.status(200).json({
+      MESSAGE: "JOBS FOUND",
+      SUCCESS: true,
+      savedJobs: user.savedJobs,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 module.exports = {
   postJobForAdmin,
   getAllJobs,
   getJobInfoById,
   getPostedJobByAdmin,
+  getJobInfoByIdForAdmin,
   deleteJobByID,
+  getSavedJobs,
+  editJobPost,
 };

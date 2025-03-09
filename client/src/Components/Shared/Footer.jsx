@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import FooterNavItems from "./Footer Components/FooterNavItems";
+import Switch from "../Switch";
 
 export const Footer = () => {
   return (
     <>
-      <footer className="bg-white rounded-lg shadow-sm dark:bg-zinc-900 m-4 ">
-        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 ">
+      <footer className="bg-white rounded-full shadow-md dark:bg-zinc-900 m-4 ">
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, type: "spring" }}
+          className="w-full max-w-screen-xl mx-auto p-4 md:py-8 "
+        >
           <div className="sm:flex sm:items-center sm:justify-between">
             <Link
               href="https://flowbite.com/"
@@ -14,7 +20,7 @@ export const Footer = () => {
             >
               <img
                 src="/Logo/newlogodark.png"
-                className="h-16"
+                className="size-16 bg-black  rounded-full"
                 alt="Flowbite Logo"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
@@ -24,6 +30,7 @@ export const Footer = () => {
 
             <FooterNavItems />
           </div>
+
           <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
           <motion.p
             initial={{ opacity: 0, scale: 0 }}
@@ -37,7 +44,7 @@ export const Footer = () => {
             </Link>
             . All Rights Reserved.
           </motion.p>
-        </div>
+        </motion.div>
       </footer>
     </>
   );

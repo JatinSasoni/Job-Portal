@@ -165,6 +165,13 @@ const updateApplicationStatus = async (req, res) => {
       .populate("applicant")
       .populate("job");
 
+    if (application.status !== "pending") {
+      return res.status(400).json({
+        MESSAGE: "Application status cannot be changed again",
+        SUCCESS: false,
+      });
+    }
+
     if (!application) {
       return res.status(400).json({
         MESSAGE: "Application not found",

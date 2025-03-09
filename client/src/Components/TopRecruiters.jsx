@@ -1,8 +1,11 @@
+import { useSelector } from "react-redux";
 import { TopRecruitersCard } from "./Cards/TopRecruitersCard";
 import { motion } from "motion/react";
 
 /* eslint-disable react/prop-types */
-export const TopRecruiters = ({ topRecruiterData }) => {
+export const TopRecruiters = () => {
+  const { allJobs: topRecruiterData } = useSelector((store) => store.job);
+
   return (
     <section>
       <motion.div
@@ -14,7 +17,7 @@ export const TopRecruiters = ({ topRecruiterData }) => {
         <div>
           <div className=" container max-w-screen-xl mx-auto flex flex-col gap-3">
             {/* TITLE */}
-            <h2 className="text-5xl  text-center font-semibold dark:text-white">
+            <h2 className="text-5xl  text-center font-semibold text-gray-700 dark:text-white">
               Top Recruiters
             </h2>
 

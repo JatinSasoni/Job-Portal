@@ -9,6 +9,8 @@ import { motion } from "motion/react";
 
 export const RegisterNewJob = () => {
   const navigate = useNavigate();
+  const { allCompanies } = useSelector((store) => store.company);
+
   //USE FORM HOOK
   const {
     register,
@@ -17,7 +19,6 @@ export const RegisterNewJob = () => {
   } = useForm();
 
   //STORE
-  const { allCompanies } = useSelector((store) => store.company);
 
   //   ONSUBMIT FN
   const onSubmit = async (data) => {

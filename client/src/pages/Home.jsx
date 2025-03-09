@@ -11,7 +11,6 @@ import { MostAskedQues } from "../Components/MostAskedQues";
 
 export const Home = () => {
   const { loggedInUser } = useSelector((store) => store.auth);
-  const { allJobs } = useSelector((store) => store.job);
 
   const navigate = useNavigate();
 
@@ -35,7 +34,7 @@ export const Home = () => {
       <HeroContainer2 />
 
       {/* TopRecruiters */}
-      <TopRecruiters topRecruiterData={allJobs} />
+      <TopRecruiters />
 
       {/* MostAskedQues */}
       <MostAskedQues />

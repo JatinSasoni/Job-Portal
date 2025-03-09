@@ -27,6 +27,7 @@ const useCases = [
       "We always provide people a complete solution upon focused of any business",
   },
 ];
+
 export const HeroContainer2 = () => {
   return (
     <main>
@@ -39,10 +40,10 @@ export const HeroContainer2 = () => {
               whileInView={{ scale: 1 }}
               transition={{
                 type: "tween",
-                duration: 1.5,
+                duration: 2,
               }}
-              src="/images/hero2.webp"
-              alt="random"
+              src="/images/hero3.webp"
+              alt="hero-image"
             />
           </div>
 
@@ -60,7 +61,9 @@ export const HeroContainer2 = () => {
             <div className="text-5xl font-bold leading-snug dark:text-white ">
               <p className="text-slate-500 text-4xl">Millions Of Jobs.</p>
               Find The One That’s{" "}
-              <span className="text-blue-600 dark:text-blue-300">Right </span>
+              <span className="text-blue-600 dark:text-blue-300 font-bold">
+                Right{" "}
+              </span>
               For You !
             </div>
 
@@ -90,7 +93,7 @@ export const HeroContainer2 = () => {
             type: "tween",
             duration: 1,
           }}
-          className="p-4 grid grid-cols-4 place-items-center gap-4"
+          className="p-10 grid grid-cols-4 place-items-center gap-4"
         >
           {useCases.map((cases, index) => {
             return (

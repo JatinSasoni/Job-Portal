@@ -4,6 +4,7 @@ import { LuClock9 } from "react-icons/lu";
 import { getDateDifference } from "../../../util/getDateDifference";
 import { NavLink } from "react-router-dom";
 import { motion } from "motion/react";
+import SaveJobButton from "../SaveJobButton";
 
 export const AllJobsCard = ({ cardData }) => {
   return (
@@ -63,7 +64,6 @@ export const AllJobsCard = ({ cardData }) => {
         </p>
 
         {/* REQUIREMENTS */}
-        {/* REQUIREMENTS */}
         <ul className="my-3 text-sm text-slate-500 flex gap-2 flex-wrap ">
           {cardData?.requirements.slice(0, 1)?.map((requirement, index) => {
             return (
@@ -92,12 +92,7 @@ export const AllJobsCard = ({ cardData }) => {
             View
           </NavLink>
 
-          <a
-            className="border bg-slate-50 rounded p-1 text-center text-black"
-            href=""
-          >
-            Save
-          </a>
+          <SaveJobButton jobId={cardData?._id} />
         </div>
       </div>
     </motion.li>

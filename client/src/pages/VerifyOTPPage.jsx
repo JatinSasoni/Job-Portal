@@ -43,8 +43,8 @@ export const VerifyOTPPage = () => {
   };
 
   return (
-    <div className="py-32">
-      <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-zinc-900">
+    <div className="py-16">
+      <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-xl dark:bg-zinc-900">
         <motion.div
           initial={{
             y: -50,

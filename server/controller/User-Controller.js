@@ -121,6 +121,7 @@ const login = async (req, res) => {
     //GENERATING TOKEN
     const tokenPayload = {
       userID: user._id,
+      role: user.role,
     };
 
     const token = jwt.sign(tokenPayload, process.env.SECRET_KEY, {
@@ -138,6 +139,7 @@ const login = async (req, res) => {
       updatedAt: user.updatedAt,
       role: user.role,
       profile: user.profile,
+      savedJobs: user.savedJobs,
     };
 
     return (
@@ -247,6 +249,42 @@ const updateProfile = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("ERROR WHILE UPDATING PROFILE");
+  }
+};
+//HANDLE JOB POST SAVE  AND ALSO JOB UNSAVE LOGIC
+const saveJob = async (req, res) => {
+  try {
+    const userId = req.id; // Assuming user is authenticated
+    const { jobId } = req.body;
+
+    const user = await User.findById(userId);
+
+    if (!user)
+      return res
+        .status(404)
+        .json({ MESSAGE: "User not found", SUCCESS: false });
+
+    const isSaved = user.savedJobs.includes(jobId);
+
+    if (isSaved) {
+      user.savedJobs = user.savedJobs.filter((id) => id.toString() !== jobId);
+      await user.save();
+
+      return res.status(200).json({
+        MESSAGE: "Job removed from saved list",
+        user,
+        SUCCESS: true,
+      });
+    } else {
+      user.savedJobs.push(jobId);
+      await user.save();
+      return res
+        .status(200)
+        .json({ MESSAGE: "Job saved successfully", SUCCESS: true, user });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -442,12 +480,37 @@ const ChangePassword = async (req, res) => {
   }
 };
 
+//GET USER INFO FOR ADMIN
+const getUserForAdmin = async (req, res) => {
+  try {
+    const applicantID = req.params.applicantID;
+
+    // Fetch user from database
+    const user = await User.findById(applicantID);
+
+    // If user not found
+    if (!user) {
+      return res
+        .status(404)
+        .json({ SUCCESS: false, MESSAGE: "User not found" });
+    }
+
+    // Send user data
+    res.status(200).json({ SUCCESS: true, MESSAGE: "Found", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, MESSAGE: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   register,
   login,
   updateProfile,
   logout,
+  saveJob,
   sendOTPForPass,
   validateOTPToChangePass,
   ChangePassword,
+  getUserForAdmin,
 };

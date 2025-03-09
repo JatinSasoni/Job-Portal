@@ -11,7 +11,7 @@ import { UpdateCompany } from "./Components/admin/UpdateCompany";
 import { ErrorPage } from "./Components/ErrorPage";
 import { AdminJobs } from "./Components/admin/AdminJobs";
 import { RegisterNewJob } from "./Components/admin/RegisterNewJob";
-import { AdminApplicantsTable } from "./Components/admin/AdminApplicantsTable";
+import { AdminApplicants } from "./Components/admin/AdminApplicants";
 import ProtectAdminRoute from "./Components/admin/ProtectAdminRoute";
 import { BrowsePage } from "./Components/BrowsePage";
 import { ResetPassPage } from "./pages/ResetPassPage";
@@ -20,6 +20,9 @@ import { ChangePasswordPage } from "./pages/ChangePasswordPage";
 import { ProtectedChangePassword } from "./pages/protect/ProtectChangePassword";
 import { Contact } from "./pages/Contact";
 import RegisterPage from "./pages/RegisterPage";
+import { SavedJobs } from "./Components/SavedJobs";
+import { ViewApplicant } from "./Components/admin/ViewApplicant";
+import { UpdateJobPost } from "./Components/admin/UpdateJobPost";
 
 //React Router Dom
 const AppRouter = createBrowserRouter([
@@ -39,7 +42,10 @@ const AppRouter = createBrowserRouter([
         path: "/jobs",
         element: <Jobs />,
       },
-
+      {
+        path: "/user/jobs/saved",
+        element: <SavedJobs />,
+      },
       {
         path: "/profile",
         element: <Profile />,
@@ -124,7 +130,23 @@ const AppRouter = createBrowserRouter([
     path: "/admin/job/:jobID/applicants",
     element: (
       <ProtectAdminRoute>
-        <AdminApplicantsTable />
+        <AdminApplicants />
+      </ProtectAdminRoute>
+    ),
+  },
+  {
+    path: "/admin/applicant/:applicantID/profile",
+    element: (
+      <ProtectAdminRoute>
+        <ViewApplicant />
+      </ProtectAdminRoute>
+    ),
+  },
+  {
+    path: "/admin/job-post/:jobID/edit",
+    element: (
+      <ProtectAdminRoute>
+        <UpdateJobPost />
       </ProtectAdminRoute>
     ),
   },

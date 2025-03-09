@@ -7,6 +7,7 @@ import { setAllCompanies } from "../../../store/companySlice";
 import { RegisteredComTable } from "./RegisteredComTable";
 import { motion } from "motion/react";
 import { JobNotFound } from "../JobNotFound";
+import { Footer } from "../Shared/Footer";
 
 export const AdminCompanies = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ export const AdminCompanies = () => {
     <>
       <Navbar />
 
-      <section className=" mx-auto max-w-7xl pt-8 p-4">
+      <section className="mx-auto max-w-7xl pt-6 p-4 mb-8">
         <div className=" flex justify-between p-3 ">
           <h1 className="text-4xl text-slate-800 font-semibold dark:text-slate-100">
             Registered Companies

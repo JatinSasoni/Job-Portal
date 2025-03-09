@@ -8,6 +8,7 @@ import { NavItems } from "./Navbar Components/NavItems";
 import { NavProfileBox } from "./Navbar Components/NavProfileBox";
 import { motion, useScroll } from "motion/react";
 import { CiLock } from "react-icons/ci";
+import Switch from "../Switch";
 
 export const Navbar = () => {
   //DISPATCH TO PROVIDE ACTIONS TO REDUX STORE
@@ -86,15 +87,15 @@ export const Navbar = () => {
             {/* IF USER IS LOGGED IN SHOW HIS/HER PROFILE BOX ELSE REGISTER AND LOGIN */}
             {loggedInUser ? (
               <div className="relative">
-                {/* LOGO */}
+                {/* PROFILE ICON*/}
                 <div
-                  className="size-9 rounded-full cursor-pointer  bg-blue-400 overflow-hidden "
+                  className="size-10 rounded-full overflow-hidden cursor-pointer"
                   onClick={() => setProfileClicked(!profileClicked)}
                 >
                   <img
                     src={loggedInUser?.profile?.profilePhoto}
-                    alt="pfp"
-                    className="size-full"
+                    alt="Profile"
+                    className="w-full h-full object-cover"
                   />
                 </div>
 

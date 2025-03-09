@@ -46,7 +46,7 @@ export const ResetPassPage = () => {
           duration: 1,
           type: "spring",
         }}
-        className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-zinc-900"
+        className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-md dark:bg-zinc-900"
       >
         <div className="text-3xl font-bold mb-2 text-[#1e0e4b] text-center dark:text-slate-200">
           Forgot Your Password?

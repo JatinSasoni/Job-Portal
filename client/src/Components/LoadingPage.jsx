@@ -21,7 +21,7 @@ export const LoadingPage = () => {
               transition={{ duration: 0.5, ease: [0, 0.71, 0.2, 1.01] }}
               className="text-6xl  text-white font-extrabold absolute bottom-32 left-1/2 -translate-x-1/2"
             >
-              <h1>Welcome to JobiFy</h1>
+              <h1>Welcome to TalentNest</h1>
             </motion.div>
           </div>
 

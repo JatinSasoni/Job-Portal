@@ -49,16 +49,13 @@ export const Signup = () => {
       <motion.div
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{
-          type: "tween",
-          duration: 1,
-        }}
+        transition={{ type: "tween", duration: 1 }}
       >
         <div className="text-5xl font-bold mb-4 pt-3 text-[#1e0e4b] text-center dark:text-white leading-tight ">
           Signup To <span className="text-blue-300 font-bold">TalentNest</span>
         </div>
 
-        <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black bg-white dark:bg-neutral-900 dark:shadow-md dark:shadow-white shadow-2xl">
+        <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black dark:bg-neutral-900 dark:shadow-sm dark:shadow-white shadow-md">
           {/* SIGNUP FORM */}
           <SignupForm onSubmit={onSubmit} />
           {/* ADDITIONAL DATA */}

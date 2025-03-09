@@ -30,12 +30,13 @@ export const AppliedJobs = () => {
         Applied jobs - {allAppliedJobs?.length}
       </h2>
 
-      {/* TABLE CONTAINING JOBS APPLIEND TO */}
+      {/* TABLE CONTAINING JOBS APPLIED TO */}
       <motion.div
-        initial={{ x: 100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
         transition={{
           duration: 0.5,
+          type: "tween",
         }}
         className="relative overflow-x-auto shadow-md sm:rounded-lg"
       >

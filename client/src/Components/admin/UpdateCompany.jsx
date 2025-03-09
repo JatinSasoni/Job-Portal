@@ -76,7 +76,7 @@ export const UpdateCompany = () => {
       <Navbar />
       <>
         <div>
-          <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-zinc-900 dark:drop-shadow-none">
+          <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-xl dark:bg-zinc-900 dark:drop-shadow-none">
             <motion.div
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -84,9 +84,9 @@ export const UpdateCompany = () => {
                 type: "tween",
                 duration: 1,
               }}
-              className="text-5xl font-semibold mb-2 text-[#1e0e4b] text-center dark:text-white"
+              className="text-5xl font-semibold mb-2 text-zinc-700 text-center dark:text-white"
             >
-              Update<span className="text-[#7747ff] font-bold"> Company</span>
+              Update<span className="text-blue-400 font-bold"> Company</span>
             </motion.div>
             <div className="text-sm font-normal mb-4 text-center text-[#1e0e4b]"></div>
 

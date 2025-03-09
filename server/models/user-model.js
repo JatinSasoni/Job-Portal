@@ -35,6 +35,12 @@ const userSchema = new Schema(
         default: "/Logo/defaultpfp.jpg",
       },
     },
+    savedJobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job",
+      },
+    ],
     otpForPass: {
       //STORES OTP
       type: String,

@@ -1,10 +1,9 @@
+import { shallowEqual, useSelector } from "react-redux";
+
 /* eslint-disable react/prop-types */
-export const PostJobForm = ({
-  handleSubmit,
-  onSubmit,
-  register,
-  allCompanies,
-}) => {
+export const PostJobForm = ({ handleSubmit, onSubmit, register }) => {
+  const { allCompanies } = useSelector((store) => store.company, shallowEqual);
+
   return (
     <form
       className="max-w-md mx-auto dark:[&>div>label]:text-slate-100 dark:[&>div>div>label]:text-slate-100 "

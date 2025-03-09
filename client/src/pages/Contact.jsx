@@ -51,7 +51,7 @@ export const Contact = () => {
   return (
     <>
       <section>
-        <div className="mb-10">
+        <div className=" my-4">
           <motion.div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -59,17 +59,17 @@ export const Contact = () => {
               type: "tween",
               duration: 1,
             }}
-            className="text-5xl text-slate-800 font-bold mb-2  text-center dark:text-slate-100"
+            className="text-5xl text-slate-800 font-bold mb-2 text-center dark:text-slate-100"
           >
             Reach Out{" "}
             <span className=" text-blue-400 font-extrabold text-5xl dark:text-blue-300">
               TalentNest
             </span>
           </motion.div>
-          <div className=" my-6 mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white dark:bg-zinc-900">
+          <div className=" my-6  mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black dark:bg-zinc-900">
             {/* LOGIN-FORM */}
             <form
-              className="flex flex-col gap-3 dark:[&>div>label]:text-white "
+              className="flex flex-col gap-3  dark:[&>div>label]:text-white "
               onSubmit={handleSubmit(onSubmit)}
             >
               {/* USERNAME */}

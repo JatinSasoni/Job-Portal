@@ -68,7 +68,7 @@ export const Login = () => {
           </span>
         </div>
 
-        <div className=" mx-auto max-w-lg relative flex flex-col p-3  rounded-3xl text-black bg-white dark:bg-zinc-900  ">
+        <div className=" mx-auto max-w-lg relative flex flex-col p-3  rounded-3xl text-black dark:bg-zinc-900  ">
           <div className="text-sm font-normal mb-4 text-center text-[#1e0e4b] dark:text-slate-200">
             Log in to your account
           </div>

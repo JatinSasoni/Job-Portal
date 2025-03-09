@@ -138,6 +138,10 @@ export const JobProfile = () => {
               {singleJobData?.salary}LPA
             </div>
             <div>
+              <span className="text-xl font-semibold">Requirements </span>
+              {singleJobData?.requirements?.join(", ")}
+            </div>
+            <div>
               <span className="text-xl font-semibold">Total Applicants </span>
               {singleJobData?.application?.length}
             </div>

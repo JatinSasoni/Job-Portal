@@ -6,6 +6,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RegisteredJobTable } from "./RegisteredJobTable";
 import { setAllAdminJobs } from "../../../store/jobSlice";
 import { JobNotFound } from "../JobNotFound";
+import { Footer } from "../Shared/Footer";
 
 export const AdminJobs = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ export const AdminJobs = () => {
     <>
       <Navbar />
 
-      <section className=" mx-auto max-w-7xl pt-8 p-4">
+      <section className=" mx-auto max-w-7xl pt-6 p-4">
         <div className=" flex justify-between p-3 ">
           <h1 className="text-4xl text-slate-800 font-semibold dark:text-slate-100">
             Posted Jobs

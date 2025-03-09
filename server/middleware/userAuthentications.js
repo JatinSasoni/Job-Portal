@@ -22,10 +22,15 @@ const isAuthentication = async (req, res, next) => {
     }
 
     req.id = tokenDecode.userID;
+    req.role = tokenDecode.role;
+
     next();
   } catch (error) {
-    console.log(error);
-    console.log("ERROR IN AUTHENTICATION MIDDLEWARE");
+    console.log("ERROR IN AUTHENTICATION MIDDLEWARE:", error);
+    return res.status(500).json({
+      MESSAGE: "Internal Server Error",
+      SUCCESS: false,
+    });
   }
 };
 

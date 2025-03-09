@@ -76,7 +76,7 @@ const contactController = async (req, res) => {
 const getAllContacts = async (req, res) => {
   try {
     const allContacts = await Contact.find({ isApproved: true })
-      .populate("userID", "username profile.profilePhoto")
+      .populate("userID", "username profile.profilePhoto role")
       .sort({ createdAt: -1 })
       .limit(10);
 

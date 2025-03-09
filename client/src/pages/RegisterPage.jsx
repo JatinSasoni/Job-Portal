@@ -58,7 +58,7 @@ const RegisterPage = () => {
           {/* Overlay */}
 
           <div
-            className="absolute inset-y-0 right-0 w-1/6 bg-white border-none dark:bg-zinc-900"
+            className="absolute inset-y-0 right-0 w-1/6 bg-zinc-50 border-none dark:bg-zinc-900"
             style={{
               clipPath: "polygon(100% 0, 0% 100%, 100% 100%)",
               border: "none",

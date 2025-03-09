@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaUsers } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
-
+import { FaUserEdit } from "react-icons/fa";
 import { motion } from "motion/react";
 import { toast } from "react-toastify";
 import { deleteJobAPI } from "../../../Api/deleteAPI";
@@ -28,7 +28,7 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
   };
 
   return (
-    <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
+    <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 drop-shadow-md rounded mb-6">
       {/* TABLE HEAD */}
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-zinc-800 dark:text-gray-400">
         <tr>
@@ -43,6 +43,9 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
           </th>
           <th scope="col" className="px-6 py-3">
             Date
+          </th>
+          <th scope="col" className="px-6 py-3">
+            Edit Post
           </th>
           <th scope="col" className="px-6 py-3">
             Applicants
@@ -67,6 +70,13 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
               <td className="px-6 py-4">{job?.title}</td>
               <td className="px-6 py-4">{job?.jobType}</td>
               <td className="px-6 py-4">{job?.createdAt?.split("T")[0]}</td>
+              <td className="px-6 py-4">
+                <NavLink to={`/admin/job-post/${job?._id}/edit`}>
+                  <button className="p-2 text-white rounded-xl px-4 ">
+                    <FaUserEdit className="text-black size-6 hover:scale-125 transition-all dark:text-gray-100" />
+                  </button>
+                </NavLink>
+              </td>
 
               <td className="px-6 py-4 ">
                 {/* api/v1/application/67b1b795b77e1e0e315b168a/applicants */}
@@ -77,7 +87,7 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
                 </NavLink>
               </td>
               <td className="px-6 py-4 ">
-                {/* api/v1/application/67b1b795b77e1e0e315b168a/applicants */}
+                {/* api/v1/job/job-post/:jobID/edit */}
 
                 <button
                   className="p-2 text-white rounded-xl px-4"

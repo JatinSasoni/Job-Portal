@@ -32,7 +32,7 @@ export const ChangePasswordPage = () => {
   };
 
   return (
-    <div className="py-20">
+    <div className="py-16">
       <motion.div
         initial={{
           y: 100,
@@ -44,7 +44,7 @@ export const ChangePasswordPage = () => {
           duration: 1,
           type: "spring",
         }}
-        className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-2xl dark:bg-zinc-900"
+        className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black shadow-black drop-shadow-md dark:bg-zinc-900"
       >
         <div className="text-3xl font-bold mb-2 text-[#1e0e4b] text-center">
           <span className="text-blue-400 font-bold text-4xl block">

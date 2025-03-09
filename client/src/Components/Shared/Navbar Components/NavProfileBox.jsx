@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowRight } from "react-icons/fa6";
 import { TbLogout2 } from "react-icons/tb";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
+import { CiBookmarkCheck } from "react-icons/ci";
 import Switch from "../../Switch";
 
 /* eslint-disable react/prop-types */
@@ -13,63 +14,80 @@ export const NavProfileBox = ({
 }) => {
   return (
     <motion.div
-      initial={{ x: 100 }}
-      animate={{ x: 0 }}
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
       exit={{ opacity: 0, x: 200 }}
-      className="w-72 bg-white drop-shadow-md rounded-xl absolute right-8 p-4 flex flex-col gap-2 dark:bg-neutral-900 dark:shadow-white dark:shadow-sm"
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="w-96 bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-6 absolute right-8 flex flex-col gap-4 dark:shadow-white dark:shadow-sm"
     >
-      <div className="flex gap-px">
-        <div className=" w-full">
-          <div className="flex gap-36">
-            <div className="size-9 rounded-full cursor-pointer overflow-hidden border bg-red-100">
-              <img
-                src={loggedInUser?.profile?.profilePhoto}
-                alt="pfp"
-                className="size-full"
-              />
-            </div>
-            <div>
-              <Switch />
-            </div>
+      {/* Profile Header with Switch */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="size-12 rounded-full overflow-hidden border-2 border-blue-500 p-1">
+            <img
+              src={loggedInUser?.profile?.profilePhoto}
+              alt="Profile"
+              className="w-full h-full object-cover rounded-full"
+            />
           </div>
-
-          <div className="">
-            <h2 className="mt-1 dark:text-white break-words">
-              ~{loggedInUser?.username}
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+              ~
+              {loggedInUser?.username?.length > 15
+                ? `${loggedInUser?.username?.slice(0, 15)}...`
+                : loggedInUser?.username}
             </h2>
-            <p className="text-gray-400 text-sm">@{loggedInUser?.email} </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              @
+              {loggedInUser?.email?.length > 20
+                ? `${loggedInUser?.email?.slice(0, 15)}...`
+                : loggedInUser?.email}
+            </p>
           </div>
+        </div>
+        {/* Switch Component */}
+        <div className="ml-4">
+          <Switch />
         </div>
       </div>
 
-      <p className="text-gray-400">{loggedInUser?.profile?.bio}</p>
+      {/* User Bio */}
+      <p className="text-sm text-gray-500 dark:text-gray-400 ">
+        {loggedInUser?.profile?.bio}
+      </p>
 
-      <Link
-        to="/profile"
-        className="hover:scale-105 transition-all"
-        onClick={() => setProfileClicked(false)}
-      >
-        <button className="flex justify-between px-2 w-full bg-slate-200 p-1 outline-none  rounded-xl  ">
-          <p className="text-lg flex gap-2">
-            <CgProfile className="my-auto size-6 " />
-            Profile
-          </p>
-          <FaArrowRight className="my-auto size-4 " />
+      {/* Profile Link */}
+      <Link to="/profile" onClick={() => setProfileClicked(false)}>
+        <button className="flex items-center justify-between px-5 py-3 bg-blue-50 dark:bg-zinc-800 rounded-xl shadow-md w-full transition hover:scale-105 hover:bg-blue-100 dark:hover:bg-zinc-700">
+          <span className="flex items-center gap-3 text-blue-600 dark:text-blue-400">
+            <CgProfile className="size-6" /> Profile
+          </span>
+          <FaArrowRight className="size-4 text-blue-600 dark:text-blue-400" />
         </button>
       </Link>
 
-      <div>
-        <button
-          className="hover:scale-105 transition-all flex justify-between px-2 w-full bg-slate-200 p-1 outline-none  rounded-xl "
-          onClick={handleLogoutUser}
-        >
-          <p className="text-lg flex gap-2">
-            <TbLogout2 className="my-auto size-6 " />
-            Logout
-          </p>
-          <FaArrowRight className="my-auto size-4 " />
-        </button>
-      </div>
+      {/* Saved Jobs Link */}
+      {loggedInUser?.role === "student" && (
+        <Link to="/user/jobs/saved" onClick={() => setProfileClicked(false)}>
+          <button className="flex items-center justify-between px-5 py-3 bg-blue-50 dark:bg-zinc-800 rounded-xl shadow-md w-full transition hover:scale-105 hover:bg-blue-100 dark:hover:bg-zinc-700">
+            <span className="flex items-center gap-3 text-blue-600 dark:text-blue-400">
+              <CiBookmarkCheck className="size-6" /> Saved Jobs
+            </span>
+            <FaArrowRight className="size-4 text-blue-600 dark:text-blue-400" />
+          </button>
+        </Link>
+      )}
+
+      {/* Logout Button */}
+      <button
+        className="flex items-center justify-between px-5 py-3 bg-red-50 dark:bg-zinc-800 rounded-xl shadow-md w-full transition hover:scale-105 hover:bg-red-100 dark:hover:bg-zinc-700"
+        onClick={handleLogoutUser}
+      >
+        <span className="flex items-center gap-3 text-red-600 dark:text-red-400">
+          <TbLogout2 className="size-6" /> Logout
+        </span>
+        <FaArrowRight className="size-4 text-red-600 dark:text-red-400" />
+      </button>
     </motion.div>
   );
 };

@@ -69,3 +69,21 @@ export const handleGetAllContactsAPI = () => {
     withCredentials: true,
   });
 };
+
+export const handleGetSavedJobsAPI = () => {
+  return api.get(`api/v1/job/saved`, {
+    withCredentials: true,
+  });
+};
+
+export const handleGetApplicantProfile = (applicantID) => {
+  return api.get(`/api/v1/user/${applicantID}`, {
+    withCredentials: true,
+  });
+};
+
+export const handleGetJobInfoAPI = (jobID) => {
+  return api.get(`/api/v1/job/admin/${jobID}/get`, {
+    withCredentials: true,
+  });
+};

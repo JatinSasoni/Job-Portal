@@ -63,6 +63,14 @@ export const handlePostJobAPI = (data) => {
     },
   });
 };
+export const handleEditJobAPI = (jobID, data) => {
+  return api.post(`/api/v1/job/job-post/${jobID}/edit`, data, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
+};
 
 export const handleStatusUpdateAPI = (status, applicationID) => {
   return api.post(
@@ -112,4 +120,15 @@ export const contactFormAPI = (data) => {
       "Content-Type": "Application/json",
     },
   });
+};
+
+//SAVE/UNSAVE JOB POST
+export const saveUnsavePostAPI = (jobId) => {
+  return api.post(
+    `/api/v1/user/save-job`,
+    { jobId },
+    {
+      withCredentials: true,
+    }
+  );
 };

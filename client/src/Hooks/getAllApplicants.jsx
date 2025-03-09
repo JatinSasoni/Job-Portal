@@ -14,7 +14,6 @@ export const useGetAllApplicants = (jobID) => {
       try {
         dispatch(setLoading(true));
         const response = await handleGetAllApplicantsAPI(jobID);
-
         if (response.data.SUCCESS) {
           dispatch(setApplicants(response.data.job.application));
         }
