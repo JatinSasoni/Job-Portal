@@ -131,7 +131,7 @@ export const SignupForm = ({ onSubmit }) => {
               message: "Confirmation password is required",
             },
             validate: (val) => {
-              if (watch("password") != val) {
+              if (watch("password") !== val) {
                 return "Your passwords do no match";
               }
             },
@@ -165,7 +165,7 @@ export const SignupForm = ({ onSubmit }) => {
               message: "Phone number should be at least 10 digits long",
             },
             maxLength: {
-              value: 20,
+              value: 10,
               message: "Phone number cannot be that long",
             },
           })}

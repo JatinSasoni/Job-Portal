@@ -10,7 +10,7 @@ const FAQBox = ({ data, openedIndex, handleDropdownClick, type }) => {
       {data?.map((curr, index) => (
         <div
           key={index}
-          className="border p-2  dark:bg-zinc-800 rounded-xl drop-shadow-md "
+          className="border p-2  dark:bg-zinc-800 rounded-xl drop-shadow-md dark:border-none px-3"
         >
           <div className="flex justify-between">
             <p className="text-zinc-900 dark:text-gray-100 text-md font-medium">
@@ -60,56 +60,48 @@ export const MostAskedQues = () => {
   };
 
   return (
-    <section>
-      <div className="max-w-7xl mx-auto my-16">
-        <motion.h1
-          initial={{
-            y: 50,
-          }}
-          whileInView={{
-            y: 0,
-          }}
-          transition={{
-            duration: 1.2,
-          }}
-          className="text-4xl dark:text-white my-16 font-semibold text-gray-700"
+    <div className="max-w-6xl mx-auto my-16">
+      <motion.h1
+        initial={{ y: 50 }}
+        whileInView={{ y: 0 }}
+        transition={{ duration: 1.2 }}
+        className="text-3xl md:text-5xl dark:text-white my-2 lg:my-16  text-gray-700 text-center font-semibold"
+      >
+        Frequently Asked
+      </motion.h1>
+      <div className="grid lg:grid-cols-2 gap-6 overflow-hidden lg:overflow-visible px-3 lg:px-0">
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ type: "tween", duration: 1 }}
         >
-          Frequently Asked
-        </motion.h1>
-        <div className="grid grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ type: "tween", duration: 1 }}
-          >
-            <h3 className="my-2 text-3xl text-gray-700 font-semibold dark:text-white text-center">
-              For Recruiters
-            </h3>
-            <FAQBox
-              data={recruiterFAQ}
-              openedIndex={openedIndexRec}
-              handleDropdownClick={handleDropdownClick}
-              type="recruiter"
-            />
-          </motion.div>
+          <h3 className="my-2 text-2xl lg:text-3xl text-gray-700 font-semibold dark:text-white text-center">
+            For Recruiters
+          </h3>
+          <FAQBox
+            data={recruiterFAQ}
+            openedIndex={openedIndexRec}
+            handleDropdownClick={handleDropdownClick}
+            type="recruiter"
+          />
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ type: "tween", duration: 1 }}
-          >
-            <h3 className="my-2 text-3xl text-gray-700 font-semibold dark:text-white text-center">
-              For Job-Seekers
-            </h3>
-            <FAQBox
-              data={jobSeekerFAQ}
-              openedIndex={openedIndexSeeker}
-              handleDropdownClick={handleDropdownClick}
-              type="seeker"
-            />
-          </motion.div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ type: "tween", duration: 1 }}
+        >
+          <h3 className="my-2 text-2xl lg:text-3xl text-gray-700 font-semibold dark:text-white text-center">
+            For Job-Seekers
+          </h3>
+          <FAQBox
+            data={jobSeekerFAQ}
+            openedIndex={openedIndexSeeker}
+            handleDropdownClick={handleDropdownClick}
+            type="seeker"
+          />
+        </motion.div>
       </div>
-    </section>
+    </div>
   );
 };

@@ -29,7 +29,7 @@ export const JobSearchCard = () => {
         </div>
 
         {/* JOB SEARCH */}
-        <div className="w-1/2 mx-auto">
+        <div className="w-full px-2 md:p-0 md:w-1/2 mx-auto">
           <SearchBox />
         </div>
       </motion.div>

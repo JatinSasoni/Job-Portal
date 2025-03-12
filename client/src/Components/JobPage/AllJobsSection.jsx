@@ -35,9 +35,10 @@ export const AllJobsSection = () => {
       <div>
         {allJobs?.length <= 0 ? (
           <motion.div
-            initial={{ y: 100 }}
+            initial={{ y: 50 }}
             animate={{ y: 0 }}
-            className=" w-full  h-96 "
+            transition={{ type: "tween" }}
+            className=" w-full  h-96"
           >
             <JobNotFound />
           </motion.div>

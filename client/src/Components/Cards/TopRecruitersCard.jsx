@@ -21,11 +21,11 @@ export const TopRecruitersCard = ({ cardData }) => {
         </p>
       </div>
 
-      <div className="font-bold flex gap-3 w-2/3 mx-auto">
-        <span className="text-gray-600 text-xs dark:text-slate-50">
+      <div className="font-bold flex gap-3 w-2/3  mx-auto">
+        <span className="text-gray-600 text-xs dark:text-slate-50 w-full">
           {cardData?.location}
         </span>
-        <span className="text-gray-500 text-xs dark:text-white">
+        <span className="text-gray-500 text-xs dark:text-white w-full ">
           Since : {cardData?.CompanyID?.createdAt?.split("-")[0]}
         </span>
       </div>

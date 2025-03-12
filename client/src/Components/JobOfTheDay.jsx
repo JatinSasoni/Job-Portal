@@ -40,16 +40,16 @@ export const JobOfTheDay = () => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 100 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
-      className="mt-14 container max-w-screen-xl mx-auto flex flex-col gap-3"
-    >
-      <h2 className="text-5xl text-center font-semibold text-gray-700 dark:text-white">
+    <div className="mt-8 lg:mt-10 container max-w-screen-xl mx-auto flex flex-col gap-2 md:gap-3">
+      <motion.h2
+        initial={{ opacity: 0, y: -50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="text-3xl md:text-4xl lg:text-5xl text-center font-semibold text-gray-700 dark:text-white"
+      >
         Jobs Of The Day
-      </h2>
-      <p className="text-center text-slate-600 font-semibold dark:text-gray-500">
+      </motion.h2>
+      <p className="text-center text-xs md:text-md lg:text-lg text-slate-600 font-semibold dark:text-gray-500">
         Explore the different types of available jobs to apply and discover
         which is right for you.
       </p>
@@ -59,11 +59,12 @@ export const JobOfTheDay = () => {
             <JobNotFound />
           </div>
         ) : (
-          <ul className="grid grid-cols-4 gap-8 place-items-center px-32 py-6 ">
+          // <ul className="grid grid-cols-4 gap-8 place-items-center px-32 py-6 ">
+          <ul className="grid sm:grid-cols-2 gap-2  lg:grid-cols-3 xl:grid-cols-4 md:gap-16 lg:gap-8 lg:py-6 place-items-center md:px-32 px-20  lg:px-32 xl:px-28 ">
             <JobCards />
           </ul>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };

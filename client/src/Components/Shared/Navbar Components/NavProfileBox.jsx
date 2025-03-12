@@ -18,62 +18,66 @@ export const NavProfileBox = ({
       animate={{ x: 0, opacity: 1 }}
       exit={{ opacity: 0, x: 200 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="w-96 bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-6 absolute right-8 flex flex-col gap-4 dark:shadow-white dark:shadow-sm"
+      className="w-80 lg:w-96 bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-6 absolute right-2 lg:right-8 flex flex-col gap-4 border dark:border-zinc-700"
     >
       {/* Profile Header with Switch */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="size-12 rounded-full overflow-hidden border-2 border-blue-500 p-1">
+        <div className="flex items-center gap-3">
+          {/* Profile Image */}
+          <div className="size-10 lg:size-14 rounded-full overflow-hidden border-2 border-blue-500 lg:p-1 shadow-md">
             <img
               src={loggedInUser?.profile?.profilePhoto}
               alt="Profile"
               className="w-full h-full object-cover rounded-full"
             />
           </div>
+
+          {/* Username & Email */}
           <div>
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
-              ~
+            <h2 className="text-md lg:text-lg font-semibold text-gray-900 dark:text-white">
               {loggedInUser?.username?.length > 15
                 ? `${loggedInUser?.username?.slice(0, 15)}...`
                 : loggedInUser?.username}
             </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-xs lg:text-sm text-gray-600 dark:text-gray-400">
               @
               {loggedInUser?.email?.length > 20
-                ? `${loggedInUser?.email?.slice(0, 15)}...`
+                ? `${loggedInUser?.email?.slice(0, 20)}...`
                 : loggedInUser?.email}
             </p>
           </div>
         </div>
-        {/* Switch Component */}
-        <div className="ml-4">
-          <Switch />
-        </div>
+
+        {/* Dark Mode Switch */}
+        <Switch />
       </div>
 
       {/* User Bio */}
-      <p className="text-sm text-gray-500 dark:text-gray-400 ">
-        {loggedInUser?.profile?.bio}
+      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+        {loggedInUser?.profile?.bio || "No bio available."}
       </p>
+
+      {/* Divider */}
+      <div className="border-t dark:border-zinc-700 my-2"></div>
 
       {/* Profile Link */}
       <Link to="/profile" onClick={() => setProfileClicked(false)}>
-        <button className="flex items-center justify-between px-5 py-3 bg-blue-50 dark:bg-zinc-800 rounded-xl shadow-md w-full transition hover:scale-105 hover:bg-blue-100 dark:hover:bg-zinc-700">
-          <span className="flex items-center gap-3 text-blue-600 dark:text-blue-400">
+        <button className="flex items-center justify-between px-5 py-3 bg-gray-100 dark:bg-zinc-800 rounded-xl shadow-md w-full transition hover:scale-105 hover:bg-gray-200 dark:hover:bg-zinc-700">
+          <span className="flex items-center gap-3 text-gray-800 dark:text-white">
             <CgProfile className="size-6" /> Profile
           </span>
-          <FaArrowRight className="size-4 text-blue-600 dark:text-blue-400" />
+          <FaArrowRight className="size-4 text-gray-800 dark:text-white" />
         </button>
       </Link>
 
-      {/* Saved Jobs Link */}
+      {/* Saved Jobs Link (Only for Students) */}
       {loggedInUser?.role === "student" && (
         <Link to="/user/jobs/saved" onClick={() => setProfileClicked(false)}>
-          <button className="flex items-center justify-between px-5 py-3 bg-blue-50 dark:bg-zinc-800 rounded-xl shadow-md w-full transition hover:scale-105 hover:bg-blue-100 dark:hover:bg-zinc-700">
-            <span className="flex items-center gap-3 text-blue-600 dark:text-blue-400">
+          <button className="flex items-center justify-between px-5 py-3 bg-gray-100 dark:bg-zinc-800 rounded-xl shadow-md w-full transition hover:scale-105 hover:bg-gray-200 dark:hover:bg-zinc-700">
+            <span className="flex items-center gap-3 text-gray-800 dark:text-white">
               <CiBookmarkCheck className="size-6" /> Saved Jobs
             </span>
-            <FaArrowRight className="size-4 text-blue-600 dark:text-blue-400" />
+            <FaArrowRight className="size-4 text-gray-800 dark:text-white" />
           </button>
         </Link>
       )}

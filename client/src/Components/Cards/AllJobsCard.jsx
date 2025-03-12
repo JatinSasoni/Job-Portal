@@ -11,13 +11,13 @@ export const AllJobsCard = ({ cardData }) => {
     <motion.li
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      transition={{}}
+      transition={{ duration: 0.5, type: "tween" }}
       className="card drop-shadow-xl dark:shadow-md dark:shadow-white dark:bg-zinc-800 "
     >
       <div>
         <div className="header">
           {/* company logo */}
-          <div className="rounded-full size-10 overflow-hidden">
+          <div className="rounded-full size-8 overflow-hidden">
             <img
               src={cardData?.CompanyID?.logo}
               alt="logo"
@@ -28,20 +28,20 @@ export const AllJobsCard = ({ cardData }) => {
           </div>
 
           {/* company name */}
-          <p className="font-bold text-lg text-blue-950 dark:text-white">
+          <p className="font-bold text-sm md:text-lg text-blue-950 dark:text-white">
             {cardData?.CompanyID?.companyName?.length > 13
-              ? `${cardData?.CompanyID?.companyName?.slice(0, 10)}...`
+              ? `${cardData?.CompanyID?.companyName?.slice(0, 12)}...`
               : cardData?.CompanyID?.companyName}
           </p>
         </div>
 
         {/* TITLE AND JOB TYPE */}
-        <h4 className="mt-4 font-semibold text-blue-950 dark:text-white">
+        <h4 className="mt-2 text-sm md:text-md lg:text-md font-semibold text-blue-950 dark:text-white">
           {cardData?.title?.length > 20
             ? `${cardData?.title?.slice(0, 20)}...`
             : cardData?.title}
         </h4>
-        <div className="flex gap-4 [&>p]:text-xs ">
+        <div className="flex gap-2 md:gap-4 [&>p]:text-xs">
           <p className="flex gap-px text-gray-400">
             <TiBriefcase className="my-auto" />
             <span>{cardData?.jobType}</span>
@@ -57,23 +57,24 @@ export const AllJobsCard = ({ cardData }) => {
         </div>
 
         {/* JOB DESC */}
-        <p className="my-3 text-sm text-slate-500 dark:text-white">
+        <p className="my-1 md:my-3 text-xs md:text-xs lg:text-sm  text-slate-500 dark:text-white">
           {cardData?.description.length > 25
-            ? `${cardData?.description?.slice(0, 25)}...`
+            ? `${cardData?.description?.slice(0, 23)}...`
             : cardData?.description}
         </p>
 
         {/* REQUIREMENTS */}
-        <ul className="my-3 text-sm text-slate-500 flex gap-2 flex-wrap ">
-          {cardData?.requirements.slice(0, 1)?.map((requirement, index) => {
+        <ul className="my-1 md:my-3 text-xs md:text-sm text-slate-500 flex gap-2 flex-wrap ">
+          {cardData?.requirements.slice(0, 2)?.map((requirement, index) => {
             return (
               <li key={index} className="border rounded p-1 bg-gray-100">
                 {requirement?.length <= 5
-                  ? `${requirement}`
-                  : `${requirement.slice(0, 10)}...`}
+                  ? `${requirement} `
+                  : `${requirement.slice(0, 5)}...`}
               </li>
             );
           })}
+
           <li className="border rounded p-1 bg-gray-100">More...</li>
         </ul>
 
@@ -84,9 +85,9 @@ export const AllJobsCard = ({ cardData }) => {
           </span>
         </p>
 
-        <div className="actions grid grid-cols-2 gap-2">
+        <div className="mt-2 md:mt-4 ld:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2">
           <NavLink
-            className="bg-blue-400 text-white rounded p-1 text-center"
+            className="bg-blue-400 text-white rounded p-1 text-center text-sm lg:text-md"
             to={`/description/${cardData?._id}`}
           >
             View

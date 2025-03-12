@@ -4,9 +4,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* header {
-  @apply bg-blue-50;
-} */
+@layer utilities {
+  .mask-gradient {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      hsl(0 0% 0% / 0),
+      hsl(0 0% 0% / 1) 10%,
+      hsl(0 0% 0% /1) 90%,
+      hsl(0 0% 0% / 0)
+    );
+    mask-image: linear-gradient(
+      to right,
+      hsl(0 0% 0% / 0),
+      hsl(0 0% 0% / 1) 10%,
+      hsl(0 0% 0% /1) 90%,
+      hsl(0 0% 0% / 0)
+    );
+  }
+}
 
 * {
   font-family: "Poppins", "serif";
@@ -591,5 +606,3 @@ input[type="number"] {
   border-radius: 0 30px 0 0;
   border-bottom: 10px solid #b0cfe4;
 }
-
-/* sdf */

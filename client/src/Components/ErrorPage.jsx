@@ -1,24 +1,45 @@
 import { NavLink } from "react-router-dom";
-import { Navbar } from "../Components/Shared/Navbar";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { Navbar } from "./Shared/Navbar";
+
 export const ErrorPage = () => {
   return (
     <>
       <Navbar />
-      <section id="error-page">
-        <div className="content">
-          <h2 className="header ">404</h2>
-          <h4>Sorry! Page not found</h4>
-          <p>
-            Oops! It seems like the page you're trying to access doesn't exist.
-            If you believe there's an issue, feel free to report it, and we'll
-            look into it.
-          </p>
-          <div className="btns">
-            <NavLink to="/">return home</NavLink>
-            {/* <NavLink to="/contact">report problem</NavLink> */}
-          </div>
+      <div className="h-fit flex flex-col items-center justify-center  dark:bg-zinc-900 p-6">
+        {/* Lottie Animation */}
+        <DotLottieReact
+          src="https://lottie.host/a7bb200d-5853-4094-adad-a105a3e07065/CBM3uBtND9.lottie"
+          loop
+          autoplay
+          className="w-80 h-80"
+        />
+
+        {/* Text Content */}
+        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mt-4 ">
+          Oops! Page Not Found
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400 mt-2 text-center">
+          The page you're looking for doesn’t exist. If you think this is a
+          mistake, let us know.
+        </p>
+
+        {/* Buttons */}
+        <div className="mt-6 flex gap-4">
+          <NavLink
+            to="/"
+            className="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition shadow-md"
+          >
+            Return Home
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className="px-5 py-2 rounded-lg bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium transition shadow-md"
+          >
+            Report Problem
+          </NavLink>
         </div>
-      </section>
+      </div>
     </>
   );
 };

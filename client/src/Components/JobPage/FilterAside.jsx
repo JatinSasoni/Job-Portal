@@ -38,8 +38,8 @@ export const FilterAside = () => {
 
   return (
     <aside>
-      <section className="flex flex-col gap-8">
-        <div className="w-52">
+      <section className="flex flex-col gap-2 px-4 2xl:px-0 ">
+        <div className="w-52 ">
           <div className="flex justify-between py-4 px-2 border-b-2">
             <p className="text-gray-500 dark:text-white">Advance Filter</p>
             <button
@@ -52,7 +52,7 @@ export const FilterAside = () => {
         </div>
 
         {/* POPULAR KEYWORD */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 ">
           <h3 className="font-bold text-xl">Popular keyword</h3>
           <form className="flex flex-col gap-3">
             {["", "software", "developer", "web", "AI"].map((keyword) => (

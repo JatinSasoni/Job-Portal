@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../../../store/authSlice";
 import { toast } from "react-toastify";
 import { handleEditJobAPI } from "../../../Api/postAPI";
+import { motion } from "motion/react";
 
 export const UpdateJobPost = () => {
   const { jobID } = useParams();
@@ -76,7 +77,16 @@ export const UpdateJobPost = () => {
   return (
     <section>
       <Navbar />
-      <div className=" mx-auto max-w-7xl pt-8 p-4 ">
+
+      <div className="mx-auto max-w-7xl pt-3 p-4 ">
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "tween", duration: 1 }}
+          className="text-5xl font-semibold mb-10 text-zinc-700 text-center dark:text-white"
+        >
+          Update<span className="text-blue-400 font-bold"> Job-Post</span>
+        </motion.div>
         <PostJobForm
           register={register}
           handleSubmit={handleSubmit}

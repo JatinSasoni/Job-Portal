@@ -31,7 +31,7 @@ export const SearchBox = () => {
       <form
         autoComplete="off"
         onSubmit={handleSearchLogic}
-        className="grid grid-cols-3  [&>input]:p-2 [&>*]:outline-non [&>input]:dark:bg-transparent  [&>input]:outline-none [&>input]:dark:text-white [&>input]:dark:placeholder:text-gray-100"
+        className="grid grid-cols-3  [&>input]:text-xs md:[&>input]:text-lg [&>input]:p-1 sm:[&>input]:p-2 [&>*]:outline-none [&>input]:dark:bg-transparent  [&>input]:outline-none [&>input]:dark:text-white [&>input]:dark:placeholder:text-gray-100"
       >
         <input
           type="text"
@@ -49,7 +49,7 @@ export const SearchBox = () => {
         />
         {/* <input type="text" placeholder="Enter something..." /> */}
         <div className="grid place-items-center">
-          <button className="bg-blue-400 text-white size-full rounded-2xl  transition-all dark:bg-blue-400 dark:hover:bg-blue-500 ">
+          <button className="bg-blue-400 text-sm lg:text-lg text-white size-full rounded-2xl transition-all dark:bg-blue-400 dark:hover:bg-blue-500 ">
             Search
           </button>
         </div>

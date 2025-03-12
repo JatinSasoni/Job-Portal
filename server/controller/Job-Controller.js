@@ -292,6 +292,10 @@ const getPostedJobByAdmin = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while fetching job info");
+    return res.status(400).json({
+      MESSAGE: `Server error`,
+      SUCCESS: false,
+    });
   }
 };
 

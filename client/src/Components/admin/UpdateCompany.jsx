@@ -76,18 +76,18 @@ export const UpdateCompany = () => {
       <Navbar />
       <>
         <div>
-          <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-xl dark:bg-zinc-900 dark:drop-shadow-none">
-            <motion.div
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                type: "tween",
-                duration: 1,
-              }}
-              className="text-5xl font-semibold mb-2 text-zinc-700 text-center dark:text-white"
-            >
-              Update<span className="text-blue-400 font-bold"> Company</span>
-            </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              type: "tween",
+              duration: 1,
+            }}
+            className="text-5xl font-semibold mb-2 text-zinc-700 text-center dark:text-white tracking-tight"
+          >
+            Update<span className="text-blue-400 font-bold"> Company</span>
+          </motion.div>
+          <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black shadow-black drop-shadow-sm dark:bg-zinc-900 dark:drop-shadow-none">
             <div className="text-sm font-normal mb-4 text-center text-[#1e0e4b]"></div>
 
             {/* LOGIN-FORM */}
@@ -115,7 +115,7 @@ export const UpdateCompany = () => {
                   className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-10 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-gray-50 dark:border-none"
                 />
                 {errors.companyName && (
-                  <span className="text-blue-900">
+                  <span className="text-blue-900 text-sm dark:text-blue-300">
                     *{errors.companyName.message}
                   </span>
                 )}
@@ -140,7 +140,7 @@ export const UpdateCompany = () => {
                   className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-10 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-gray-50 dark:border-none"
                 />
                 {errors.description && (
-                  <span className="text-blue-900">
+                  <span className="text-blue-900 text-sm dark:text-blue-300">
                     *{errors.description.message}
                   </span>
                 )}
@@ -164,7 +164,7 @@ export const UpdateCompany = () => {
                   className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-10 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-gray-50 dark:border-none"
                 />
                 {errors.location && (
-                  <span className="text-blue-900">
+                  <span className="text-blue-900 text-sm dark:text-blue-300">
                     *{errors.location.message}
                   </span>
                 )}
@@ -190,7 +190,7 @@ export const UpdateCompany = () => {
                   className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-10 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-gray-50 dark:border-none"
                 />
                 {errors.website && (
-                  <span className="text-blue-900">
+                  <span className="text-blue-900 text-sm dark:text-blue-300">
                     *{errors.website.message}
                   </span>
                 )}

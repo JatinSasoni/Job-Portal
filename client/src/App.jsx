@@ -29,6 +29,7 @@ const AppRouter = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -73,14 +74,17 @@ const AppRouter = createBrowserRouter([
     ],
   },
   {
+    errorElement: <ErrorPage />,
     path: "/description/:jobID",
     element: <JobProfile />,
   },
   {
+    errorElement: <ErrorPage />,
     path: "/login",
     element: <Login />,
   },
   {
+    errorElement: <ErrorPage />,
     path: "/signup",
     element: <RegisterPage />,
   },
@@ -88,6 +92,7 @@ const AppRouter = createBrowserRouter([
   //ADMIN/RECRUITER ROUTES
   {
     path: "/admin/companies",
+    errorElement: <ErrorPage />,
     element: (
       <ProtectAdminRoute>
         <AdminCompanies />
@@ -96,6 +101,7 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: "/admin/register",
+    errorElement: <ErrorPage />,
     element: (
       <ProtectAdminRoute>
         <RegisterNewCompany />
@@ -104,6 +110,8 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: "/admin/company/update/:companyID",
+    errorElement: <ErrorPage />,
+
     element: (
       <ProtectAdminRoute>
         <UpdateCompany />
@@ -112,6 +120,8 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: "/admin/jobs",
+    errorElement: <ErrorPage />,
+
     element: (
       <ProtectAdminRoute>
         <AdminJobs />
@@ -120,6 +130,8 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: "/admin/job/create",
+    errorElement: <ErrorPage />,
+
     element: (
       <ProtectAdminRoute>
         <RegisterNewJob />
@@ -128,6 +140,8 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: "/admin/job/:jobID/applicants",
+    errorElement: <ErrorPage />,
+
     element: (
       <ProtectAdminRoute>
         <AdminApplicants />
@@ -136,6 +150,8 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: "/admin/applicant/:applicantID/profile",
+    errorElement: <ErrorPage />,
+
     element: (
       <ProtectAdminRoute>
         <ViewApplicant />
@@ -144,6 +160,8 @@ const AppRouter = createBrowserRouter([
   },
   {
     path: "/admin/job-post/:jobID/edit",
+    errorElement: <ErrorPage />,
+
     element: (
       <ProtectAdminRoute>
         <UpdateJobPost />

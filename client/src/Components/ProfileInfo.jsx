@@ -15,7 +15,7 @@ export const ProfileInfo = ({ setIsUpdateProfile }) => {
         duration: 0.5,
         type: "tween",
       }}
-      className="p-6 rounded-2xl shadow-lg bg-white dark:bg-zinc-900 dark:text-white"
+      className="p-6 rounded-2xl shadow-lg bg-white dark:bg-zinc-900 dark:text-white  dark:shadow-zinc-800 "
     >
       {/* Profile Header */}
       <div className="flex items-center justify-between mb-6">

@@ -415,6 +415,13 @@ const ChangePassword = async (req, res) => {
 
     try {
       const tokenDecode = jwt.verify(auth, process.env.SECRET_KEY);
+
+      if (!tokenDecode) {
+        return res.status(401).json({
+          MESSAGE: "Not Authorized",
+          SUCCESS: false,
+        });
+      }
     } catch (error) {
       return res.status(401).json({
         MESSAGE: "Not Authorized",
@@ -464,7 +471,7 @@ const ChangePassword = async (req, res) => {
 
     sendMailUsingTransporter(mailOptions);
 
-    return res.status(200).json({
+    return res.status(200).clearCookie("auth").json({
       MESSAGE: "Password Changed",
       SUCCESS: true,
     });

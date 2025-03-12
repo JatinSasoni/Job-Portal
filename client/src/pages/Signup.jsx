@@ -52,7 +52,7 @@ export const Signup = () => {
         transition={{ type: "tween", duration: 1 }}
       >
         <div className="text-5xl font-bold mb-4 pt-3 text-[#1e0e4b] text-center dark:text-white leading-tight ">
-          Signup To <span className="text-blue-300 font-bold">TalentNest</span>
+          Signup To <span className="text-blue-400 font-bold">TalentNest</span>
         </div>
 
         <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black dark:bg-neutral-900 dark:shadow-sm dark:shadow-white shadow-md">

@@ -35,9 +35,12 @@ export const BrowsePage = () => {
     : allJobs;
 
   return (
-    <section className="mx-auto max-w-7xl my-8 ">
+    <section className="mx-auto max-w-7xl md:my-8 ">
+      <h1 className="text-center text-blue-950 text-2xl md:text-4xl font-semibold dark:text-zinc-200 mt-3 md:mb-8">
+        Explore Top Opportunities & Advance Your Career
+      </h1>
       {/* JOB SEARCH */}
-      <div className="w-1/2 mx-auto">
+      <div className="w-full md:w-1/2 px-4 md:px-0 mx-auto">
         <SearchBox />
       </div>
       <div>
@@ -46,7 +49,7 @@ export const BrowsePage = () => {
             <JobNotFound />
           </div>
         ) : (
-          <ul className="grid  grid-cols-4 gap-10 place-items-center px-20 py-10">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-10 sm:gap-14 lg:grid-cols-4 place-items-center  px-20  md:px-4 py-10  lg:gap-8 xl:px-32">
             {displayedJobs?.map((job, i) => {
               return <AllJobsCard key={i} cardData={job} />;
             })}

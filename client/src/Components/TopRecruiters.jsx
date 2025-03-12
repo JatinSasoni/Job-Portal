@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 /* eslint-disable react/prop-types */
 export const TopRecruiters = () => {
   const { allJobs: topRecruiterData } = useSelector((store) => store.job);
+  console.log(topRecruiterData[0]);
 
   return (
     <section>
@@ -12,7 +13,7 @@ export const TopRecruiters = () => {
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, type: "tween" }}
-        className="container mx-auto max-w-screen-xl mt-20"
+        className="container mx-auto max-w-screen-xl mt-10"
       >
         <div>
           <div className=" container max-w-screen-xl mx-auto flex flex-col gap-3">

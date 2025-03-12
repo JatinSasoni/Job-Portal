@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { handleGetAllContactsAPI } from "../../Api/getAPI";
 import { toast } from "react-toastify";
-import { motion } from "motion/react";
+import { delay, motion } from "motion/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
@@ -33,7 +33,7 @@ export const UserReviews = () => {
           initial={{ opacity: 0, y: 150 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, type: "tween" }}
-          className="mt-20"
+          className="mt-20 mask-gradient"
         >
           <div>
             <div className="mx-auto ">
@@ -57,34 +57,47 @@ export const UserReviews = () => {
                     loop={messages?.length > 4} // Enable loop only if enough slides
                     autoplay={{ delay: 2000 }}
                     modules={[Autoplay]}
+                    breakpoints={{
+                      0: { slidesPerView: 1, autoplay: { delay: 2000 } }, // 1 slide on mobile
+                      640: { slidesPerView: 2, autoplay: { delay: 1500 } }, // 2 slides on small screens (optional)
+                      1024: { slidesPerView: 3, autoplay: { delay: 2000 } }, // 3 slides on large screens
+                      1280: { slidesPerView: 4 }, // 4 slides on Xl screens
+                    }}
                   >
                     {messages.map((msg) => (
                       <SwiperSlide key={msg?._id}>
-                        <SpotlightCard
-                          className="custom-spotlight-card "
-                          // spotlightColor="gray"
-                        >
-                          <div className="h-32 ">
-                            <div className="flex gap-3">
-                              {/* PFP */}
-                              <div>
-                                <img
-                                  src={msg?.userID?.profile?.profilePhoto}
-                                  alt={msg?.userID?.username}
-                                  className="size-10 rounded-full mx-auto "
-                                />
+                        <SpotlightCard className="custom-spotlight-card ">
+                          <div className="h-36 p-4 flex flex-col gap-3 bg-white dark:bg-gray-800 rounded-lg  shadow-lg">
+                            {/* Top Section: User Info and Timestamp */}
+                            <div className="flex justify-between items-start">
+                              {/* User Info */}
+                              <div className="flex items-center gap-3">
+                                {/* Profile Photo */}
+                                <div>
+                                  <img
+                                    src={msg?.userID?.profile?.profilePhoto}
+                                    alt={msg?.userID?.username}
+                                    className="size-12 rounded-full border-2 border-purple-500"
+                                  />
+                                </div>
+                                {/* Username */}
+                                <div>
+                                  <p className="text-md font-semibold text-gray-800 dark:text-white">
+                                    ~ {msg?.userID?.username}
+                                  </p>
+                                </div>
                               </div>
-                              {/* USERNAME */}
-                              <div className="grid place-items-center ">
-                                <p className="text-md font-semibold dark:text-white  ">
-                                  ~ {msg?.userID?.username}
-                                </p>
-                              </div>
+
+                              {/* Timestamp */}
+                              <p className="text-xs text-gray-500 dark:text-gray-400">
+                                {new Date(msg?.createdAt).toLocaleDateString()}
+                              </p>
                             </div>
 
-                            <div className="h-2/3 overflow-auto ">
-                              <p className=" text-gray-800 dark:text-gray-300 text-sm text-start pl-4 mt-2 break-words ">
-                                {msg?.message}
+                            {/* Message Section */}
+                            <div className="flex-1 overflow-y-auto">
+                              <p className="text-gray-600 dark:text-gray-300 text-sm text-start break-words">
+                                "{msg?.message}"
                               </p>
                             </div>
                           </div>

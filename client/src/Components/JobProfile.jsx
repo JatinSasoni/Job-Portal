@@ -79,74 +79,101 @@ export const JobProfile = () => {
   return (
     <>
       <Navbar />
-      <section className="mx-auto max-w-7xl my-4 p-6 dark:text-white">
-        {/* NAME AND APPLY BUTTON */}
-        <div className="flex justify-between ">
-          <h1 className="text-3xl font-bold">
-            {singleJobData?.CompanyID?.companyName}
-          </h1>
+      <section className="mx-auto max-w-7xl my-6 p-6 dark:text-white">
+        {/* Job Header */}
+        <div className="flex flex-col md:flex-row justify-between items-center bg-gray-100 dark:bg-zinc-800 p-6 rounded-lg shadow-md">
+          {/* Company Logo & Name */}
+          <div className="flex items-center gap-4">
+            <img
+              src={singleJobData?.CompanyID?.logo}
+              alt="Company Logo"
+              className="w-16 h-16 object-contain bg-white p-2 rounded-lg shadow"
+            />
+            <h1 className="text-3xl font-bold">
+              {singleJobData?.CompanyID?.companyName}
+            </h1>
+          </div>
+
+          {/* Apply Button */}
           <button
-            className={`${alreadyApplied ? "button-1" : "button-34"}`}
+            className={`px-6 py-3 rounded-lg text-white font-semibold transition ${
+              alreadyApplied
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
             disabled={alreadyApplied}
             onClick={applyForJob}
           >
             {loading ? (
               <div className="loader"></div>
             ) : alreadyApplied ? (
-              "Already applied"
+              "Already Applied"
             ) : (
-              "Apply now"
+              "Apply Now"
             )}
           </button>
         </div>
-        {/* positions and all */}
-        <div className=" p-2 flex gap-3">
-          <span className="p-2 border bg-blue-50 rounded-3xl text-blue-800">
-            {singleJobData?.position} Positions
-          </span>
-          <span className="p-2 border bg-blue-50 rounded-3xl text-red-600">
-            {singleJobData?.jobType}
-          </span>
-          <span className="p-2 border bg-blue-50 rounded-3xl text-purple-500">
-            {singleJobData?.salary} LPA
-          </span>
+
+        {/* Job Info */}
+        <div className="grid md:grid-cols-3 gap-4 mt-6">
+          <div className="p-4 bg-blue-50 dark:bg-zinc-800 rounded-lg shadow-md text-center">
+            <span className="text-lg font-semibold text-blue-800 dark:text-blue-300">
+              {singleJobData?.position}
+            </span>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Positions
+            </p>
+          </div>
+          <div className="p-4 bg-red-50 dark:bg-zinc-800 rounded-lg shadow-md text-center">
+            <span className="text-lg font-semibold text-red-600 dark:text-red-400">
+              {singleJobData?.jobType}
+            </span>
+            <p className="text-sm text-gray-600 dark:text-gray-300">Job Type</p>
+          </div>
+          <div className="p-4 bg-purple-50 dark:bg-zinc-800 rounded-lg shadow-md text-center">
+            <span className="text-lg font-semibold text-purple-600">
+              {singleJobData?.salary} LPA
+            </span>
+            <p className="text-sm text-gray-600 dark:text-gray-300">Salary</p>
+          </div>
         </div>
 
-        {/* JOB DESCRIPTION */}
-        <div>
-          <h2 className="text-xl border-b-2 py-3">Job Description</h2>
-
-          <div className="flex flex-col gap-2">
+        {/* Job Description */}
+        <div className="mt-8 bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold border-b pb-3">
+            Job Description
+          </h2>
+          <div className="mt-4 space-y-4">
             <div>
-              <span className="text-xl font-semibold">Role </span>
+              <span className="font-semibold text-lg">Role: </span>
               {singleJobData?.title}
             </div>
             <div>
-              <span className="text-xl font-semibold">Location </span>
+              <span className="font-semibold text-lg">Location: </span>
               {singleJobData?.location}
             </div>
             <div>
-              <span className="text-xl font-semibold">Description </span>
+              <span className="font-semibold text-lg">Description: </span>
               {singleJobData?.description}
             </div>
             <div>
-              <span className="text-xl font-semibold">Experience </span>
+              <span className="font-semibold text-lg">Experience: </span>
               {singleJobData?.experienceLevel} Years
             </div>
             <div>
-              <span className="text-xl font-semibold">Salary </span>
-              {singleJobData?.salary}LPA
+              <span className="font-semibold text-lg">Salary: </span>
+              {singleJobData?.salary} LPA
             </div>
             <div>
-              <span className="text-xl font-semibold">Requirements </span>
+              <span className="font-semibold text-lg">Requirements: </span>
               {singleJobData?.requirements?.join(", ")}
             </div>
             <div>
-              <span className="text-xl font-semibold">Total Applicants </span>
+              <span className="font-semibold text-lg">Total Applicants: </span>
               {singleJobData?.application?.length}
             </div>
             <div>
-              <span className="text-xl font-semibold">Posted Date </span>
+              <span className="font-semibold text-lg">Posted Date: </span>
               {singleJobData?.createdAt?.split("T")[0]}
             </div>
           </div>
