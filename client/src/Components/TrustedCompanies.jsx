@@ -85,12 +85,12 @@ const copy2 = [
 const MarqueeContainer = ({ imagesArray, animationType }) => {
   return (
     <div
-      className={`flex flex-shrink-0 gap-3 md:gap-0 w-full justify-around ${animationType} `}
+      className={`flex flex-shrink-0 gap-3 md:gap-0 lg:gap-0 w-full justify-around ${animationType} `}
     >
       {imagesArray?.map((curr, index) => (
         <div
           key={index}
-          className=" grid place-items-center w-16 md:w-24 lg:w-32 xl:w-40   "
+          className=" grid place-items-center w-16 md:w-24 lg:w-32 xl:w-40 "
         >
           <img src={curr.logo} alt="Company" />
         </div>
@@ -103,7 +103,7 @@ export const TrustedCompanies = () => {
   return (
     <>
       {/* SECTION */}
-      <div className="my-2 dark:bg-zinc-200 p-1 md:p-3  ">
+      <div className="my-2 p-1 md:p-3 dark:bg-gray-300  ">
         {/* MARQUEE DIV (CONTAINING 2 DIVS)*/}
         <div className="flex gap-3 sm:gap-0 overflow-hidden select-none mask-gradient">
           {/* MARQUEE CONTAINER 1*/}

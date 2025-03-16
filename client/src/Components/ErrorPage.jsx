@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import Lottie from "lottie-react";
+import errorAnimation from "../test/errorAnimation.json";
 import { Navbar } from "./Shared/Navbar";
 
 export const ErrorPage = () => {
@@ -8,12 +9,7 @@ export const ErrorPage = () => {
       <Navbar />
       <div className="h-fit flex flex-col items-center justify-center  dark:bg-zinc-900 p-6">
         {/* Lottie Animation */}
-        <DotLottieReact
-          src="https://lottie.host/a7bb200d-5853-4094-adad-a105a3e07065/CBM3uBtND9.lottie"
-          loop
-          autoplay
-          className="w-80 h-80"
-        />
+        <Lottie animationData={errorAnimation} className="w-80 h-90"></Lottie>
 
         {/* Text Content */}
         <h2 className="text-4xl font-bold text-gray-900 dark:text-white mt-4 ">

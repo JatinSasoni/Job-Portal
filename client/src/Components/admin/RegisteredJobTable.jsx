@@ -62,7 +62,7 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
             <motion.tr
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", duration: 1 }}
+              transition={{ type: "spring", duration: 1.5 }}
               key={indx}
               className="odd:bg-white odd:dark:bg-zinc-900 even:bg-gray-50 even:dark:bg-zinc-800 border-b dark:border-gray-700 border-gray-200"
             >

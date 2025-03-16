@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux";
 import { TopRecruitersCard } from "./Cards/TopRecruitersCard";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 /* eslint-disable react/prop-types */
 export const TopRecruiters = () => {
   const { allJobs: topRecruiterData } = useSelector((store) => store.job);
-  console.log(topRecruiterData[0]);
 
   return (
     <section>

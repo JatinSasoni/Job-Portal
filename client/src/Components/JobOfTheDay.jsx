@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { handleGetAllJobs } from "../../Api/getAPI";
 import { JobNotFound } from "./JobNotFound";
 import { AllJobsCard } from "./Cards/AllJobsCard";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export const JobOfTheDay = () => {
   const [allJobs, setAllJobs] = useState([]);
@@ -40,11 +40,16 @@ export const JobOfTheDay = () => {
   }
 
   return (
-    <div className="mt-8 lg:mt-10 container max-w-screen-xl mx-auto flex flex-col gap-2 md:gap-3">
+    <div className="mt-8 lg:mt-12 container max-w-screen-xl mx-auto flex flex-col gap-2 md:gap-3">
       <motion.h2
-        initial={{ opacity: 0, y: -50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
+        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{
+          type: "spring",
+          stiffness: 100,
+          damping: 12,
+          duration: 1,
+        }}
         className="text-3xl md:text-4xl lg:text-5xl text-center font-semibold text-gray-700 dark:text-white"
       >
         Jobs Of The Day

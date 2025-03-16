@@ -202,8 +202,8 @@ const updateProfile = async (req, res) => {
     if (username) user.username = username;
     if (email) user.email = email;
     if (phoneNumber) user.phoneNumber = phoneNumber;
-    if (bio) user.profile.bio = bio;
-    if (skills) user.profile.skills = skillsArray;
+    user.profile.bio = bio;
+    user.profile.skills = skillsArray;
 
     //--HANDLING CLOUDINARY--
     // Handling resume upload

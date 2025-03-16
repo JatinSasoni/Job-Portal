@@ -12,7 +12,7 @@ export const AllJobsCard = ({ cardData }) => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5, type: "tween" }}
-      className="card drop-shadow-xl dark:shadow-md dark:shadow-white dark:bg-zinc-800 "
+      className="card drop-shadow-xl dark:shadow-md dark:shadow-zinc-600 dark:bg-zinc-800 dark:border-zinc-500"
     >
       <div>
         <div className="header">
@@ -38,7 +38,7 @@ export const AllJobsCard = ({ cardData }) => {
         {/* TITLE AND JOB TYPE */}
         <h4 className="mt-2 text-sm md:text-md lg:text-md font-semibold text-blue-950 dark:text-white">
           {cardData?.title?.length > 20
-            ? `${cardData?.title?.slice(0, 20)}...`
+            ? `${cardData?.title?.slice(0, 22)}...`
             : cardData?.title}
         </h4>
         <div className="flex gap-2 md:gap-4 [&>p]:text-xs">
@@ -67,7 +67,10 @@ export const AllJobsCard = ({ cardData }) => {
         <ul className="my-1 md:my-3 text-xs md:text-sm text-slate-500 flex gap-2 flex-wrap ">
           {cardData?.requirements.slice(0, 2)?.map((requirement, index) => {
             return (
-              <li key={index} className="border rounded p-1 bg-gray-100">
+              <li
+                key={index}
+                className="border rounded p-1 bg-gray-100 dark:bg-zinc-700 dark:text-white dark:border-none"
+              >
                 {requirement?.length <= 5
                   ? `${requirement} `
                   : `${requirement.slice(0, 5)}...`}
@@ -75,7 +78,9 @@ export const AllJobsCard = ({ cardData }) => {
             );
           })}
 
-          <li className="border rounded p-1 bg-gray-100">More...</li>
+          <li className="border rounded p-1 bg-gray-100 dark:bg-zinc-700 dark:text-white dark:border-none">
+            More...
+          </li>
         </ul>
 
         <p className="font-bold text-blue-700 text-xl dark:text-white">
@@ -85,12 +90,12 @@ export const AllJobsCard = ({ cardData }) => {
           </span>
         </p>
 
-        <div className="mt-2 md:mt-4 ld:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className="mt-2 md:mt-4 ld:mt-6 grid grid-cols-1 md:grid-cols-2 gap-2">
           <NavLink
-            className="bg-blue-400 text-white rounded p-1 text-center text-sm lg:text-md"
+            className="bg-blue-400 text-white rounded text-center text-sm lg:text-md"
             to={`/description/${cardData?._id}`}
           >
-            View
+            <p className="h-full grid place-items-center">View</p>
           </NavLink>
 
           <SaveJobButton jobId={cardData?._id} />

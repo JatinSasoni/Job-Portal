@@ -25,7 +25,6 @@ export const Home = () => {
       <HeroContainer />
 
       {/* TRUSTED-COMPANIES */}
-
       <TrustedCompanies />
 
       {/* JOB OF THE DAY */}

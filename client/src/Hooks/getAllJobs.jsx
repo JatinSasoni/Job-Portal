@@ -15,6 +15,7 @@ const useGetAllJobs = (sortOrder) => {
         if (response.data.SUCCESS) {
           let jobs = response.data.allJobs;
 
+          //ENSURES THERE IS SOMETHING IN FilterSalary
           if (filterSalary.length === 2) {
             const [minSalary, maxSalary] = filterSalary.map(parseFloat);
             if (!isNaN(minSalary) && !isNaN(maxSalary)) {

@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { SearchBox } from "./SearchBox";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export const HeroContainer = () => {
   return (
@@ -10,9 +10,14 @@ export const HeroContainer = () => {
           <div className=" md:pt-4 md:px-2 xl:pt-12 xl:px-14 flex flex-col gap-2 px-4">
             {/* hero-heading */}
             <motion.h1
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.1 }}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 100,
+                damping: 12,
+                duration: 1,
+              }}
               className=" text-3xl lg:text-5xl leading-7  font-semibold dark:text-white text-center sm:text-left lg:text-left"
             >
               The{" "}
@@ -23,16 +28,11 @@ export const HeroContainer = () => {
             </motion.h1>
 
             {/* hero-content */}
-            <motion.p
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 0.1 }}
-              className="text-gray-500 text-[12px] md:text-sm lg:text-lg leading-tight text-center md:text-left"
-            >
+            <p className="text-gray-500 text-[12px] md:text-sm lg:text-lg leading-tight text-center md:text-left">
               Each month, more than 3 million job seekers turn to website in
               their search for work, making over 140,000 applications every
               single day
-            </motion.p>
+            </p>
 
             {/* hero-search */}
             <SearchBox />

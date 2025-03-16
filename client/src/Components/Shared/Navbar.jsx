@@ -12,33 +12,35 @@ import HamburgerMenu from "./Navbar Components/HamburgerMenu";
 import HamItems from "./Navbar Components/HamItems";
 
 export const Navbar = () => {
-  //STATE FOR PROFILE-BOX
+  // State for profile box visibility
   const [profileClicked, setProfileClicked] = useState(false);
-  //STATE FOR NAV MENU (SMALL DEVICES)
+  // State for mobile nav menu
   const [isOpen, setIsOpen] = useState(false);
+  // State for making navbar fixed
+  const [isFixed, setIsFixed] = useState(false);
 
-  //DISPATCH TO PROVIDE ACTIONS TO REDUX STORE
   const dispatch = useDispatch();
-  //FOR NAVIGATION
   const Navigate = useNavigate();
-  //LOGOUT LOGIC
+
+  // Handle user logout
   const handleLogoutUser = async () => {
     try {
       const response = await handleLogoutAPICall();
       if (response.data.SUCCESS) {
         dispatch(setLoggedInUser(null));
         setProfileClicked(false);
-        Navigate("/"); //NAVIGATE TO HOME PAGE IF LOGOUT
+        Navigate("/"); // Navigate to home page after logout
         toast.success(response.data.MESSAGE);
       }
     } catch (error) {
       toast.error(error.data.MESSAGE);
     }
   };
-  //FINDING OUT IF USER LOGGED IN
+
+  // Get logged-in user and dark mode state
   const { loggedInUser, isDarkMode } = useSelector((state) => state.auth);
 
-  //THEME TOGGLE
+  // Theme toggle effect
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
@@ -47,44 +49,62 @@ export const Navbar = () => {
     }
   }, [isDarkMode]);
 
+  // Handle navbar scroll effect
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 100) {
+  //       setIsFixed(true);
+  //     } else {
+  //       setIsFixed(false);
+  //     }
+  //   };
+  //   //     When the component mounts, useEffect runs once and attaches the handleScroll function to the scroll event.
+  //   // The handleScroll function executes every time the user scrolls because it's attached to the window.scroll event.
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
+
   return (
     <>
-      {/* PROGRESS BAR */}
+      {/* Progress Bar */}
       <ProgressBar />
 
-      {/* HEADER */}
-      <header className="py-2 md:py-8 relative z-40 dark:shadow-white dark:drop-shadow-2xl">
-        <div className="mx-auto max-w-7xl flex justify-between px-3 lg:px-8">
-          {/* LOGO AND HAM-MENU */}
-          <div className="flex gap-1">
-            {/* HAMBURGER MENU */}
+      {/* Header */}
+      <header
+        className={`py-2 md:py-6 transition-all duration-300 z-40 ${
+          isFixed
+            ? "fixed top-0 left-0 w-full bg-white shadow-md dark:bg-zinc-900 "
+            : "relative "
+        }`}
+      >
+        <div className="mx-auto max-w-7xl flex justify-around px-3 lg:px-8 ">
+          {/* Logo & Hamburger Menu */}
+          <div className="flex gap-1 ">
             <HamburgerMenu setIsOpen={setIsOpen} />
-            {/* LOGO */}
-            <div className="rounded-2xl size-14 md:size-16 overflow-hidden ">
+            <div className="rounded-2xl size-14 md:size-16 overflow-hidden">
               <Link to="/">
                 <img
                   src={`${
                     isDarkMode ? "/Logo/newlogodark.png" : "/Logo/newlogo.png"
-                  } `}
+                  }`}
                   alt="logo"
                   width="60"
                   height="20"
-                  className="size-full scale-150 "
+                  className="size-full scale-150"
                 />
               </Link>
             </div>
           </div>
 
-          {/* DESKTOP NAV */}
+          {/* Desktop Navigation */}
           <NavItems loggedInUser={loggedInUser} />
 
-          {/* LOGOUT-LOGIN LOGIC */}
-          <div className="grid place-items-center">
-            {/* IF USER IS LOGGED IN SHOW HIS/HER PROFILE BOX ELSE REGISTER AND LOGIN */}
+          {/* User Authentication / Profile */}
+          <div className="grid place-items-center ">
             {loggedInUser ? (
-              // PROFILE-ICON
               <div className="relative">
-                {/* PROFILE ICON*/}
+                {/* Profile Icon */}
                 <div
                   className="size-10 rounded-full overflow-hidden cursor-pointer"
                   onClick={() => setProfileClicked(!profileClicked)}
@@ -96,9 +116,8 @@ export const Navbar = () => {
                   />
                 </div>
 
-                {/* profile-box ---IF USER CLICKS ON PROFILE IMG*/}
+                {/* Profile Box */}
                 {profileClicked && (
-                  // ABSOLUTE
                   <NavProfileBox
                     loggedInUser={loggedInUser}
                     handleLogoutUser={handleLogoutUser}
@@ -107,25 +126,24 @@ export const Navbar = () => {
                 )}
               </div>
             ) : (
-              // IF USER NOT LOGGED IN
               <div className="flex lg:gap-3">
-                {/* LOGIN */}
+                {/* Login Button */}
                 <NavLink to="/login">
                   <button className="flex gap-px p-2 px-3 rounded-full font-medium group hover:bg-gray-100 hover:shadow-inner transition dark:text-white dark:hover:bg-zinc-500 dark:hover:shadow-zinc-800">
-                    <CiLock className="my-auto transition-transform duration-300 group-hover:scale-110 " />
+                    <CiLock className="my-auto transition-transform duration-300 group-hover:scale-110" />
                     Login
                   </button>
                 </NavLink>
 
-                {/* REGISTER/SIGNUP */}
+                {/* Register Button */}
                 <NavLink to="/signup">
                   <button
                     type="submit"
-                    className="flex justify-center gap-2 items-center mx-auto backdrop-blur-md lg:font-medium isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-blue-500 hover:text-gray-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-3 py-1 overflow-hidden border-2 rounded-full group dark:border-zinc-700 dark:text-white dark:before:bg-zinc-700"
+                    className="flex justify-center gap-2 items-center mx-auto backdrop-blur-md lg:font-medium border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-blue-500 hover:text-gray-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-3 py-1 overflow-hidden border-2 rounded-full group dark:border-zinc-700 dark:text-white dark:before:bg-zinc-700"
                   >
                     Register
                     <svg
-                      className="w-5 h-5 justify-end group-hover:rotate-90 group-hover:bg-gray-50 text-gray-50 ease-linear duration-300 rounded-full border border-gray-700 group-hover:border-none p-1 rotate-45 dark:bg-white"
+                      className="w-5 h-5 group-hover:rotate-90 group-hover:bg-gray-50 text-gray-50 ease-linear duration-300 rounded-full border border-gray-700 group-hover:border-none p-1 rotate-45 dark:bg-white"
                       viewBox="0 0 16 19"
                       xmlns="http://www.w3.org/2000/svg"
                     >

@@ -1,171 +1,184 @@
 import { shallowEqual, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 /* eslint-disable react/prop-types */
-export const PostJobForm = ({ handleSubmit, onSubmit, register }) => {
+export const PostJobForm = ({ onSubmit, singleJobInfo = "" }) => {
   const { allCompanies } = useSelector((store) => store.company, shallowEqual);
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    // formState: { errors },
+  } = useForm();
+
+  // **Update the form values when `singleJobInfo` changes**
+  useEffect(() => {
+    if (singleJobInfo) {
+      reset({
+        title: singleJobInfo?.title || "",
+        description: singleJobInfo?.description || "",
+        requirements: singleJobInfo?.requirements.toString() || "",
+        salary: singleJobInfo?.salary || "",
+        jobType: singleJobInfo?.jobType || "",
+        position: singleJobInfo?.position || "",
+        experienceLevel: singleJobInfo?.experienceLevel || "",
+        location: singleJobInfo?.location || "",
+        CompanyID: singleJobInfo?.CompanyID?._id || "", //CompanyID._id because we populated CompanyID with some data
+      });
+    }
+  }, [singleJobInfo, reset]); // Run when `singleJobInfo` updates
 
   return (
-    <form
-      className="max-w-md mx-auto dark:[&>div>label]:text-slate-100 dark:[&>div>div>label]:text-slate-100 "
+    <motion.form
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ type: "tween", duration: 1 }}
+      className="max-w-lg mx-auto dark:bg-zinc-900 rounded-lg"
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
     >
-      <div className="relative z-0 w-full mb-5 group">
-        <input
-          type="text"
-          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=""
-          {...register("title")}
-        />
-        <label
-          htmlFor="title"
-          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
+      {/* Title Field */}
+      <div className="mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 mb-1">
           Title
         </label>
-      </div>
-      <div className="relative z-0 w-full mb-5 group">
         <input
           type="text"
-          {...register("description")}
-          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=" "
+          {...register("title")}
+          className="w-full px-4 py-2  border rounded-md text-gray-900 dark:text-white bg-transparent border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:outline-none"
         />
-        <label
-          htmlFor="description"
-          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
+      </div>
+
+      {/* Description Field */}
+      <div className="mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 mb-1">
           Description
         </label>
-      </div>
-      <div className="relative z-0 w-full mb-5 group">
-        <input
-          type="text"
-          {...register("requirements")}
-          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=" "
+        <textarea
+          {...register("description")}
+          className="w-full px-4 py-2 border rounded-md text-gray-900 dark:text-white bg-transparent border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:outline-none"
         />
-        <label
-          htmlFor="requirements"
-          className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
+      </div>
+
+      {/* Requirements Field */}
+      <div className="mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 mb-1">
           Requirements
         </label>
+        <textarea
+          {...register("requirements")}
+          className="w-full px-4 py-2 border rounded-md text-gray-900 dark:text-white bg-transparent border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:outline-none"
+        />
       </div>
-      <div className="grid md:grid-cols-2 md:gap-6">
-        <div className="relative z-0 w-full mb-5 group">
+
+      {/* Salary & Location */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-gray-700 dark:text-gray-300 mb-1">
+            Salary (LPA)
+          </label>
           <input
             type="number"
             {...register("salary")}
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
+            className="w-full px-4 py-2 border rounded-md text-gray-900 dark:text-white bg-transparent border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:outline-none"
           />
-          <label
-            htmlFor="salary"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Salary (LPA)
-          </label>
         </div>
-        <div className="relative z-0 w-full mb-5 group">
+        <div>
+          <label className="block text-gray-700 dark:text-gray-300 mb-1">
+            Location
+          </label>
           <input
             type="text"
             {...register("location")}
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
+            className="w-full px-4 py-2 border rounded-md text-gray-900 dark:text-white bg-transparent border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:outline-none"
           />
-          <label
-            htmlFor="location"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Location
-          </label>
         </div>
       </div>
-      <div className="grid md:grid-cols-2 md:gap-6">
-        <div className="relative z-0 w-full mb-5 group">
-          <input
-            type="tel"
-            {...register("jobType")}
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-          />
-          <label
-            htmlFor="jobType"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
+
+      {/* Job Type & Experience Level */}
+      <div className="grid md:grid-cols-2 gap-4 mt-4">
+        <div>
+          <label className="block text-gray-700 dark:text-gray-300 mb-1">
             Job Type
           </label>
+          <input
+            type="text"
+            {...register("jobType")}
+            className="w-full px-4 py-2 border rounded-md text-gray-900 dark:text-white bg-transparent border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:outline-none"
+          />
         </div>
-        <div className="relative z-0 w-full mb-5 group">
+        <div>
+          <label className="block text-gray-700 dark:text-gray-300 mb-1">
+            Experience Level
+          </label>
           <input
             type="number"
             {...register("experienceLevel")}
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
+            className="w-full px-4 py-2 border rounded-md text-gray-900 dark:text-white bg-transparent border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:outline-none"
           />
-          <label
-            htmlFor="experienceLevel"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Experience
-          </label>
         </div>
       </div>
-      <div className="grid md:grid-cols-2 md:gap-6">
-        <div className="relative z-0 w-full mb-5 group">
+
+      {/* Position & Company Selection */}
+      <div className="grid md:grid-cols-2 gap-4 mt-4">
+        <div>
+          <label className="block text-gray-700 dark:text-gray-300 mb-1">
+            Positions
+          </label>
           <input
             type="number"
             {...register("position")}
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
+            className="w-full px-4 py-2 border rounded-md text-gray-900 dark:text-white bg-transparent border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:outline-none"
           />
-          <label
-            htmlFor="position"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Positions
-          </label>
         </div>
-        <div className="relative z-0 w-full mb-5 group">
-          {/* IF THERE IS AT LEAST ONE REGISTERED COMPANY BY RECRUITER */}
-          {allCompanies?.length > 0 && (
+        <div>
+          <label className="block text-gray-700 dark:text-gray-300 mb-1">
+            Company
+          </label>
+          {allCompanies?.length > 0 ? (
             <select
-              className="custom-select dark:bg-transparent dark:text-white outline-none"
-              defaultValue=""
               {...register("CompanyID")}
+              defaultValue=""
+              className="w-full px-4 py-2 border rounded-md text-gray-900 dark:text-white bg-transparent border-gray-300 dark:bg-zinc-900 dark:border-gray-600 focus:border-blue-500 focus:outline-none"
             >
-              <option value="" disabled className="dark:bg-zinc-900">
+              <option value="" disabled>
                 Select a company
               </option>
-              {allCompanies?.map((company) => {
-                return (
-                  <option
-                    key={company?._id}
-                    value={company?._id}
-                    className="dark:bg-zinc-900 dark:text-white"
-                  >
-                    {company?.companyName}
-                  </option>
-                );
-              })}
+              {allCompanies.map((company) => (
+                <option key={company._id} value={company._id}>
+                  {company.companyName}
+                </option>
+              ))}
             </select>
+          ) : (
+            <div className="text-red-500 mt-1">
+              *Please register a company first
+            </div>
           )}
         </div>
       </div>
-      {/* IF NO COMPANY IS REGISTERED */}
-      {allCompanies?.length === 0 && (
-        <div className="text-red-500 my-2">
-          *Please Register a Company first
-        </div>
-      )}
 
-      <button
-        type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
-        Submit
-      </button>
-    </form>
+      {/* Submit Button */}
+      <div className="flex gap-2">
+        <button
+          type="submit"
+          className="w-full mt-5 bg-blue-400 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded-lg transition duration-200"
+        >
+          Post
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="w-full mt-5 bg-zinc-700 hover:bg-zinc-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200"
+        >
+          Go Back
+        </button>
+      </div>
+    </motion.form>
   );
 };

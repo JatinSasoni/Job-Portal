@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import { jobSeekerFAQ, recruiterFAQ } from "../../util/MostAskedQues";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const FAQBox = ({ data, openedIndex, handleDropdownClick, type }) => {
   return (

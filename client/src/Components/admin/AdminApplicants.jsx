@@ -25,7 +25,6 @@ export const AdminApplicants = () => {
       const response = await handleStatusUpdateAPI({ status }, applicationID);
       if (response.data.SUCCESS) {
         navigate(0);
-        toast.success(response.data.MESSAGE);
       }
     } catch (error) {
       console.log(error);
@@ -34,6 +33,16 @@ export const AdminApplicants = () => {
       dispatch(setLoading(false));
     }
   };
+
+  if (loading) {
+    return (
+      <>
+        <div className="flex justify-center items-center h-screen">
+          <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -63,7 +72,7 @@ export const AdminApplicants = () => {
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "tween", duration: 1 }}
-              className="mb-6 text-3xl font-bold text-center dark:text-slate-100"
+              className="mb-6 text-3xl lg:text-4xl font-bold text-center dark:text-slate-100"
             >
               Applicants ({allApplicants?.length})
             </motion.h1>

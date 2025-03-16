@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import { Navbar } from "../Shared/Navbar";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
-import { MdOutlineMail, MdPhone, MdWork, MdDescription } from "react-icons/md";
+import { MdOutlineMail, MdPhone } from "react-icons/md";
 import { handleGetApplicantProfile } from "../../../Api/getAPI";
+import { FaRegFilePdf } from "react-icons/fa6";
 
 export const ViewApplicant = () => {
   const { applicantID } = useParams(); // Get user ID from URL
@@ -46,94 +47,113 @@ export const ViewApplicant = () => {
   return (
     <>
       <Navbar />
-      <div className="max-w-4xl mx-auto px-6">
-        <motion.section
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, type: "tween" }}
-          className="bg-white dark:bg-zinc-900 dark:text-white rounded-2xl shadow-xl py-4 px-8 mb-4"
-        >
-          {/* Profile Header */}
-          <div className="flex flex-col items-center text-center mb-3">
-            <div className="size-28 rounded-full overflow-hidden border-4 border-transparent bg-gradient-to-r from-blue-500 to-purple-500 p-1">
+      <motion.section
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, type: "tween" }}
+        className="max-w-2xl mx-auto bg-white dark:bg-zinc-900 dark:text-white shadow-lg rounded-lg overflow-hidden"
+      >
+        {/* Header */}
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 dark:from-zinc-800 dark:to-zinc-700">
+          <div className="flex items-center gap-4">
+            <div className="w-20 h-20 rounded-full border-4 border-white/50 overflow-hidden shadow-lg">
               <img
                 src={applicant?.profile?.profilePhoto}
                 alt="Profile"
-                className="w-full h-full object-cover rounded-full"
+                className="w-full h-full object-cover"
               />
             </div>
-            <h1 className="text-3xl font-semibold mt-3">
-              {applicant?.username}
-            </h1>
-            <p className="text-gray-500 dark:text-gray-300">
-              {applicant?.role?.toUpperCase()}
-            </p>
-          </div>
-
-          {/* Contact Information */}
-          <div className="border-t border-gray-300 dark:border-zinc-700 pt-3">
-            <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                <MdOutlineMail className="size-6 text-blue-500" />
-                <span>{applicant?.email}</span>
-              </div>
-              <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                <MdPhone className="size-6 text-blue-500" />
-                <span>{applicant?.phoneNumber || "Not Provided"}</span>
-              </div>
+            <div>
+              <h1 className="text-2xl font-bold">{applicant?.username}</h1>
+              <p className="text-lg opacity-90">
+                {applicant?.role?.toUpperCase()}
+              </p>
             </div>
           </div>
+        </div>
 
-          {/* Bio Section */}
-          <div className="border-t border-gray-300 dark:border-zinc-700 pt-6 mt-6">
-            <h3 className="text-xl font-semibold mb-2">About Me</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              {applicant?.profile?.bio || "No bio available."}
+        {/* Profile Content */}
+        <div className="p-6 space-y-6">
+          {/* Bio */}
+          <div>
+            <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">
+              About Me
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+              {applicant?.profile?.bio || "No bio available"}
             </p>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">
+              Contact Information
+            </h3>
+            <div className="space-y-2">
+              <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+                <MdOutlineMail className="text-blue-500 text-xl" />
+                <span>{applicant?.email}</span>
+              </div>
+              <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+                <MdPhone className="text-blue-500 text-xl" />
+                <span>{applicant?.phoneNumber || "Not provided"}</span>
+              </div>
+            </div>
           </div>
 
           {/* Skills */}
           {applicant?.role === "student" && (
-            <div className="border-t border-gray-300 dark:border-zinc-700 pt-6 mt-6">
-              <h3 className="text-xl font-semibold mb-3">Skills</h3>
-              <div className="flex flex-wrap gap-2">
-                {applicant?.profile?.skills?.length > 0 ? (
-                  applicant?.profile?.skills.map((skill, ind) => (
-                    <span
+            <div>
+              <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                Skills
+              </h3>
+              {applicant?.profile?.skills?.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {applicant.profile.skills.map((skill, ind) => (
+                    <motion.span
                       key={ind}
-                      className="bg-blue-500 text-white py-1 px-3 rounded-lg shadow-md dark:bg-zinc-700"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: ind * 0.1 }}
+                      className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full shadow-sm dark:bg-zinc-800"
                     >
                       {skill}
-                    </span>
-                  ))
-                ) : (
-                  <p className="text-gray-500">No skills listed.</p>
-                )}
-              </div>
+                    </motion.span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500">No skills added</p>
+              )}
             </div>
           )}
 
           {/* Resume */}
           {applicant?.role === "student" && (
-            <div className="border-t border-gray-300 dark:border-zinc-700 pt-6 mt-6">
-              <h3 className="text-xl font-semibold mb-2">Resume</h3>
+            <div>
+              <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                Resume
+              </h3>
               {applicant?.profile?.resume ? (
-                <a
-                  href={applicant?.profile?.resume}
-                  className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition"
+                <motion.a
+                  href={applicant.profile.resume}
+                  className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-600 transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  View Resume
-                </a>
+                  <FaRegFilePdf className="text-xl" />
+                  <span>
+                    {applicant.profile.resumeOriginalName || "View Resume"}
+                  </span>
+                </motion.a>
               ) : (
-                <p className="text-gray-500">No resume uploaded.</p>
+                <p className="text-red-500">Not uploaded</p>
               )}
             </div>
           )}
-        </motion.section>
-      </div>
+        </div>
+      </motion.section>
     </>
   );
 };

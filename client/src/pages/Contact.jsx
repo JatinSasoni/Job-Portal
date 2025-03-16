@@ -59,7 +59,7 @@ export const Contact = () => {
               type: "tween",
               duration: 1,
             }}
-            className="text-5xl text-slate-800 font-bold mb-2 text-center dark:text-slate-100"
+            className="text-5xl text-zinc-700 font-bold mb-2 text-center dark:text-slate-100"
           >
             Reach Out{" "}
             <span className=" text-blue-400 font-extrabold text-5xl dark:text-blue-300">

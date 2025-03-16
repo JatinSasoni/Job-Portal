@@ -49,6 +49,7 @@ const applyForJob = async (req, res) => {
 
     //GETTING USER DETAILS THROUGH USER ID TO MAIL
     const userData = await User.findById(userID);
+    //userData.profile.resume
 
     //MAILING RECRUITER ABOUT NEW APPLICANT
     const mailOptions = {
@@ -68,6 +69,16 @@ const applyForJob = async (req, res) => {
               ? new Date(newApplication.createdAt).toLocaleDateString()
               : "N/A"
           }</li>
+          <li><strong>Resume:</strong> ${
+            userData?.profile?.resume
+              ? `<a href="${userData.profile.resume}" download target="_blank" style="text-decoration: none;">
+          <button style="background-color: #007bff; color: white; border: none; padding: 3px 12px; border-radius: 5px; cursor: pointer;">
+            Download Resume
+          </button>
+        </a>`
+              : "NA"
+          }</li>
+
         </ul>
     
         <h3>${process.env.COMPANY_NAME}</h3>

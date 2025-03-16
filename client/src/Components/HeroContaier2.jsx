@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const useCases = [
@@ -36,13 +36,12 @@ export const HeroContainer2 = () => {
           {/* hero-img */}
           <div className="hidden md:flex overflow-hidden rounded-2xl ">
             <motion.img
-              initial={{ scale: 1.5 }}
+              initial={{ scale: 1.2 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{
                 type: "tween",
-                duration: 2,
-                ease: "easeOut",
+                duration: 1.5,
               }}
               className="w-full h-auto"
               src="/images/hero3.webp"
@@ -53,11 +52,11 @@ export const HeroContainer2 = () => {
 
           {/* hero-content */}
           <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ type: "tween", duration: 1 }}
+            initial={{ opacity: 0, translateY: 50 }}
+            whileInView={{ opacity: 1, translateY: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="hero-content px-2 md:px-14 lg:px-16 flex flex-col md:gap-1 xl:gap-8 "
+            className="hero-content px-2 md:px-14 lg:px-16 flex flex-col md:gap-1 xl:gap-5 "
           >
             {/* hero-heading */}
             <div className="text-4xl md:leading-tight lg:text-5xl font-bold lg:leading-snug xl:text-5xl dark:text-white ">
@@ -91,15 +90,23 @@ export const HeroContainer2 = () => {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ type: "tween", duration: 1 }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ staggerChildren: 0.2 }}
           className="px-2 md:p-6 lg:p-10 grid grid-cols-4 place-items-center gap-1 md:gap-4"
         >
           {useCases.map((cases, index) => {
             return (
-              <motion.div key={index} className="flex flex-col gap-1 md:gap-2">
-                <p className=" p-1 md:p-2 text-center rounded-xl text-blue-400 text-3xl md:text-5xl lg:text-6xl font-extrabold dark:text-blue-300">
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, translateY: 50 },
+                  visible: { opacity: 1, translateY: 0 },
+                }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                key={index}
+                className="flex flex-col gap-1 md:gap-2"
+              >
+                <p className=" p-1 md:p-2 text-center rounded-xl text-blue-500 text-3xl md:text-5xl lg:text-6xl font-extrabold dark:text-blue-300">
                   {cases.figure}K+
                 </p>
                 <p className=" text-center rounded-xl text-black font-bold text-xs md:text-md lg:text-xl dark:text-white">

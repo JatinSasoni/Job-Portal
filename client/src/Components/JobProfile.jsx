@@ -79,7 +79,7 @@ export const JobProfile = () => {
   return (
     <>
       <Navbar />
-      <section className="mx-auto max-w-7xl my-6 p-6 dark:text-white">
+      <section className="mx-auto max-w-7xl  p-6 dark:text-white">
         {/* Job Header */}
         <div className="flex flex-col md:flex-row justify-between items-center bg-gray-100 dark:bg-zinc-800 p-6 rounded-lg shadow-md">
           {/* Company Logo & Name */}
@@ -145,36 +145,69 @@ export const JobProfile = () => {
           </h2>
           <div className="mt-4 space-y-4">
             <div>
-              <span className="font-semibold text-lg">Role: </span>
+              <span className="font-semibold text-lg text-blue-900 dark:text-zinc-400">
+                Role:{" "}
+              </span>
               {singleJobData?.title}
             </div>
             <div>
-              <span className="font-semibold text-lg">Location: </span>
+              <span className="font-semibold text-lg text-blue-900 dark:text-zinc-400 ">
+                Location:{" "}
+              </span>
               {singleJobData?.location}
             </div>
             <div>
-              <span className="font-semibold text-lg">Description: </span>
+              <span className="font-semibold text-lg text-blue-900 dark:text-zinc-400 ">
+                Description:{" "}
+              </span>
               {singleJobData?.description}
             </div>
             <div>
-              <span className="font-semibold text-lg">Experience: </span>
+              <span className="font-semibold text-lg text-blue-900 dark:text-zinc-400 ">
+                Experience:{" "}
+              </span>
               {singleJobData?.experienceLevel} Years
             </div>
             <div>
-              <span className="font-semibold text-lg">Salary: </span>
+              <span className="font-semibold text-lg text-blue-900 dark:text-zinc-400 ">
+                Salary:{" "}
+              </span>
               {singleJobData?.salary} LPA
             </div>
             <div>
-              <span className="font-semibold text-lg">Requirements: </span>
+              <span className="font-semibold text-lg text-blue-900 dark:text-zinc-400 ">
+                Requirements:{" "}
+              </span>
               {singleJobData?.requirements?.join(", ")}
             </div>
             <div>
-              <span className="font-semibold text-lg">Total Applicants: </span>
+              <span className="font-semibold text-lg text-blue-900 dark:text-zinc-400 ">
+                Total Applicants:{" "}
+              </span>
               {singleJobData?.application?.length}
             </div>
             <div>
-              <span className="font-semibold text-lg">Posted Date: </span>
+              <span className="font-semibold text-lg text-blue-900 dark:text-zinc-400 ">
+                Posted Date:{" "}
+              </span>
               {singleJobData?.createdAt?.split("T")[0]}
+            </div>
+            <div>
+              <span className="text-lg text-blue-900 dark:text-zinc-400 ">
+                company website:{" "}
+              </span>
+              <a
+                href={
+                  singleJobData?.CompanyID?.website?.startsWith("http")
+                    ? singleJobData.CompanyID.website
+                    : `https://${singleJobData?.CompanyID?.website}`
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 dark:text-blue-400 font-medium hover:underline hover:text-blue-800 transition duration-300"
+              >
+                {singleJobData?.CompanyID?.website}
+              </a>
             </div>
           </div>
         </div>

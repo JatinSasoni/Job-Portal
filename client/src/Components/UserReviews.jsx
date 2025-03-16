@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { handleGetAllContactsAPI } from "../../Api/getAPI";
 import { toast } from "react-toastify";
-import { delay, motion } from "motion/react";
+import { motion } from "framer-motion";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
@@ -30,8 +31,8 @@ export const UserReviews = () => {
     <>
       <section>
         <motion.div
-          initial={{ opacity: 0, y: 150 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, translateY: 50 }}
+          whileInView={{ opacity: 1, translateY: 0 }}
           transition={{ duration: 0.7, type: "tween" }}
           className="mt-20 mask-gradient"
         >

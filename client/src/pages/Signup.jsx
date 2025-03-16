@@ -55,7 +55,7 @@ export const Signup = () => {
           Signup To <span className="text-blue-400 font-bold">TalentNest</span>
         </div>
 
-        <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black dark:bg-neutral-900 dark:shadow-sm dark:shadow-white shadow-md">
+        <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black dark:bg-zinc-900  dark:shadow-none shadow-md">
           {/* SIGNUP FORM */}
           <SignupForm onSubmit={onSubmit} />
           {/* ADDITIONAL DATA */}

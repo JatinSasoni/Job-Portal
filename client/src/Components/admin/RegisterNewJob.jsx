@@ -1,24 +1,12 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Navbar } from "../Shared/Navbar";
-import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+
 import { toast } from "react-toastify";
 import { handlePostJobAPI } from "../../../Api/postAPI";
 import { PostJobForm } from "./admin components/PostJobForm";
-import { motion } from "motion/react";
 
 export const RegisterNewJob = () => {
   const navigate = useNavigate();
-  const { allCompanies } = useSelector((store) => store.company);
-
-  //USE FORM HOOK
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm();
-
-  //STORE
 
   //   ONSUBMIT FN
   const onSubmit = async (data) => {
@@ -37,30 +25,15 @@ export const RegisterNewJob = () => {
     <section>
       <Navbar />
 
-      <div className=" mx-auto max-w-7xl pt-8 p-4 ">
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            type: "tween",
-            duration: 1,
-          }}
-          className=" flex justify-center p-3 gap-40 mb-4"
-        >
-          <h1 className="text-4xl text-zinc-800 font-bold dark:text-slate-100 ">
-            Post new job
-          </h1>
-          <NavLink to="/admin/jobs">
-            <button className="button-34">Go Back</button>
-          </NavLink>
-        </motion.div>
+      <div className=" mx-auto max-w-7xl  p-4 ">
+        <h1 className="text-4xl text-zinc-800 font-bold dark:text-slate-100  text-center mb-3">
+          <p className="text-5xl font-semibold  text-zinc-700 text-center dark:text-white">
+            Post a{" "}
+            <span className="text-blue-400 font-bold"> Job Opportunity</span>
+          </p>
+        </h1>
 
-        <PostJobForm
-          allCompanies={allCompanies}
-          onSubmit={onSubmit}
-          register={register}
-          handleSubmit={handleSubmit}
-        />
+        <PostJobForm onSubmit={onSubmit} />
       </div>
     </section>
   );

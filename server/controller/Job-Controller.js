@@ -240,7 +240,13 @@ const getJobInfoById = async (req, res) => {
 const getJobInfoByIdForAdmin = async (req, res) => {
   try {
     const jobID = req.params.jobID;
-    const job = await Job.findById(jobID);
+
+    if (!jobID) {
+      return res.status(400).json({
+        MESSAGE: "Something is missing",
+        SUCCESS: false,
+      });
+    }
 
     // Ensure only the creator or admin can edit the job
     if (req.role !== "recruiter") {
@@ -248,6 +254,11 @@ const getJobInfoByIdForAdmin = async (req, res) => {
         .status(403)
         .json({ MESSAGE: "Unauthorized to edit this job", SUCCESS: false });
     }
+
+    const job = await Job.findById(jobID).populate({
+      path: "CompanyID",
+      select: "logo companyName",
+    });
 
     //INVALID JOB_ID OR NO JOB WITH SUC JOB_ID
     if (!job) {

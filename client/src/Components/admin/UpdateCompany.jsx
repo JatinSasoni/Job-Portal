@@ -7,7 +7,7 @@ import useGetSingleCompanyData from "../../Hooks/getSingleCompanyByItsID";
 import { setLoading } from "../../../store/authSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export const UpdateCompany = () => {
   const { companyID } = useParams();
@@ -76,23 +76,22 @@ export const UpdateCompany = () => {
       <Navbar />
       <>
         <div>
-          <motion.div
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              type: "tween",
-              duration: 1,
-            }}
-            className="text-5xl font-semibold mb-2 text-zinc-700 text-center dark:text-white tracking-tight"
-          >
-            Update<span className="text-blue-400 font-bold"> Company</span>
-          </motion.div>
+          <div className="text-5xl font-semibold mb-2 text-zinc-700 text-center dark:text-white tracking-tight">
+            Manage Company
+            <span className="text-blue-400 font-bold"> Profile</span>
+          </div>
           <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black shadow-black drop-shadow-sm dark:bg-zinc-900 dark:drop-shadow-none">
             <div className="text-sm font-normal mb-4 text-center text-[#1e0e4b]"></div>
 
             {/* LOGIN-FORM */}
-            <form
-              className="flex flex-col gap-3 dark:[&>div>label]:text-white"
+            <motion.form
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                type: "tween",
+                duration: 0.5,
+              }}
+              className="flex flex-col gap-4 dark:[&>div>label]:text-white"
               onSubmit={handleSubmit(onSubmit)}
               encType="multipart/form-data"
             >
@@ -214,7 +213,7 @@ export const UpdateCompany = () => {
               {/* SUBMIT BUTTON */}
               <button
                 type="submit"
-                className="bg-blue-400 w-full rounded-xl m-auto px-6 py-2 rounded text-white text-sm font-normal"
+                className="bg-blue-400 w-full rounded-xl m-auto px-6 py-2  text-white text-sm font-normal"
               >
                 {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE SUBMIT BUTTON */}
                 {loading ? (
@@ -225,7 +224,7 @@ export const UpdateCompany = () => {
                   "Submit"
                 )}
               </button>
-            </form>
+            </motion.form>
           </div>
         </div>
       </>

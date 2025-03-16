@@ -4,6 +4,7 @@ import { setFilterQuery, setFilterSalary } from "../../../store/jobSlice";
 
 export const FilterAside = () => {
   const dispatch = useDispatch();
+
   const { filterQuery, filterSalary } = useSelector(
     (store) => ({
       filterQuery: store.job.filterQuery,
@@ -81,6 +82,7 @@ export const FilterAside = () => {
                     ? "All"
                     : range.replace("-", " - ") + " LPA"}
                 </label>
+
                 <input
                   type="radio"
                   name="salary-range"

@@ -32,9 +32,7 @@ const SaveJobButton = ({ jobId }) => {
   return (
     <button
       onClick={() => handleSaveJob(jobId)}
-      className={`${
-        isSaved ? "text-zinc-800" : "text-gray-700"
-      } border rounded bg-zinc-100 dark:bg-zinc-300`}
+      className={`text-zinc-800 border rounded bg-zinc-100 dark:bg-zinc-700 dark:text-white dark:border-none py-1`}
     >
       <span className="flex justify-center gap-1 group ">
         {isSaved && (

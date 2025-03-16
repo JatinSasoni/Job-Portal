@@ -48,7 +48,7 @@ const RegisterPage = () => {
                 className="h-44 pt-16 px-14 "
               >
                 <Link to="/">
-                  <button className="hover:scale-105 rounded-ring ring-2 ring-white py-3 px-6 rounded-3xl w-1/2 text-white bg-blue-300 hover:bg-blue-400 transition">
+                  <button className="hover:scale-105 rounded-ring ring-2 ring-white py-3 px-6 rounded-3xl w-1/2 text-white bg-blue-400 hover:bg-blue-500  transition duration-300">
                     Home
                   </button>
                 </Link>
@@ -72,41 +72,6 @@ const RegisterPage = () => {
 
         {/* Right Section with Form */}
         <div className="w-1/2 flex items-center justify-center">
-          {/* <div className="max-w-md w-full p-6 bg-white shadow-lg rounded-lg">
-            <h2 className="text-3xl font-bold mb-6 text-center">
-              Sign In to Jobnest
-            </h2>
-            <form>
-              <label className="block text-sm font-medium mb-1">
-                BUSINESS EMAIL
-              </label>
-              <input
-                type="email"
-                className="w-full p-3 border rounded-lg mb-4"
-                placeholder="email"
-              />
-
-              <label className="block text-sm font-medium mb-1">PASSWORD</label>
-              <input
-                type="password"
-                className="w-full p-3 border rounded-lg mb-4"
-                placeholder="password"
-              />
-
-              <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-lg hover:opacity-90"
-              >
-                Sign In
-              </button>
-            </form>
-            <p className="text-center mt-4">
-              Don't have an account?{" "}
-              <a href="#" className="text-blue-600 hover:underline">
-                Sign Up
-              </a>
-            </p>
-          </div> */}
           <Signup />
         </div>
       </div>

@@ -67,7 +67,7 @@ export const AdminCompanies = () => {
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", duration: 1 }}
+            transition={{ type: "spring", duration: 1.5 }}
             className="relative sm:rounded-lg"
           >
             {!filteredCompanies || filteredCompanies.length === 0 ? (

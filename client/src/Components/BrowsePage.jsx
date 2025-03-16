@@ -5,6 +5,7 @@ import { handleGetAllJobs } from "../../Api/getAPI";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { JobNotFound } from "./JobNotFound";
+import { motion } from "motion/react";
 
 export const BrowsePage = () => {
   const { searchedQuery } = useSelector((store) => store.job, shallowEqual);
@@ -15,6 +16,7 @@ export const BrowsePage = () => {
       try {
         const response = await handleGetAllJobs(searchedQuery.keyword);
         if (response.data.SUCCESS) {
+          //IF DATA CHANGED ONLY THEN
           JSON.stringify(response.data.allJobs) !== JSON.stringify(allJobs) &&
             setAllJobs(response.data.allJobs); // Store all jobs first
         }
@@ -36,9 +38,17 @@ export const BrowsePage = () => {
 
   return (
     <section className="mx-auto max-w-7xl md:my-8 ">
-      <h1 className="text-center text-blue-950 text-2xl md:text-4xl font-semibold dark:text-zinc-200 mt-3 md:mb-8">
+      <motion.h1
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          type: "tween",
+          duration: 1,
+        }}
+        className="text-center text-blue-950 text-2xl md:text-4xl font-semibold dark:text-zinc-200 mt-3 md:mb-8"
+      >
         Explore Top Opportunities & Advance Your Career
-      </h1>
+      </motion.h1>
       {/* JOB SEARCH */}
       <div className="w-full md:w-1/2 px-4 md:px-0 mx-auto">
         <SearchBox />
