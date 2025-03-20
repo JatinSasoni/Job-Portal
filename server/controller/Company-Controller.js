@@ -38,9 +38,8 @@ const registerCompany = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
     console.log("Error while registering company");
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -69,7 +68,7 @@ const getCompanyCreatedByRecruiter = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while loading companies");
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -104,7 +103,7 @@ const getCompanyByID = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while loading company");
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -163,7 +162,7 @@ const updateCompany = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while updating company");
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -209,8 +208,7 @@ const deleteCompanyByID = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
-
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
     console.log("Error while deleting company");
   }
 };

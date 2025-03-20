@@ -103,8 +103,7 @@ const postJobForAdmin = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
-
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
     console.log("Error while Posting JOB");
   }
 };
@@ -205,8 +204,7 @@ const getAllJobs = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
-
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
     console.log("Error while fetching jobs");
   }
 };
@@ -233,8 +231,8 @@ const getJobInfoById = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
     console.log("Error while fetching job info");
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -277,7 +275,7 @@ const getJobInfoByIdForAdmin = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while fetching job info");
-    res.status(500).json({ MESSAGE: "Internal server error" });
+    res.status(500).json({ MESSAGE: "Internal server error", SUCCESS: false });
   }
 };
 
@@ -303,9 +301,8 @@ const getPostedJobByAdmin = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
     console.log("Error while fetching job info");
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -338,8 +335,7 @@ const deleteJobByID = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
-
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
     console.log("Error while deleting company");
   }
 };
@@ -368,8 +364,7 @@ const getSavedJobs = async (req, res) => {
       savedJobs: user.savedJobs,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 

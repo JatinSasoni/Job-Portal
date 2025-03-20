@@ -66,7 +66,7 @@ const contactController = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -91,7 +91,7 @@ const getAllContacts = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 

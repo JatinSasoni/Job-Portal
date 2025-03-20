@@ -118,7 +118,7 @@ const applyForJob = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while applying for job");
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -154,7 +154,7 @@ const getAppliedJobsByUser = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while fetching applied jobs");
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -273,7 +273,7 @@ const updateApplicationStatus = async (req, res) => {
     });
   } catch (error) {
     console.error("Error while updating status of application:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -307,7 +307,7 @@ const appliedApplicationsForJob = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while updating status of application");
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -366,10 +366,8 @@ const getTopRecruiters = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
-
     console.log("Error fetching top recruiters");
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 

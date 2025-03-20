@@ -69,7 +69,7 @@ const register = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
 
     console.log("ERROR WHILE REGISTERING USER ");
   }
@@ -147,11 +147,10 @@ const login = async (req, res) => {
       res
         .status(200)
         .cookie("token", token, {
-httpOnly: true, // Prevents client-side JS access
-  secure: true, // Only send cookie over HTTPS
-  sameSite: "None", // Allows cross-origin requests
-  maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
-          
+          httpOnly: true, // Prevents client-side JS access
+          secure: true, // Only send cookie over HTTPS
+          sameSite: "None", // Allows cross-origin requests
+          maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
         })
         //ADD ADDITIONAL COOKIE DATA LATER
         .json({
@@ -161,8 +160,7 @@ httpOnly: true, // Prevents client-side JS access
         })
     );
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
-
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
     console.log("ERROR WHILE LOGIN USER ");
   }
 };
@@ -175,7 +173,7 @@ const logout = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
 
     console.log("ERROR WHILE LOGOUT");
   }
@@ -256,7 +254,7 @@ const updateProfile = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
 
     console.log("ERROR WHILE UPDATING PROFILE");
   }
@@ -293,9 +291,8 @@ const saveJob = async (req, res) => {
         .json({ MESSAGE: "Job saved successfully", SUCCESS: true, user });
     }
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
-
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -352,9 +349,8 @@ const sendOTPForPass = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
-
     console.log("ERROR WHILE RESETTING PASSWORD");
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -402,13 +398,18 @@ const validateOTPToChangePass = async (req, res) => {
 
     return res
       .status(200)
-      .cookie("auth", token, { maxAge: 5 * 60 * 1000 }) //5 Minutes
+      .cookie("auth", token, {
+        httpOnly: true, // Prevents client-side JS access
+        secure: true, // Only send cookie over HTTPS
+        sameSite: "None", // Allows cross-origin requests
+        maxAge: 5 * 60 * 1000, //5 Minutes
+      })
       .json({
         MESSAGE: "OTP VERIFIED",
         SUCCESS: true,
       });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
 
     console.log("ERROR WHILE RESETTING PASSWORD");
   }
@@ -489,10 +490,8 @@ const ChangePassword = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
     console.log("ERROR WHILE CHANGING PASSWORD");
-
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
@@ -515,7 +514,7 @@ const getUserForAdmin = async (req, res) => {
     res.status(200).json({ SUCCESS: true, MESSAGE: "Found", user });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
   }
 };
 
