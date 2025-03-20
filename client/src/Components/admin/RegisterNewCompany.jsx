@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { motion } from "motion/react";
 import { Footer } from "../Shared/Footer";
+import AdminButton from "./admin components/AdminButton";
 
 export const RegisterNewCompany = () => {
   const [companyName, setCompanyName] = useState("");
@@ -31,8 +32,8 @@ export const RegisterNewCompany = () => {
     <section>
       <Navbar />
 
-      <div className=" mx-auto max-w-7xl p-8 pt-16">
-        <div className=" flex justify-between p-3">
+      <div className=" mx-auto max-w-7xl p-4 md:p-8 pt-16">
+        <div className=" flex max-md:flex-col justify-between md:p-3 max-md:text-center max-md:gap-3">
           <motion.h1
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -40,12 +41,12 @@ export const RegisterNewCompany = () => {
               type: "tween",
               duration: 1,
             }}
-            className="text-5xl dark:text-slate-100 font-bold "
+            className="text-2xl md:text-4xl xl:text-5xl dark:text-slate-100 font-bold "
           >
             Registered a new company
           </motion.h1>
           <NavLink to="/admin/companies">
-            <button className="button-34">Go Back</button>
+            <AdminButton label="Go Back" />
           </NavLink>
         </div>
         <form
@@ -69,7 +70,10 @@ export const RegisterNewCompany = () => {
               className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-white dark:border-none"
             />
           </div>
-          <button className="button-34" type="submit">
+          <button
+            className="bg-indigo-500 w-full md:w-3/12 mx-auto p-1 text-white rounded-xl"
+            type="submit"
+          >
             Register
           </button>
         </form>
