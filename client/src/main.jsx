@@ -25,6 +25,7 @@ createRoot(document.getElementById("root")).render(
           draggable
           pauseOnHover
           theme="light"
+          toastClassName="toast-custom"
         />
         <App />
       </PersistGate>

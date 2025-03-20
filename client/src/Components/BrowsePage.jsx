@@ -37,7 +37,7 @@ export const BrowsePage = () => {
     : allJobs;
 
   return (
-    <section className="mx-auto max-w-7xl md:my-8 ">
+    <section className="mx-auto max-w-7xl md:my-8  ">
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -53,13 +53,13 @@ export const BrowsePage = () => {
       <div className="w-full md:w-1/2 px-4 md:px-0 mx-auto">
         <SearchBox />
       </div>
-      <div>
+      <div className="mt-8 xl:mt-4">
         {displayedJobs?.length <= 0 ? (
           <div className="h-96 overflow-hidden">
             <JobNotFound />
           </div>
         ) : (
-          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-10 sm:gap-14 lg:grid-cols-4 place-items-center  px-20  md:px-4 py-10  lg:gap-8 xl:px-32">
+          <ul className="grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-32 ">
             {displayedJobs?.map((job, i) => {
               return <AllJobsCard key={i} cardData={job} />;
             })}

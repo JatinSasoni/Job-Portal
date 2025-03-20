@@ -12,10 +12,12 @@ export const AllJobsCard = ({ cardData }) => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5, type: "tween" }}
-      className="card drop-shadow-xl dark:shadow-md dark:shadow-zinc-600 dark:bg-zinc-800 dark:border-zinc-500"
+      className="p-4 border rounded-xl shadow-md dark:drop-shadow-md dark:shadow-zinc-600 
+      dark:bg-zinc-800 dark:border-zinc-500 w-full sm:w-5/6 md:w-full max-w-[290px] md:max-w-none 
+      flex flex-col justify-between h-[300px] lg:h-[330px]" // Ensuring Fixed Height
     >
       <div>
-        <div className="header">
+        <div className="flex items-center gap-3">
           {/* company logo */}
           <div className="rounded-full size-8 overflow-hidden">
             <img
@@ -28,7 +30,7 @@ export const AllJobsCard = ({ cardData }) => {
           </div>
 
           {/* company name */}
-          <p className="font-bold text-sm md:text-lg text-blue-950 dark:text-white">
+          <p className="font-bold text-sm md:text-lg text-blue-950 dark:text-white ">
             {cardData?.CompanyID?.companyName?.length > 13
               ? `${cardData?.CompanyID?.companyName?.slice(0, 12)}...`
               : cardData?.CompanyID?.companyName}
@@ -41,7 +43,7 @@ export const AllJobsCard = ({ cardData }) => {
             ? `${cardData?.title?.slice(0, 22)}...`
             : cardData?.title}
         </h4>
-        <div className="flex gap-2 md:gap-4 [&>p]:text-xs">
+        <div className="flex gap-6  md:gap-4 [&>p]:text-xs">
           <p className="flex gap-px text-gray-400">
             <TiBriefcase className="my-auto" />
             <span>{cardData?.jobType}</span>
@@ -57,9 +59,9 @@ export const AllJobsCard = ({ cardData }) => {
         </div>
 
         {/* JOB DESC */}
-        <p className="my-1 md:my-3 text-xs md:text-xs lg:text-sm  text-slate-500 dark:text-white">
+        <p className="my-1 md:my-3 text-xs md:text-xs lg:text-sm h-12 text-slate-500 dark:text-white">
           {cardData?.description.length > 25
-            ? `${cardData?.description?.slice(0, 23)}...`
+            ? `${cardData?.description?.slice(0, 60)}...`
             : cardData?.description}
         </p>
 
@@ -92,10 +94,10 @@ export const AllJobsCard = ({ cardData }) => {
 
         <div className="mt-2 md:mt-4 ld:mt-6 grid grid-cols-1 md:grid-cols-2 gap-2">
           <NavLink
-            className="bg-blue-400 text-white rounded text-center text-sm lg:text-md"
+            className={` border rounded bg-blue-400 text-white dark:border-none py-1`}
             to={`/description/${cardData?._id}`}
           >
-            <p className="h-full grid place-items-center">View</p>
+            <span className="flex justify-center w-ful">View</span>
           </NavLink>
 
           <SaveJobButton jobId={cardData?._id} />

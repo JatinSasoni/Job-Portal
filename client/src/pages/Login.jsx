@@ -61,7 +61,7 @@ export const Login = () => {
         transition={{ type: "tween", duration: 0.5 }}
         className="mt-4"
       >
-        <div className="text-5xl font-bold mb-2 text-[#1e0e4b] text-center dark:text-slate-100">
+        <div className="text-4xl mt-8 xl:mt-0 md:text-5xl font-bold mb-2 text-[#1e0e4b] text-center dark:text-slate-100">
           Welcome Back To{" "}
           <span className=" font-extrabold text-5xl text-blue-300">
             TalentNest

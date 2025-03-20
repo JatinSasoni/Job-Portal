@@ -310,6 +310,75 @@ const appliedApplicationsForJob = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while updating status of application");
+    return res.status(400).json({
+      MESSAGE: "Server error",
+      SUCCESS: false,
+    });
+  }
+};
+
+//GET TOP RECRUITERS
+const getTopRecruiters = async (req, res) => {
+  try {
+    const topRecruiters = await Application.aggregate([
+      // { $match: { status: "accepted" } }, COMMENT COZ ONLY TWO COMPANY FOR NOW WHO ACCEPTED APPLICANTS :)
+      { $group: { _id: "$job" } }, //$job is Ref to Job Collection
+      {
+        $lookup: {
+          from: "jobs", // LOOKING AT JOBS COLLECTION
+          localField: "_id", //AT THIS POINT OUR "$job" is "_id" look at $group
+          foreignField: "_id",
+          as: "jobInfo",
+        },
+      },
+      { $unwind: "$jobInfo" }, //ARRAY TO OBJECT
+      {
+        $group: { _id: "$jobInfo.CompanyID", totalApplications: { $sum: 1 } }, //GROUP BASED ON COMPANY ID SO NO SAME COMPANY
+        // "$jobInfo.CompanyID" is Ref to companies collection
+      },
+      {
+        $lookup: {
+          from: "companies", // LOOKING AT COMPANIES COLLECTION
+          localField: "_id", //AT THIS POINT OUR "$jobInfo.CompanyID" is "_id" look at second $group  query
+          foreignField: "_id",
+          as: "companyInfo",
+        },
+      },
+      { $unwind: "$companyInfo" },
+      { $sort: { totalApplications: -1 } },
+      { $limit: 8 },
+      {
+        $project: {
+          _id: 0,
+          companyId: "$_id",
+          companyName: "$companyInfo.companyName",
+          companyLogo: "$companyInfo.logo",
+          companyLocation: "$companyInfo.location",
+          companySince: "$companyInfo.createdAt",
+          totalApplications: 1, // 1 means we want totalApplications to be sent to frontend
+        },
+      },
+    ]);
+
+    if (!topRecruiters) {
+      return res.status(400).json({
+        MESSAGE: "Failed to fetch top recruiters",
+        SUCCESS: false,
+      });
+    }
+    return res.status(200).json({
+      MESSAGE: "Fetched",
+      topRecruiters,
+      SUCCESS: true,
+    });
+  } catch (error) {
+    console.log(error);
+
+    console.log("Error fetching top recruiters");
+    return res.status(400).json({
+      MESSAGE: "Server error",
+      SUCCESS: false,
+    });
   }
 };
 
@@ -318,4 +387,5 @@ module.exports = {
   getAppliedJobsByUser,
   updateApplicationStatus,
   appliedApplicationsForJob,
+  getTopRecruiters,
 };

@@ -17,5 +17,6 @@ router
 router
   .route("/status/:applicationID/update")
   .post(isAuthentication, applicationController.updateApplicationStatus);
+router.route("/get/top-recruiters").get(applicationController.getTopRecruiters);
 
 module.exports = router;

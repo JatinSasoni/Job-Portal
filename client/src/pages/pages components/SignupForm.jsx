@@ -15,7 +15,7 @@ export const SignupForm = ({ onSubmit }) => {
 
   return (
     <form
-      className="flex flex-col gap-0.5 dark:[&>div>label]:text-white p-1 "
+      className="flex flex-col gap-2 md:gap-8 xl:gap-0.5 dark:[&>div>label]:text-white p-1 "
       onSubmit={handleSubmit(onSubmit)}
     >
       {/* Username */}

@@ -9,15 +9,15 @@ const FAQBox = ({ data, openedIndex, handleDropdownClick, type }) => {
     <div className="flex flex-col gap-3">
       {data?.map((curr, index) => (
         <div
+          onClick={() => handleDropdownClick(index, type)}
           key={index}
           className="border p-2  dark:bg-zinc-800 rounded-xl drop-shadow-md dark:border-none px-3"
         >
           <div className="flex justify-between">
-            <p className="text-zinc-900 dark:text-gray-100 text-md font-medium">
+            <p className="text-zinc-900 dark:text-gray-100 text-sm md:text-md font-medium">
               {curr.ques}
             </p>
             <button
-              onClick={() => handleDropdownClick(index, type)}
               aria-expanded={openedIndex === index}
               aria-label={`Toggle answer for ${curr.ques}`}
               className="hover:scale-110 transition-transform"
@@ -29,18 +29,15 @@ const FAQBox = ({ data, openedIndex, handleDropdownClick, type }) => {
               />
             </button>
           </div>
-          <motion.p
-            initial={{ opacity: 0, height: 0 }}
-            animate={
+          <p
+            className={`overflow-hidden text-sm md:text-md text-zinc-700 dark:text-gray-300 transition-all duration-300 ${
               openedIndex === index
-                ? { opacity: 1, height: "auto" }
-                : { opacity: 0, height: 0 }
-            }
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden text-zinc-700 dark:text-gray-300"
+                ? "max-h-40 opacity-100"
+                : "max-h-0 opacity-0"
+            }`}
           >
             {curr.ans}
-          </motion.p>
+          </p>
         </div>
       ))}
     </div>
@@ -60,10 +57,11 @@ export const MostAskedQues = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto my-16">
+    <div className="max-w-6xl mx-auto my-8 mb-16">
       <motion.h1
         initial={{ y: 50 }}
-        whileInView={{ y: 0 }}
+        animate={{ y: 0 }}
+        viewport={{ once: true }}
         transition={{ duration: 1.2 }}
         className="text-3xl md:text-5xl dark:text-white my-2 lg:my-16  text-gray-700 text-center font-semibold"
       >
@@ -71,9 +69,10 @@ export const MostAskedQues = () => {
       </motion.h1>
       <div className="grid lg:grid-cols-2 gap-6 overflow-hidden lg:overflow-visible px-3 lg:px-0">
         <motion.div
-          initial={{ opacity: 0, x: -100 }}
+          initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ type: "tween", duration: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ type: "tween", duration: 0.6, ease: "easeOut" }}
         >
           <h3 className="my-2 text-2xl lg:text-3xl text-gray-700 font-semibold dark:text-white text-center">
             For Recruiters
@@ -87,9 +86,10 @@ export const MostAskedQues = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, x: 100 }}
+          initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ type: "tween", duration: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ type: "tween", duration: 0.6, ease: "easeOut" }}
         >
           <h3 className="my-2 text-2xl lg:text-3xl text-gray-700 font-semibold dark:text-white text-center">
             For Job-Seekers

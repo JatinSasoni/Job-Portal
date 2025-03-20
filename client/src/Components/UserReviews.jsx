@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { handleGetAllContactsAPI } from "../../Api/getAPI";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import SpotlightCard from "./ReactBits/SpotlightCard";
+import { SWIPER_SLIDES, SWIPER_SPACE_BETWEEN } from "../../util/Constants";
 
 /* eslint-disable react/prop-types */
 export const UserReviews = () => {
@@ -40,7 +40,7 @@ export const UserReviews = () => {
             <div className="mx-auto ">
               {/* TITLE HERE LATER  */}
               {/* CONTENT META */}
-              <p className="text-xl text-center text-zinc-700 font-semibold dark:text-slate-400">
+              <p className="md:text-xl text-center text-zinc-700 font-semibold dark:text-slate-400">
                 Here's What Our Users Say About Us
               </p>
 
@@ -53,9 +53,9 @@ export const UserReviews = () => {
                   </div>
                 ) : (
                   <Swiper
-                    slidesPerView={4}
-                    spaceBetween={10}
-                    loop={messages?.length > 4} // Enable loop only if enough slides
+                    slidesPerView={SWIPER_SLIDES}
+                    spaceBetween={SWIPER_SPACE_BETWEEN}
+                    loop={messages?.length > SWIPER_SLIDES} // Enable loop only if enough slides
                     autoplay={{ delay: 2000 }}
                     modules={[Autoplay]}
                     breakpoints={{

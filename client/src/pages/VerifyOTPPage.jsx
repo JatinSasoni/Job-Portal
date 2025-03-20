@@ -6,6 +6,8 @@ import { setLoading } from "../../store/authSlice";
 import { motion } from "motion/react";
 import { OtpLogic } from "../Components/ReactBits/OtpLogic";
 import { useState } from "react";
+import { Navbar } from "../Components/Shared/Navbar";
+import { Footer } from "../Components/Shared/Footer";
 
 export const VerifyOTPPage = () => {
   const { loading } = useSelector((store) => store.auth);
@@ -17,7 +19,7 @@ export const VerifyOTPPage = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const combinedOtp = otp.join("");
+    const combinedOtp = otp.join(""); //ARRAY TO STRING
     if (combinedOtp.length !== otp.length) {
       return;
     }
@@ -43,43 +45,47 @@ export const VerifyOTPPage = () => {
   };
 
   return (
-    <div className="py-16">
-      <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black bg-white shadow-black drop-shadow-xl dark:bg-zinc-900">
-        <motion.div
-          initial={{
-            y: -50,
-          }}
-          animate={{
-            y: 0,
-          }}
-          transition={{
-            duration: 1,
-          }}
-          className="text-4xl font-bold mb-2  text-center"
-        >
-          <span className="text-blue-400 font-bold ">Enter 6 Digit OTP</span>
-        </motion.div>
-
-        {/* OTP */}
-        <form className="flex flex-col gap-5 " onSubmit={(e) => onSubmit(e)}>
-          {/* OTP */}
-          <OtpLogic length={otp.length} otp={otp} setOtp={setOtp} />
-          {/* SUBMIT BUTTON */}
-          <button
-            type="submit"
-            className="bg-blue-400 w-full m-auto px-6 py-2 rounded-xl text-white text-sm font-normal "
+    <>
+      <Navbar />
+      <div className="py-32 ">
+        <div className="mx-3 md:mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black md:bg-white shadow-black md:drop-shadow-xl dark:bg-zinc-900">
+          <motion.div
+            initial={{
+              y: -50,
+            }}
+            animate={{
+              y: 0,
+            }}
+            transition={{
+              duration: 1,
+            }}
+            className="text-4xl font-bold mb-2  text-center"
           >
-            {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE SUBMIT BUTTON */}
-            {loading ? (
-              <div className="grid place-items-center">
-                <div className="loader"></div>
-              </div>
-            ) : (
-              "Submit"
-            )}
-          </button>
-        </form>
+            <span className="text-blue-400 font-bold ">Enter 6 Digit OTP</span>
+          </motion.div>
+
+          {/* OTP */}
+          <form className="flex flex-col gap-5 " onSubmit={(e) => onSubmit(e)}>
+            {/* OTP */}
+            <OtpLogic length={otp.length} otp={otp} setOtp={setOtp} />
+            {/* SUBMIT BUTTON */}
+            <button
+              type="submit"
+              className="bg-blue-400 w-full m-auto px-6 py-2 rounded-xl text-white text-sm font-normal "
+            >
+              {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE SUBMIT BUTTON */}
+              {loading ? (
+                <div className="grid place-items-center">
+                  <div className="loader"></div>
+                </div>
+              ) : (
+                "Submit"
+              )}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };

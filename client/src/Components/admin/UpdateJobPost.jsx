@@ -68,8 +68,8 @@ export const UpdateJobPost = () => {
           </div>
           <div className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
             <img
-              src={singleJobInfo?.CompanyID?.logo || "/Logo/newlogodark.png"}
-              className="size-96 bg-black  rounded-full"
+              src={singleJobInfo?.CompanyID?.logo}
+              className="size-96 rounded-full"
               alt="CompanyLogo"
               loading="lazy"
             />

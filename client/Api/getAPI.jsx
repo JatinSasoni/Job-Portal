@@ -87,3 +87,9 @@ export const handleGetJobInfoAPI = (jobID) => {
     withCredentials: true,
   });
 };
+
+export const handleGetTopRecruiters = () => {
+  return api.get(`/api/v1/application/get/top-recruiters`, {
+    withCredentials: true,
+  });
+};

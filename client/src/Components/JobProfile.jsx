@@ -78,7 +78,6 @@ export const JobProfile = () => {
 
   return (
     <>
-      <Navbar />
       <section className="mx-auto max-w-7xl  p-6 dark:text-white">
         {/* Job Header */}
         <div className="flex flex-col md:flex-row justify-between items-center bg-gray-100 dark:bg-zinc-800 p-6 rounded-lg shadow-md">

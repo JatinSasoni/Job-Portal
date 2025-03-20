@@ -65,7 +65,7 @@ export const JobOfTheDay = () => {
           </div>
         ) : (
           // <ul className="grid grid-cols-4 gap-8 place-items-center px-32 py-6 ">
-          <ul className="grid sm:grid-cols-2 gap-2  lg:grid-cols-3 xl:grid-cols-4 md:gap-16 lg:gap-8 lg:py-6 place-items-center md:px-32 px-20  lg:px-32 xl:px-28 ">
+          <ul className="grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-32 ">
             <JobCards />
           </ul>
         )}

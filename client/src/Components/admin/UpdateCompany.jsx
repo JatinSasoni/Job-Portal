@@ -76,10 +76,18 @@ export const UpdateCompany = () => {
       <Navbar />
       <>
         <div>
-          <div className="text-5xl font-semibold mb-2 text-zinc-700 text-center dark:text-white tracking-tight">
+          <motion.h2
+            initial={{ opacity: 0, y: -40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              type: "tween",
+              duration: 0.5,
+            }}
+            className="text-5xl font-semibold mb-2 text-zinc-700 text-center dark:text-white tracking-tight"
+          >
             Manage Company
             <span className="text-blue-400 font-bold"> Profile</span>
-          </div>
+          </motion.h2>
           <div className=" mx-auto max-w-lg relative flex flex-col p-4 rounded-3xl text-black shadow-black drop-shadow-sm dark:bg-zinc-900 dark:drop-shadow-none">
             <div className="text-sm font-normal mb-4 text-center text-[#1e0e4b]"></div>
 

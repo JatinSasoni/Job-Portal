@@ -2,7 +2,7 @@
 import { motion } from "motion/react";
 import { NavLink } from "react-router-dom";
 
-const HamItems = ({ loggedInUser }) => {
+const HamItems = ({ loggedInUser, setIsOpen }) => {
   return (
     <motion.div
       initial={{ opacity: 0, height: 0 }}

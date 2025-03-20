@@ -37,6 +37,10 @@ body {
   @apply bg-zinc-50 dark:bg-zinc-900;
 }
 
+.dark .toast-custom {
+  @apply bg-zinc-900 text-white border-zinc-800 shadow-xl;
+}
+
 /* INPUT TYPE NUMBER */
 
 /* Chrome, Safari, Edge, Opera */
@@ -180,22 +184,7 @@ input[type="number"] {
 }
 
 /* JOB CARD HOME PAGE */
-.card {
-  width: 100%;
-  height: 100%;
-  border-width: 1px;
-  border-color: rgba(219, 234, 254, 1);
-  border-radius: 1rem;
-  background-color: rgba(255, 255, 255, 1);
-  padding: 1rem;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  grid-gap: 1rem;
-  gap: 1rem;
-}
+/* remove card */
 
 .icon {
   flex-shrink: 0;

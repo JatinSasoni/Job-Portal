@@ -4,9 +4,13 @@ export const LoadingPage = () => {
   const { isDarkMode } = useSelector((store) => store.auth);
   return (
     <>
-      <section className={`${isDarkMode && "dark"}`}>
-        <div className="h-screen w-screen bg-blue-300 overflow-hidden relative dark:bg-zinc-900 ">
-          <div className="relative w-screen h-screen">
+      <section
+        className={`${
+          isDarkMode && "dark"
+        } bg-blue-300 overflow-hidden  dark:bg-zinc-900 `}
+      >
+        <div className="ml-8 md:ml-0 h-screen w-screen relative">
+          <div className=" relative w-screen h-screen hidden xl:block">
             <motion.div
               initial={{
                 y: 200,
@@ -19,7 +23,7 @@ export const LoadingPage = () => {
                 scale: 1.1,
               }}
               transition={{ duration: 0.5, ease: [0, 0.71, 0.2, 1.01] }}
-              className="text-6xl  text-white font-extrabold absolute bottom-32 left-1/2 -translate-x-1/2"
+              className="text-6xl  w-full text-white font-extrabold absolute bottom-32 left-1/2 -translate-x-1/2"
             >
               <h1>Welcome to TalentNest</h1>
             </motion.div>

@@ -26,7 +26,7 @@ export const RegisteredComTable = ({ allCompanies }) => {
   };
 
   return (
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 drop-shadow-md">
+    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 drop-shadow-md ">
       {/* TABLE HEAD */}
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-zinc-800 dark:text-gray-400">
         <tr>

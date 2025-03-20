@@ -78,7 +78,7 @@ export const Navbar = () => {
             : "relative "
         }`}
       >
-        <div className="mx-auto max-w-7xl flex justify-around px-3 lg:px-8 ">
+        <div className="mx-auto max-w-7xl flex justify-between lg:justify-around md:px-3 lg:px-8 ">
           {/* Logo & Hamburger Menu */}
           <div className="flex gap-1 ">
             <HamburgerMenu setIsOpen={setIsOpen} />
@@ -126,7 +126,7 @@ export const Navbar = () => {
                 )}
               </div>
             ) : (
-              <div className="flex lg:gap-3">
+              <div className="flex lg:gap-3 ">
                 {/* Login Button */}
                 <NavLink to="/login">
                   <button className="flex gap-px p-2 px-3 rounded-full font-medium group hover:bg-gray-100 hover:shadow-inner transition dark:text-white dark:hover:bg-zinc-500 dark:hover:shadow-zinc-800">
@@ -139,11 +139,11 @@ export const Navbar = () => {
                 <NavLink to="/signup">
                   <button
                     type="submit"
-                    className="flex justify-center gap-2 items-center mx-auto backdrop-blur-md lg:font-medium border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-blue-500 hover:text-gray-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-3 py-1 overflow-hidden border-2 rounded-full group dark:border-zinc-700 dark:text-white dark:before:bg-zinc-700"
+                    className="mt-px flex justify-center gap-2 items-center mx-auto backdrop-blur-md lg:font-medium border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-blue-500 hover:text-gray-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-3 py-1 overflow-hidden border-2 rounded-full group dark:border-zinc-700 dark:text-white dark:before:bg-zinc-700"
                   >
                     Register
                     <svg
-                      className="w-5 h-5 group-hover:rotate-90 group-hover:bg-gray-50 text-gray-50 ease-linear duration-300 rounded-full border border-gray-700 group-hover:border-none p-1 rotate-45 dark:bg-white"
+                      className=" w-5 h-5 group-hover:rotate-90 group-hover:bg-gray-50 text-gray-50 ease-linear duration-300 rounded-full border border-gray-700 group-hover:border-none p-1 rotate-45 dark:bg-white"
                       viewBox="0 0 16 19"
                       xmlns="http://www.w3.org/2000/svg"
                     >
@@ -160,7 +160,9 @@ export const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        {isOpen && <HamItems loggedInUser={loggedInUser} />}
+        {isOpen && (
+          <HamItems loggedInUser={loggedInUser} setIsOpen={setIsOpen} />
+        )}
       </header>
     </>
   );

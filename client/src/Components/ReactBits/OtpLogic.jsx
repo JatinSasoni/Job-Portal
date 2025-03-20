@@ -45,14 +45,14 @@ export const OtpLogic = ({ length = 4, otp, setOtp }) => {
   }, []);
 
   return (
-    <div className="flex gap-3 justify-center p-8">
+    <div className="flex gap-3 justify-center p-2 md:p-8">
       {otp.map((value, index) => (
         <input
           type="password"
           key={index}
           autoComplete="one-time-code" //automatically fills otp received in sms,authenticated app etc
           value={value}
-          className="border w-16 h-16  text-center dark:bg-zinc-700 dark:border-none dark:text-white"
+          className="border w-10 h-10 md:w-16 md:h-16  text-center dark:bg-zinc-700 dark:border-none dark:text-white"
           ref={(input) => (inputRefs.current[index] = input)}
           onChange={(e) => handleOnChange(index, e)}
           onKeyDown={(e) => handleKeyDown(index, e)}

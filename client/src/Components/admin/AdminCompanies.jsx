@@ -75,7 +75,9 @@ export const AdminCompanies = () => {
                 <JobNotFound />
               </div>
             ) : (
-              <RegisteredComTable allCompanies={filteredCompanies} />
+              <div className="overflow-auto">
+                <RegisteredComTable allCompanies={filteredCompanies} />
+              </div>
             )}
           </motion.div>
         </main>

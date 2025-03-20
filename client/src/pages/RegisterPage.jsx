@@ -18,8 +18,8 @@ const RegisterPage = () => {
   return (
     <>
       <div className="flex h-screen ">
-        {/* Left Section with Image and Curve */}
-        <div className="w-1/2  relative overflow-hidden ">
+        {/* Left Section with Image and Curve  ---- xl:block*/}
+        <div className="w-1/2 hidden xl:block relative overflow-hidden ">
           <div className="absolute inset-0 bg-zinc-800 opacity-90">
             <div className="py-20 px-4">
               <div className="size-48 grid place-items-center">
@@ -71,7 +71,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Right Section with Form */}
-        <div className="w-1/2 flex items-center justify-center">
+        <div className="w-full xl:w-1/2 flex xl:items-center justify-center">
           <Signup />
         </div>
       </div>

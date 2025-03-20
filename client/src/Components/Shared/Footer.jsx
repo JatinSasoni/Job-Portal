@@ -6,15 +6,15 @@ export const Footer = () => {
   return (
     <>
       <footer className=" dark:bg-zinc-900 m-2 ">
-        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 ">
+        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 max-sm:pt-8 ">
           <div className="sm:flex sm:items-center sm:justify-between">
             <Link
               href="https://flowbite.com/"
-              className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+              className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse max-sm:justify-center"
             >
               <img
                 src="/Logo/newlogodark.png"
-                className="size-16 bg-black  rounded-full"
+                className="size-10 md:size-16 bg-black  rounded-full"
                 alt="Flowbite Logo"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
@@ -30,7 +30,7 @@ export const Footer = () => {
             initial={{ opacity: 0, scale: 0 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="block text-sm text-gray-500 sm:text-center dark:text-gray-400"
+            className="block text-xs text-gray-500 text-center dark:text-gray-400"
           >
             © 2023{" "}
             <Link href="https://flowbite.com/" className="hover:underline">
