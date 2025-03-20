@@ -54,7 +54,7 @@ export const FilterAside = () => {
 
         {/* POPULAR KEYWORD */}
         <div className="flex flex-col gap-2 ">
-          <h3 className="font-bold text-lg xl:text-xl text-gray-700">
+          <h3 className="font-bold text-lg xl:text-xl text-gray-700 dark:text-white">
             Popular keyword
           </h3>
           <form className="flex xl:flex-col gap-x-4 gap-y-2 xl:gap-3 flex-wrap">
@@ -63,7 +63,7 @@ export const FilterAside = () => {
                 className="flex gap-2 items-center xl:grid xl:grid-cols-2 xl:gap-0 "
                 key={keyword}
               >
-                <label className="max-sm:text-sm text-gray-700">
+                <label className="max-sm:text-sm text-gray-700 dark:text-white font-semibold">
                   {keyword || "All"}
                 </label>
                 <input
@@ -81,7 +81,7 @@ export const FilterAside = () => {
 
         {/* SALARY RANGE */}
         <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg xl:text-xl text-gray-700">
+          <h3 className="font-bold text-lg xl:text-xl text-gray-700 dark:text-white ">
             Salary Range
           </h3>
           <form className="flex xl:flex-col gap-x-4 gap-y-2 xl:gap-3 flex-wrap">
@@ -90,7 +90,7 @@ export const FilterAside = () => {
                 className="flex gap-1 items-center xl:grid xl:grid-cols-2"
                 key={range}
               >
-                <label className="max-sm:text-sm text-gray-700">
+                <label className="max-sm:text-sm text-gray-700 dark:text-white font-semibold">
                   {range === "0-999" ? "All" : range.replace("-", "-") + " LPA"}
                 </label>
 

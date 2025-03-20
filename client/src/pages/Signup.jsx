@@ -47,7 +47,7 @@ export const Signup = () => {
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, x: 100 }}
+        initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ type: "tween", duration: 1 }}
       >

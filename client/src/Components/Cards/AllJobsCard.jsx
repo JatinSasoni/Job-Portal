@@ -13,8 +13,8 @@ export const AllJobsCard = ({ cardData }) => {
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5, type: "tween" }}
       className="p-4 border rounded-xl shadow-md dark:drop-shadow-md dark:shadow-zinc-600 
-      dark:bg-zinc-800 dark:border-zinc-500 w-full sm:w-5/6 md:w-full max-w-[290px] md:max-w-none 
-      flex flex-col justify-between h-[300px] lg:h-[330px]" // Ensuring Fixed Height
+      dark:bg-zinc-800 dark:border-zinc-500 w-full sm:w-5/6 md:w-full max-w-[310px] md:max-w-none 
+      flex flex-col justify-between h-[300px] lg:h-[300px]" // Ensuring Fixed Height
     >
       <div>
         <div className="flex items-center gap-3">
@@ -43,7 +43,7 @@ export const AllJobsCard = ({ cardData }) => {
             ? `${cardData?.title?.slice(0, 22)}...`
             : cardData?.title}
         </h4>
-        <div className="flex gap-6  md:gap-4 [&>p]:text-xs">
+        <div className="flex gap-10  md:gap-4 [&>p]:text-xs">
           <p className="flex gap-px text-gray-400">
             <TiBriefcase className="my-auto" />
             <span>{cardData?.jobType}</span>
@@ -59,9 +59,9 @@ export const AllJobsCard = ({ cardData }) => {
         </div>
 
         {/* JOB DESC */}
-        <p className="my-1 md:my-3 text-xs md:text-xs lg:text-sm h-12 text-slate-500 dark:text-white">
+        <p className="my-1 md:my-3 text-xs md:text-xs lg:text-sm h-10 text-slate-500 dark:text-white">
           {cardData?.description.length > 25
-            ? `${cardData?.description?.slice(0, 60)}...`
+            ? `${cardData?.description?.slice(0, 45)}...`
             : cardData?.description}
         </p>
 

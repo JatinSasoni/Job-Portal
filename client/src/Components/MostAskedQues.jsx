@@ -58,15 +58,9 @@ export const MostAskedQues = () => {
 
   return (
     <div className="max-w-6xl mx-auto my-8 mb-16">
-      <motion.h1
-        initial={{ y: 50 }}
-        animate={{ y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2 }}
-        className="text-3xl md:text-5xl dark:text-white my-2 lg:my-16  text-gray-700 text-center font-semibold"
-      >
+      <h1 className="text-3xl md:text-5xl dark:text-white my-2 lg:my-16  text-gray-700 text-center font-semibold">
         Frequently Asked
-      </motion.h1>
+      </h1>
       <div className="grid lg:grid-cols-2 gap-6 overflow-hidden lg:overflow-visible px-3 lg:px-0">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
