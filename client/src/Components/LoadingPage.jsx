@@ -1,14 +1,18 @@
 import { motion } from "motion/react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 export const LoadingPage = () => {
   const { isDarkMode } = useSelector((store) => store.auth);
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
   return (
     <>
-      <section
-        className={`${
-          isDarkMode && "dark"
-        } bg-blue-300 overflow-hidden  dark:bg-zinc-900 `}
-      >
+      <section className={`bg-blue-300 overflow-hidden  dark:bg-zinc-900 `}>
         <div className="ml-8 md:ml-0 h-screen w-screen relative">
           <div className=" relative w-screen h-screen hidden xl:block">
             <motion.div

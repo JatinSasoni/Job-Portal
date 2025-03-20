@@ -168,13 +168,20 @@ const login = async (req, res) => {
 //HANDLING USER LOGOUT
 const logout = async (req, res) => {
   try {
-    return res.status(200).clearCookie("token").json({
-      MESSAGE: "Logout successfully",
-      SUCCESS: true,
-    });
+    return res
+      .status(200)
+      .cookie("token", "", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        expires: new Date(0), // Force browser to remove cookie
+      })
+      .json({
+        MESSAGE: "Logout successfully",
+        SUCCESS: true,
+      });
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
-
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
     console.log("ERROR WHILE LOGOUT");
   }
 };
@@ -264,6 +271,11 @@ const saveJob = async (req, res) => {
   try {
     const userId = req.id; // Assuming user is authenticated
     const { jobId } = req.body;
+
+    if (!userId || !jobId)
+      return res
+        .status(404)
+        .json({ MESSAGE: "Something is missing", SUCCESS: false });
 
     const user = await User.findById(userId);
 

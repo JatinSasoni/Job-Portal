@@ -13,7 +13,6 @@ export const SavedJobs = () => {
       setLoading(true);
       try {
         const res = await handleGetSavedJobsAPI();
-
         if (res.data.SUCCESS) {
           setSavedJobs(res.data.savedJobs);
         }
