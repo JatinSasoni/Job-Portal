@@ -146,7 +146,13 @@ const login = async (req, res) => {
     return (
       res
         .status(200)
-        .cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000 })
+        .cookie("token", token, {
+httpOnly: true, // Prevents client-side JS access
+  secure: true, // Only send cookie over HTTPS
+  sameSite: "None", // Allows cross-origin requests
+  maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+          
+        })
         //ADD ADDITIONAL COOKIE DATA LATER
         .json({
           MESSAGE: `Welcome back ${user.username}`,
