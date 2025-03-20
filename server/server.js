@@ -18,9 +18,15 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
+
+const allowedOrigins = [
+  "http://localhost:5173", 
+  "https://talentnestpro.netlify.app"
+];
+
 //CORS OPTION
 const corsOptions = {
-  origin: "https://talentnestpro.netlify.app/",
+  origin: allowedOrigins,
   methods: "POST,GET,PUT,PATCH,DELETE",
   credentials: true,
 };
