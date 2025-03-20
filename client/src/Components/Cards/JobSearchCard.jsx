@@ -15,7 +15,7 @@ export const JobSearchCard = () => {
               type: "tween",
               duration: 1,
             }}
-            className="text-center text-blue-950 text-3xl font-semibold dark:text-zinc-200 leading-5"
+            className="text-center text-gray-700 text-3xl font-semibold dark:text-zinc-200 leading-5"
           >
             Talent Meets{" "}
             <p className="text-blue-400 text-5xl dark:text-blue-300 font-extrabold text-center">

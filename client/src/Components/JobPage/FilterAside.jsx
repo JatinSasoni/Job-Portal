@@ -40,7 +40,7 @@ export const FilterAside = () => {
   return (
     <aside>
       <section className="flex flex-col gap-2 px-4 2xl:px-0 ">
-        <div className="w-52 ">
+        <div className="w-full xl:w-52 ">
           <div className="flex justify-between py-4 px-2 border-b-2">
             <p className="text-gray-500 dark:text-white">Advance Filter</p>
             <button
@@ -54,17 +54,25 @@ export const FilterAside = () => {
 
         {/* POPULAR KEYWORD */}
         <div className="flex flex-col gap-2 ">
-          <h3 className="font-bold text-xl">Popular keyword</h3>
-          <form className="flex flex-col gap-3">
+          <h3 className="font-bold text-lg xl:text-xl text-gray-700">
+            Popular keyword
+          </h3>
+          <form className="flex xl:flex-col gap-x-4 gap-y-2 xl:gap-3 flex-wrap">
             {["", "software", "developer", "web", "AI"].map((keyword) => (
-              <div className="grid grid-cols-2" key={keyword}>
-                <label>{keyword || "All"}</label>
+              <div
+                className="flex gap-2 items-center xl:grid xl:grid-cols-2 xl:gap-0 "
+                key={keyword}
+              >
+                <label className="max-sm:text-sm text-gray-700">
+                  {keyword || "All"}
+                </label>
                 <input
                   type="radio"
                   name="popular-keyword"
                   value={keyword}
                   checked={filterState.keyword === keyword}
                   onChange={handlePopKeyChange}
+                  className="size-4 xl:size-6 xl:mx-auto"
                 />
               </div>
             ))}
@@ -73,14 +81,17 @@ export const FilterAside = () => {
 
         {/* SALARY RANGE */}
         <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-xl">Salary Range</h3>
-          <form className="flex flex-col gap-3">
+          <h3 className="font-bold text-lg xl:text-xl text-gray-700">
+            Salary Range
+          </h3>
+          <form className="flex xl:flex-col gap-x-4 gap-y-2 xl:gap-3 flex-wrap">
             {["0-999", "0-10", "10-30", "30-40"].map((range) => (
-              <div className="grid grid-cols-2" key={range}>
-                <label>
-                  {range === "0-999"
-                    ? "All"
-                    : range.replace("-", " - ") + " LPA"}
+              <div
+                className="flex gap-1 items-center xl:grid xl:grid-cols-2"
+                key={range}
+              >
+                <label className="max-sm:text-sm text-gray-700">
+                  {range === "0-999" ? "All" : range.replace("-", "-") + " LPA"}
                 </label>
 
                 <input
@@ -89,6 +100,7 @@ export const FilterAside = () => {
                   value={range}
                   checked={filterState.salaryRange.join("-") === range}
                   onChange={handleSalaryRange}
+                  className="size-4 xl:size-6 xl:mx-auto"
                 />
               </div>
             ))}

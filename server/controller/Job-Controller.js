@@ -103,7 +103,8 @@ const postJobForAdmin = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     console.log("Error while Posting JOB");
   }
 };
@@ -204,7 +205,8 @@ const getAllJobs = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     console.log("Error while fetching jobs");
   }
 };
@@ -303,10 +305,7 @@ const getPostedJobByAdmin = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while fetching job info");
-    return res.status(400).json({
-      MESSAGE: `Server error`,
-      SUCCESS: false,
-    });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -339,7 +338,8 @@ const deleteJobByID = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     console.log("Error while deleting company");
   }
 };

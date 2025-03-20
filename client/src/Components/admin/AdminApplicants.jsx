@@ -72,9 +72,9 @@ export const AdminApplicants = () => {
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "tween", duration: 1 }}
-              className="mb-6 text-3xl lg:text-4xl font-bold text-center dark:text-slate-100"
+              className="mb-6 text-3xl lg:text-4xl font-bold text-center dark:text-slate-100 text-gray-800"
             >
-              Applicants ({allApplicants?.length})
+              Total Applicants - {allApplicants?.length}
             </motion.h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {allApplicants?.map((application) => (
@@ -92,10 +92,10 @@ export const AdminApplicants = () => {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <h2 className="text-lg font-semibold dark:text-white">
+                      <h2 className="text-lg md:text-sm lg:text-lg font-semibold dark:text-white">
                         {application?.applicant?.username}
                       </h2>
-                      <p className="text-gray-500 dark:text-gray-300 text-sm">
+                      <p className="text-gray-500 text-[10px] dark:text-gray-300 lg:text-sm">
                         {application?.applicant?.email}
                       </p>
                     </div>

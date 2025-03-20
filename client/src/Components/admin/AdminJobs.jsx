@@ -6,7 +6,8 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RegisteredJobTable } from "./RegisteredJobTable";
 import { setAllAdminJobs } from "../../../store/jobSlice";
 import { JobNotFound } from "../JobNotFound";
-import { Footer } from "../Shared/Footer";
+import AdminButton from "./admin components/AdminButton";
+import { motion } from "framer-motion";
 
 export const AdminJobs = () => {
   const dispatch = useDispatch();
@@ -46,15 +47,15 @@ export const AdminJobs = () => {
       <Navbar />
 
       <section className=" mx-auto max-w-7xl pt-6 p-4">
-        <div className=" flex justify-between p-3 ">
-          <h1 className="text-4xl text-slate-800 font-semibold dark:text-slate-100">
+        <div className="max-md:flex-col max-md:gap-2 flex justify-between md:p-3  ">
+          <h1 className="text-3xl md:text-4xl text-slate-800 font-semibold dark:text-slate-100 max-md:text-center">
             Posted Jobs
           </h1>
           <NavLink to="/admin/job/create">
-            <button className="button-34">Post New Job</button>
+            <AdminButton label="Post New Job" />
           </NavLink>
         </div>
-        <div className="py-2">
+        <div className="max-md:py-6 py-2">
           <input
             type="text"
             placeholder="Filter by company or role..."
@@ -65,16 +66,23 @@ export const AdminJobs = () => {
         </div>
 
         {/* TABLE CONTAINING LIST OF REGISTERED COMPANIES */}
-        <main className="mt-5">
-          <div className="relative ">
+        <main className="md:mt-4">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "tween", duration: 0.6 }}
+            className="relative sm:rounded-lg"
+          >
             {!filteredJobs || filteredJobs.length === 0 ? (
               <div className="h-96 overflow-hidden">
                 <JobNotFound />
               </div>
             ) : (
-              <RegisteredJobTable allAdminJobs={filteredJobs} />
+              <div className="max-md:overflow-x-auto ">
+                <RegisteredJobTable allAdminJobs={filteredJobs} />
+              </div>
             )}
-          </div>
+          </motion.div>
         </main>
       </section>
     </>

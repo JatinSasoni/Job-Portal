@@ -27,7 +27,7 @@ export const RegisterNewJob = () => {
 
       <div className=" mx-auto max-w-7xl  p-4 ">
         <h1 className="text-4xl text-zinc-800 font-bold dark:text-slate-100  text-center mb-3">
-          <p className="text-5xl font-semibold  text-zinc-700 text-center dark:text-white">
+          <p className="md:text-5xl font-semibold  text-zinc-700 text-center dark:text-white">
             Post a{" "}
             <span className="text-blue-400 font-bold"> Job Opportunity</span>
           </p>

@@ -5,9 +5,9 @@ import { handleGetAllCompanyDes } from "../../../Api/getAPI";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setAllCompanies } from "../../../store/companySlice";
 import { RegisteredComTable } from "./RegisteredComTable";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { JobNotFound } from "../JobNotFound";
-import { Footer } from "../Shared/Footer";
+import AdminButton from "./admin components/AdminButton";
 
 export const AdminCompanies = () => {
   const dispatch = useDispatch();
@@ -44,15 +44,15 @@ export const AdminCompanies = () => {
       <Navbar />
 
       <section className="mx-auto max-w-7xl pt-6 p-4 mb-8">
-        <div className=" flex justify-between p-3 ">
-          <h1 className="text-4xl text-slate-800 font-semibold dark:text-slate-100">
+        <div className=" max-md:flex-col max-md:gap-2 flex justify-between md:p-3 ">
+          <h1 className="text-3xl md:text-4xl text-slate-800 font-semibold dark:text-slate-100 max-md:text-center">
             Registered Companies
           </h1>
           <NavLink to="/admin/register">
-            <button className="button-34">Register Company</button>
+            <AdminButton label="Register Company" />
           </NavLink>
         </div>
-        <div className="py-2">
+        <div className="max-md:py-6 py-2">
           <input
             type="text"
             placeholder="Filter By name..."
@@ -65,9 +65,9 @@ export const AdminCompanies = () => {
         {/* TABLE CONTAINING LIST OF REGISTERED COMPANIES */}
         <main className="mt-5">
           <motion.div
-            initial={{ opacity: 0, y: 100 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", duration: 1.5 }}
+            transition={{ type: "tween", duration: 0.6 }}
             className="relative sm:rounded-lg"
           >
             {!filteredCompanies || filteredCompanies.length === 0 ? (
@@ -75,7 +75,7 @@ export const AdminCompanies = () => {
                 <JobNotFound />
               </div>
             ) : (
-              <div className="overflow-auto">
+              <div className="max-md:overflow-x-auto shadow-md">
                 <RegisteredComTable allCompanies={filteredCompanies} />
               </div>
             )}

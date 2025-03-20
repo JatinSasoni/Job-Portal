@@ -12,7 +12,7 @@ export const AllJobsSection = () => {
   const { allJobs } = useSelector((store) => store.job);
 
   return (
-    <div className="w-full">
+    <div className="w-full px-4 max-lg:mt-2">
       <div className="flex justify-between py-4 px-2 border-b-2 ">
         <p className="text-gray-500 dark:text-white text-md">
           Showing{" : "}
@@ -32,7 +32,7 @@ export const AllJobsSection = () => {
           </select>
         </div>
       </div>
-      <div>
+      <div className="max-lg:mt-4">
         {allJobs?.length <= 0 ? (
           <motion.div
             initial={{ y: 50 }}
@@ -43,7 +43,7 @@ export const AllJobsSection = () => {
             <JobNotFound />
           </motion.div>
         ) : (
-          <ul className="grid grid-cols-4 gap-8 place-items-center p-6 ">
+          <ul className="grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-0 ">
             {allJobs?.map((job, i) => {
               return <AllJobsCard key={i} cardData={job} />;
             })}

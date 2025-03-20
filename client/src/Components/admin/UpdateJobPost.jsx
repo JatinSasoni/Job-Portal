@@ -51,12 +51,12 @@ export const UpdateJobPost = () => {
   return (
     <section>
       <Navbar />
-      <div className="mx-auto max-w-7xl flex  gap-14 p-2 ">
+      <div className="mx-auto max-w-7xl md:flex md:gap-14 p-2 ">
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ type: "tween", duration: 1 }}
-          className="flex flex-col items-center gap-14 p-4 pt-10 "
+          className="hidden md:flex flex-col items-center gap-14 p-4 pt-10 "
         >
           <div>
             <p className="text-5xl font-semibold  text-zinc-700 text-center dark:text-white">
@@ -69,12 +69,15 @@ export const UpdateJobPost = () => {
           <div className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
             <img
               src={singleJobInfo?.CompanyID?.logo}
-              className="size-96 rounded-full"
+              className="md:size-80 lg:size-96 rounded-full"
               alt="CompanyLogo"
               loading="lazy"
             />
           </div>
         </motion.div>
+        <p className="text-3xl md:hidden font-semibold  text-zinc-700 text-center dark:text-white">
+          Modify<span className="text-blue-400 font-bold"> Job-Post</span>
+        </p>
         <PostJobForm singleJobInfo={singleJobInfo} onSubmit={onSubmit} />
       </div>
     </section>

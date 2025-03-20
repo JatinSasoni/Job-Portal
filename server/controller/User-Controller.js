@@ -69,7 +69,8 @@ const register = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     console.log("ERROR WHILE REGISTERING USER ");
   }
 };
@@ -154,7 +155,8 @@ const login = async (req, res) => {
         })
     );
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     console.log("ERROR WHILE LOGIN USER ");
   }
 };
@@ -167,7 +169,8 @@ const logout = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     console.log("ERROR WHILE LOGOUT");
   }
 };
@@ -247,7 +250,8 @@ const updateProfile = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     console.log("ERROR WHILE UPDATING PROFILE");
   }
 };
@@ -283,7 +287,8 @@ const saveJob = async (req, res) => {
         .json({ MESSAGE: "Job saved successfully", SUCCESS: true, user });
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -341,7 +346,8 @@ const sendOTPForPass = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     console.log("ERROR WHILE RESETTING PASSWORD");
   }
 };
@@ -396,7 +402,8 @@ const validateOTPToChangePass = async (req, res) => {
         SUCCESS: true,
       });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     console.log("ERROR WHILE RESETTING PASSWORD");
   }
 };
@@ -479,11 +486,7 @@ const ChangePassword = async (req, res) => {
     console.log(error);
     console.log("ERROR WHILE CHANGING PASSWORD");
 
-    return res.status(500).json({
-      MESSAGE: "Internal Server Error",
-      SUCCESS: false,
-      ERROR: error.message,
-    });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -506,7 +509,7 @@ const getUserForAdmin = async (req, res) => {
     res.status(200).json({ SUCCESS: true, MESSAGE: "Found", user });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, MESSAGE: "Internal Server Error" });
+    res.status(500).json({ message: "Server error" });
   }
 };
 

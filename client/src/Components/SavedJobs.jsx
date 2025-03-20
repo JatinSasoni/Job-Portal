@@ -35,7 +35,7 @@ export const SavedJobs = () => {
             <JobNotFound />
           </div>
         ) : (
-          <ul className="grid  grid-cols-4 gap-10 place-items-center px-20 py-10">
+          <ul className="grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-32 ">
             {savedJobs?.map((job, i) => {
               return <AllJobsCard key={i} cardData={job} />;
             })}

@@ -40,6 +40,7 @@ const registerCompany = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while registering company");
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -68,6 +69,7 @@ const getCompanyCreatedByRecruiter = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while loading companies");
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -102,6 +104,7 @@ const getCompanyByID = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while loading company");
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -159,8 +162,8 @@ const updateCompany = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
     console.log("Error while updating company");
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -206,7 +209,8 @@ const deleteCompanyByID = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Server error" });
+
     console.log("Error while deleting company");
   }
 };

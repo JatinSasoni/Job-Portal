@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { Navbar } from "../Shared/Navbar";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { MdOutlineMail, MdPhone } from "react-icons/md";
 import { handleGetApplicantProfile } from "../../../Api/getAPI";
 import { FaRegFilePdf } from "react-icons/fa6";
+import AdminButton from "./admin components/AdminButton";
 
 export const ViewApplicant = () => {
   const { applicantID } = useParams(); // Get user ID from URL
@@ -38,9 +39,15 @@ export const ViewApplicant = () => {
 
   if (!applicant) {
     return (
-      <div className="text-center mt-10 text-red-500 font-semibold">
-        User not found.
-      </div>
+      <>
+        <Navbar />
+        <div className="text-center mt-10 text-4xl text-red-500 font-semibold">
+          User not found.
+          <NavLink to="/admin/jobs">
+            <AdminButton label="Go Back" />
+          </NavLink>
+        </div>
+      </>
     );
   }
 
@@ -51,7 +58,7 @@ export const ViewApplicant = () => {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, type: "tween" }}
-        className="max-w-2xl mx-auto bg-white dark:bg-zinc-900 dark:text-white shadow-lg rounded-lg overflow-hidden"
+        className="max-w-2xl max-md:px-2 max-lg:mt-8  mx-auto bg-white dark:bg-zinc-900 dark:text-white shadow-lg rounded-lg overflow-hidden"
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 dark:from-zinc-800 dark:to-zinc-700">

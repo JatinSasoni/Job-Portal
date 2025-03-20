@@ -92,7 +92,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
   return (
     <section>
       <div className="backdrop-blur-sm fixed left-0 right-0 bottom-0 top-0 grid place-items-center z-50">
-        <div className=" fixed px-8 py-4 rounded-xl border w-1/3 shadow-xl dark:shadow-none dark:bg-transparent backdrop-blur dark:border-none ">
+        <div className="fixed px-8 py-4 rounded-xl border max-xl:w-4/5 w-1/3 shadow-xl dark:shadow-none dark:bg-transparent backdrop-blur dark:border-none ">
           {/* HEADER */}
           <div className="text-4xl font-bold text-zinc-700 flex justify-end dark:text-white">
             <button onClick={() => setIsUpdateProfile(false)}>

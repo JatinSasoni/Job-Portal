@@ -78,7 +78,7 @@ export const Navbar = () => {
             : "relative "
         }`}
       >
-        <div className="mx-auto max-w-7xl flex justify-between lg:justify-around md:px-3 lg:px-8 ">
+        <div className="mx-auto max-w-7xl flex justify-between lg:justify-around md:px-3 lg:px-8 px-1 ">
           {/* Logo & Hamburger Menu */}
           <div className="flex gap-1 ">
             <HamburgerMenu setIsOpen={setIsOpen} />
