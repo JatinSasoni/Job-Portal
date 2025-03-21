@@ -17,7 +17,7 @@ export const AllJobsCard = ({ cardData }) => {
       flex flex-col justify-between h-[300px] lg:h-[300px]" // Ensuring Fixed Height
     >
       <div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
           {/* company logo */}
           <div className="rounded-full size-8 overflow-hidden">
             <img
@@ -43,13 +43,13 @@ export const AllJobsCard = ({ cardData }) => {
             ? `${cardData?.title?.slice(0, 22)}...`
             : cardData?.title}
         </h4>
-        <div className="flex gap-10  md:gap-4 [&>p]:text-xs">
-          <p className="flex gap-px text-gray-400">
-            <TiBriefcase className="my-auto" />
+        <div className="mt-1 flex gap-10  md:gap-4 [&>p]:text-xs">
+          <p className="flex gap-px text-gray-500">
+            <TiBriefcase className="my-auto text-blue-600" />
             <span>{cardData?.jobType}</span>
           </p>
-          <p className="flex gap-px text-gray-400 align-middle">
-            <LuClock9 className="my-auto" />
+          <p className="flex gap-px text-gray-500 align-middle">
+            <LuClock9 className="my-auto text-blue-600" />
             <span>
               {getDateDifference(cardData?.createdAt) === 0
                 ? "Today"
@@ -59,7 +59,7 @@ export const AllJobsCard = ({ cardData }) => {
         </div>
 
         {/* JOB DESC */}
-        <p className="my-1 md:my-3 text-xs md:text-xs lg:text-sm h-10 text-slate-500 dark:text-white">
+        <p className="my-1 md:my-3 text-xs md:text-xs lg:text-sm md:h-10 text-slate-500 dark:text-white">
           {cardData?.description.length > 25
             ? `${cardData?.description?.slice(0, 45)}...`
             : cardData?.description}
@@ -71,7 +71,7 @@ export const AllJobsCard = ({ cardData }) => {
             return (
               <li
                 key={index}
-                className="border rounded p-1 bg-gray-100 dark:bg-zinc-700 dark:text-white dark:border-none"
+                className="border rounded p-1 bg-neutral-100 dark:bg-zinc-700 dark:text-white dark:border-none"
               >
                 {requirement?.length <= 5
                   ? `${requirement} `

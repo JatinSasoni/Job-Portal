@@ -49,7 +49,7 @@ export const Signup = () => {
       <motion.div
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ type: "tween", duration: 1 }}
+        transition={{ type: "tween", duration: 0.7 }}
       >
         <div className="text-5xl font-bold mt-8  lg:mt-20 xl:mt-0 xl:mb-4 md:pt-3  text-[#1e0e4b] text-center dark:text-white leading-tight ">
           Signup To <span className="text-blue-400 font-bold">TalentNest</span>

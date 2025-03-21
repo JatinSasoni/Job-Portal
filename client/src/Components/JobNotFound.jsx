@@ -8,7 +8,7 @@ export const JobNotFound = () => {
   return (
     <>
       {isDarkMode ? (
-        <div className=" ml-16 md:ml-0 h-full p-3 overflow-hidden relative dark:bg-zinc-900 drop-shadow-md dark:drop-shadow-none">
+        <div className=" h-full p-3 overflow-hidden relative dark:bg-zinc-900 drop-shadow-md dark:drop-shadow-none">
           <div className="box-of-star1 ml">
             <div className="star star-position1"></div>
             <div className="star star-position2"></div>
@@ -46,7 +46,7 @@ export const JobNotFound = () => {
             <div className="star star-position6"></div>
             <div className="star star-position7"></div>
           </div>
-          <div data-js="astro" className="astronaut">
+          <div data-js="astro" className="astronaut max-md:ml-8">
             <div className="head"></div>
             <div className="arm arm-left"></div>
             <div className="arm arm-right"></div>

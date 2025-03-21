@@ -26,6 +26,14 @@ export const SavedJobs = () => {
     fetchSavedJobs();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+      </div>
+    );
+  }
+
   return (
     <section className="mx-auto max-w-7xl my-8 ">
       <div>

@@ -34,7 +34,7 @@ export const UserReviews = () => {
           initial={{ opacity: 0, translateY: 50 }}
           whileInView={{ opacity: 1, translateY: 0 }}
           transition={{ duration: 0.7, type: "tween" }}
-          className="mt-20 mask-gradient"
+          className=" mask-gradient"
         >
           <div>
             <div className="mx-auto ">

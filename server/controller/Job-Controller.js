@@ -364,7 +364,7 @@ const getSavedJobs = async (req, res) => {
       savedJobs: user.savedJobs,
     });
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 

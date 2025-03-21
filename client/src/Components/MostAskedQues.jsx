@@ -11,7 +11,7 @@ const FAQBox = ({ data, openedIndex, handleDropdownClick, type }) => {
         <div
           onClick={() => handleDropdownClick(index, type)}
           key={index}
-          className="border p-2  dark:bg-zinc-800 rounded-xl drop-shadow-md dark:border-none px-3"
+          className="border p-2  dark:bg-zinc-800 rounded-xl shadow-md dark:border-none px-3"
         >
           <div className="flex justify-between">
             <p className="text-zinc-900 dark:text-gray-100 text-sm md:text-md font-medium">
@@ -50,14 +50,14 @@ export const MostAskedQues = () => {
 
   const handleDropdownClick = (index, type) => {
     if (type === "seeker") {
-      setOpenedIndexSeeker(openedIndexSeeker === index ? null : index);
+      setOpenedIndexSeeker((prev) => (prev === index ? null : index));
     } else {
-      setOpenedIndexRec(openedIndexRec === index ? null : index);
+      setOpenedIndexRec((prev) => (prev === index ? null : index));
     }
   };
 
   return (
-    <div className="max-w-6xl mx-auto my-8 mb-16">
+    <div className="max-w-6xl mx-auto my-8 mb-14">
       <h1 className="text-3xl md:text-5xl dark:text-white my-2 lg:my-16  text-gray-700 text-center font-semibold">
         Frequently Asked
       </h1>

@@ -40,7 +40,7 @@ export const JobOfTheDay = () => {
   }
 
   return (
-    <div className="mt-8 lg:mt-12 container max-w-screen-xl mx-auto flex flex-col gap-2 md:gap-3">
+    <div className="mt-8 lg:mt-12 max-w-screen-xl mx-auto flex flex-col gap-1 md:gap-3">
       <motion.h2
         initial={{ opacity: 0, scale: 0.8, y: 20 }}
         whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -50,7 +50,7 @@ export const JobOfTheDay = () => {
           damping: 12,
           duration: 1,
         }}
-        className="text-3xl md:text-4xl lg:text-5xl text-center font-semibold text-gray-700 dark:text-white"
+        className="text-2xl md:text-4xl lg:text-5xl text-center font-semibold text-gray-700 dark:text-white"
       >
         Jobs Of The Day
       </motion.h2>
@@ -65,7 +65,7 @@ export const JobOfTheDay = () => {
           </div>
         ) : (
           // <ul className="grid grid-cols-4 gap-8 place-items-center px-32 py-6 ">
-          <ul className="grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-32 ">
+          <ul className="mt-4 grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-32 ">
             <JobCards />
           </ul>
         )}

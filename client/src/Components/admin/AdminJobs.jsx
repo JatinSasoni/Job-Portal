@@ -8,21 +8,27 @@ import { setAllAdminJobs } from "../../../store/jobSlice";
 import { JobNotFound } from "../JobNotFound";
 import AdminButton from "./admin components/AdminButton";
 import { motion } from "framer-motion";
+import { setLoading } from "../../../store/authSlice";
 
 export const AdminJobs = () => {
+  console.log("ok");
   const dispatch = useDispatch();
   const [filterInput, setFilterInput] = useState("");
+  const { loading } = useSelector((store) => store.auth);
 
   //EXECUTES ONLY WHEN COMPONENT IF MOUNTED FOR THE FIRST TIME
   useEffect(() => {
     const getAllAdminJobs = async () => {
       try {
+        setLoading(true);
         const response = await handleGetAllAdminJobs();
         if (response.data.SUCCESS) {
           dispatch(setAllAdminJobs(response.data.postedJobs));
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     getAllAdminJobs();
@@ -41,6 +47,14 @@ export const AdminJobs = () => {
           .includes(filterInput.toLowerCase())
     );
   }, [filterInput, allAdminJobs]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -73,7 +87,7 @@ export const AdminJobs = () => {
             transition={{ type: "tween", duration: 0.6 }}
             className="relative sm:rounded-lg"
           >
-            {!filteredJobs || filteredJobs.length === 0 ? (
+            {!filteredJobs || filteredJobs?.length === 0 ? (
               <div className="h-96 overflow-hidden">
                 <JobNotFound />
               </div>

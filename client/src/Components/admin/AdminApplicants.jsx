@@ -3,28 +3,39 @@ import { useGetAllApplicants } from "../../Hooks/getAllApplicants";
 import { useDispatch, useSelector } from "react-redux";
 import { handleStatusUpdateAPI } from "../../../Api/postAPI";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { setLoading } from "../../../store/authSlice";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { JobNotFound } from "../JobNotFound";
 
 export const AdminApplicants = () => {
   const { jobID } = useParams();
-  useGetAllApplicants(jobID);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { allApplicants } = useSelector((store) => store.application);
   const { loading } = useSelector((store) => store.auth);
   const [loadingId, setLoadingId] = useState(null);
+  const [localApplicants, setLocalApplicants] = useState([]);
 
-  const handleUpdateStatus = async (status, applicationID) => {
+  useGetAllApplicants(jobID);
+
+  // Sync local state with Redux state to prevent unnecessary re-renders
+  useEffect(() => {
+    setLocalApplicants(allApplicants);
+  }, [allApplicants]);
+
+  const handleAcceptRejectApplicant = async (status, applicationID) => {
     try {
       setLoadingId(applicationID);
       dispatch(setLoading(true));
       const response = await handleStatusUpdateAPI({ status }, applicationID);
       if (response.data.SUCCESS) {
-        navigate(0);
+        // Update only the changed applicant locally instead of refreshing
+        setLocalApplicants((prev) =>
+          prev.map((app) =>
+            app._id === applicationID ? { ...app, status } : app
+          )
+        );
       }
     } catch (error) {
       console.log(error);
@@ -36,11 +47,9 @@ export const AdminApplicants = () => {
 
   if (loading) {
     return (
-      <>
-        <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
-        </div>
-      </>
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+      </div>
     );
   }
 
@@ -48,15 +57,12 @@ export const AdminApplicants = () => {
     <>
       <Navbar />
       <div className="relative my-8 mx-auto max-w-6xl px-4 z-0">
-        {!allApplicants.length ? (
+        {!localApplicants.length ? (
           <>
             <motion.div
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                type: "tween",
-                duration: 1,
-              }}
+              transition={{ type: "tween", duration: 1 }}
               className="text-5xl font-semibold mb-2 text-zinc-700 text-center dark:text-white tracking-tight"
             >
               Currently no
@@ -74,15 +80,14 @@ export const AdminApplicants = () => {
               transition={{ type: "tween", duration: 1 }}
               className="mb-6 text-3xl lg:text-4xl font-bold text-center dark:text-slate-100 text-gray-800"
             >
-              Total Applicants - {allApplicants?.length}
+              Total Applicants - {localApplicants.length}
             </motion.h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {allApplicants?.map((application) => (
+              {localApplicants.map((application) => (
                 <div
-                  key={application?._id}
+                  key={application._id}
                   className="bg-white dark:bg-zinc-800 p-5 rounded-lg shadow-lg border border-gray-200 dark:border-zinc-700 hover:shadow-xl transition-shadow"
                 >
-                  {/* Profile Picture */}
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-gray-300 dark:border-zinc-600">
                       <img
@@ -101,7 +106,6 @@ export const AdminApplicants = () => {
                     </div>
                   </div>
 
-                  {/* Details */}
                   <div className="mt-3 text-sm text-gray-600 dark:text-gray-300">
                     <p>📞 {application?.applicant?.phoneNumber}</p>
                     <p>
@@ -118,7 +122,6 @@ export const AdminApplicants = () => {
                     </a>
                   </div>
 
-                  {/* Buttons */}
                   <button
                     onClick={() =>
                       navigate(
@@ -130,7 +133,6 @@ export const AdminApplicants = () => {
                     View Profile
                   </button>
 
-                  {/* Status & Actions */}
                   <div className="mt-3 flex justify-between items-center gap-2">
                     {application?.status === "pending" ? (
                       loadingId === application?._id ? (
@@ -139,7 +141,10 @@ export const AdminApplicants = () => {
                         <>
                           <button
                             onClick={() =>
-                              handleUpdateStatus("accepted", application?._id)
+                              handleAcceptRejectApplicant(
+                                "accepted",
+                                application?._id
+                              )
                             }
                             className="px-3 py-2 bg-green-500 text-white text-sm rounded-md hover:bg-green-600 transition w-1/2"
                           >
@@ -147,7 +152,10 @@ export const AdminApplicants = () => {
                           </button>
                           <button
                             onClick={() =>
-                              handleUpdateStatus("rejected", application?._id)
+                              handleAcceptRejectApplicant(
+                                "rejected",
+                                application?._id
+                              )
                             }
                             className="px-3 py-2 bg-red-500 text-white text-sm rounded-md hover:bg-red-600 transition w-1/2"
                           >

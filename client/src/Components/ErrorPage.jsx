@@ -12,7 +12,7 @@ export const ErrorPage = () => {
         <Lottie animationData={errorAnimation} className="w-80 h-90"></Lottie>
 
         {/* Text Content */}
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mt-4 ">
+        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mt-4 max-md:text-center ">
           Oops! Page Not Found
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mt-2 text-center">

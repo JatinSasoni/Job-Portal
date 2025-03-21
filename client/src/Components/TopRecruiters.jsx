@@ -35,11 +35,11 @@ export const TopRecruiters = () => {
         <div>
           <div className=" container max-w-screen-xl mx-auto flex flex-col md:gap-3">
             {/* TITLE */}
-            <h2 className="text-3xl md:text-5xl text-center font-semibold text-gray-700 dark:text-white">
+            <h2 className="text-2xl md:text-5xl text-center font-semibold text-gray-700 dark:text-white">
               Top Recruiters
             </h2>
 
-            <p className="text-center text-sm md:text-md text-slate-600 font-semibold dark:text-slate-500">
+            <p className="text-center text-xs md:text-md text-slate-600 font-semibold dark:text-slate-500">
               Discover your next career move, freelance gig, or internship
             </p>
 

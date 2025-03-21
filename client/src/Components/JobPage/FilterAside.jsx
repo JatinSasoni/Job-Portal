@@ -45,7 +45,7 @@ export const FilterAside = () => {
             <p className="text-gray-500 dark:text-white">Advance Filter</p>
             <button
               onClick={resetFilters}
-              className=" px-3 rounded-md text-white hover:scale-105 bg-zinc-800 transition"
+              className=" px-3 rounded-md text-white hover:scale-105 bg-zinc-700 transition"
             >
               Reset
             </button>
@@ -63,7 +63,7 @@ export const FilterAside = () => {
                 className="flex gap-2 items-center xl:grid xl:grid-cols-2 xl:gap-0 "
                 key={keyword}
               >
-                <label className="max-sm:text-sm text-gray-700 dark:text-white font-semibold">
+                <label className="max-sm:text-sm text-gray-700 dark:text-white font-medium">
                   {keyword || "All"}
                 </label>
                 <input
@@ -90,7 +90,7 @@ export const FilterAside = () => {
                 className="flex gap-1 items-center xl:grid xl:grid-cols-2"
                 key={range}
               >
-                <label className="max-sm:text-sm text-gray-700 dark:text-white font-semibold">
+                <label className="max-sm:text-sm text-gray-700 dark:text-white font-medium">
                   {range === "0-999" ? "All" : range.replace("-", "-") + " LPA"}
                 </label>
 
