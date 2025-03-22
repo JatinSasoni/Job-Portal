@@ -178,7 +178,7 @@ const getAllJobs = async (req, res) => {
     //Keyword IS A QUERY STRING CONTAINING USER APPLIED FILTER FOR JOB LIKE "Frontend Dev"
     const keyword = req.query.keyword || ""; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
     const page = Number(req.query.page) || 1; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
-    const limit = Number(req.query.limit) || 4; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
+    const limit = Number(req.query.limit) || 8; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
     const skip = (page - 1) * limit;
 
     const query = {

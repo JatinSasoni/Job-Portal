@@ -19,15 +19,13 @@ const useGetAllJobs = (sortOrder) => {
           paginationData?.page,
           paginationData?.limit
         );
-
         if (response.data.SUCCESS) {
           dispatch(
             setPaginationData({
               page: response?.data?.page,
               limit: response?.data?.limit,
-              totalPage: Math.max(
-                1,
-                Math.ceil(response?.data?.totalJobs / response?.data?.limit)
+              totalPage: Math.ceil(
+                response?.data?.totalJobs / response?.data?.limit
               ),
             })
           );
