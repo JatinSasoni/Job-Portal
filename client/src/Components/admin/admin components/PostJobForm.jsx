@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 /* eslint-disable react/prop-types */
 export const PostJobForm = ({ onSubmit, singleJobInfo = "" }) => {
   const { allCompanies } = useSelector((store) => store.company, shallowEqual);
+  const { isDarkMode } = useSelector((store) => store.auth, shallowEqual);
   const navigate = useNavigate();
 
   const {
@@ -33,18 +34,26 @@ export const PostJobForm = ({ onSubmit, singleJobInfo = "" }) => {
     }
   }, [singleJobInfo, reset]); // Run when `singleJobInfo` updates
 
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
   return (
     <motion.form
       initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ type: "tween", duration: 1 }}
-      className="max-w-lg mx-auto dark:bg-zinc-900 rounded-lg"
+      className="max-w-lg mx-auto dark:bg-zinc-900 rounded-lg max-md:mx-2"
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
     >
       {/* Title Field */}
       <div className="mb-2">
-        <label className="block text-gray-700 dark:text-gray-300 mb-1">
+        <label className="block text-gray-700 dark:text-gray-300 mb-1 ">
           Title
         </label>
         <input

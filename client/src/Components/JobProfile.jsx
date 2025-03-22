@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Navbar } from "../Components/Shared/Navbar";
 import { handleApplyForJob, handleGetSingleJob } from "../../Api/getAPI";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
@@ -57,6 +56,7 @@ export const JobProfile = () => {
     //FUNCTION DEFINED TO FETCH ALL JOBS
     const fetchSingleJob = async (jobID) => {
       try {
+        dispatch(setLoading(true));
         const response = await handleGetSingleJob(jobID);
         //IF DATA FETCHED SUCCESSFULLY
         if (response.data.SUCCESS) {
@@ -69,6 +69,8 @@ export const JobProfile = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        dispatch(setLoading(false));
       }
     };
 
@@ -76,35 +78,43 @@ export const JobProfile = () => {
     fetchSingleJob(jobID);
   }, [jobID, dispatch, user?._id]);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <section className="mx-auto max-w-7xl  p-6 dark:text-white">
         {/* Job Header */}
-        <div className="flex flex-col md:flex-row justify-between items-center bg-gray-100 dark:bg-zinc-800 p-6 rounded-lg shadow-md">
+        <div className="flex flex-col max-md:gap-4 md:flex-row justify-between items-center bg-gray-100 dark:bg-zinc-800 p-6 rounded-lg shadow-md">
           {/* Company Logo & Name */}
           <div className="flex items-center gap-4">
             <img
               src={singleJobData?.CompanyID?.logo}
               alt="Company Logo"
-              className="w-16 h-16 object-contain bg-white p-2 rounded-lg shadow"
+              className="max-md:w-12 max-md:h-12 w-16 h-16 object-fill rounded-full shadow"
             />
-            <h1 className="text-3xl font-bold">
+            <h1 className="max-md:text-2xl text-3xl font-bold">
               {singleJobData?.CompanyID?.companyName}
             </h1>
           </div>
 
           {/* Apply Button */}
           <button
-            className={`px-6 py-3 rounded-lg text-white font-semibold transition ${
+            className={`px-6 max-md:py-2 py-3 rounded-lg text-white font-semibold transition ${
               alreadyApplied
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
+                : "bg-blue-500 hover:bg-blue-700"
             }`}
             disabled={alreadyApplied}
             onClick={applyForJob}
           >
             {loading ? (
-              <div className="loader"></div>
+              <div className="animate-spin h-5 w-5 border-4 border-blue-100 border-t-transparent rounded-full mx-auto"></div>
             ) : alreadyApplied ? (
               "Already Applied"
             ) : (

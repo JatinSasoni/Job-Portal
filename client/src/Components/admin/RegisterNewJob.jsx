@@ -23,9 +23,7 @@ export const RegisterNewJob = () => {
 
   return (
     <section>
-      <Navbar />
-
-      <div className=" mx-auto max-w-7xl  p-4 ">
+      <div className=" mx-auto max-w-7xl mt-9 ">
         <h1 className="text-4xl text-zinc-800 font-bold dark:text-slate-100  text-center mb-3">
           <p className="md:text-5xl font-semibold  text-zinc-700 text-center dark:text-white">
             Post a{" "}
