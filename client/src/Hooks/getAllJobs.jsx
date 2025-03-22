@@ -4,13 +4,16 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setAllJobs, setPaginationData } from "../../store/jobSlice";
 import { toast } from "react-toastify";
 import { setLoading } from "../../store/authSlice";
-const useGetAllJobs = (sortOrder) => {
+const useGetAllJobs = (sortOrder, scope) => {
   const dispatch = useDispatch();
   const { filterQuery, filterSalary } = useSelector(
     (store) => store.job,
     shallowEqual
   );
-  const { paginationData } = useSelector((store) => store.job, shallowEqual);
+  const paginationData = useSelector(
+    (store) => store.job.paginationData[scope],
+    shallowEqual
+  );
 
   useEffect(() => {
     const fetchAllJobs = async () => {
@@ -21,14 +24,15 @@ const useGetAllJobs = (sortOrder) => {
           paginationData?.page,
           paginationData?.limit
         );
+
         if (response.data.SUCCESS) {
+          const totalJobs = response?.data?.totalJobs; // Get totalJobs from backend
+          const totalPages = Math.ceil(totalJobs / paginationData?.limit); // Calculate total pages
+
           dispatch(
             setPaginationData({
-              page: response?.data?.page,
-              limit: response?.data?.limit,
-              totalPage: Math.ceil(
-                response?.data?.totalJobs / response?.data?.limit
-              ),
+              scope,
+              data: { totalPage: totalPages }, //UPDATE TOTAL PAGES
             })
           );
 
@@ -64,6 +68,7 @@ const useGetAllJobs = (sortOrder) => {
     dispatch,
     sortOrder,
     paginationData?.page,
+    scope,
     paginationData?.limit,
   ]);
 };

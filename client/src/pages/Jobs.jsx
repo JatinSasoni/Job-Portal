@@ -1,7 +1,7 @@
 import { JobSearchCard } from "../Components/Cards/JobSearchCard";
 import { AllJobsSection } from "../Components/JobPage/AllJobsSection";
 import { FilterAside } from "../Components/JobPage/FilterAside";
-import Pagination from "../Components/JobPage/Pagination";
+// import Pagination from "../Components/JobPage/Pagination";
 
 export const Jobs = () => {
   return (
@@ -15,9 +15,9 @@ export const Jobs = () => {
         <FilterAside />
         {/* JOBS RIGHT SIDE */}
         <AllJobsSection />
-        {/* PAGINATION */}
       </main>
-      <Pagination />
+      {/* PAGINATION */}
+      {/* <Pagination /> */}
     </section>
   );
 };

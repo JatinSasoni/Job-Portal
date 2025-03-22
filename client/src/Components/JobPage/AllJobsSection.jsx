@@ -4,10 +4,11 @@ import { AllJobsCard } from "../Cards/AllJobsCard";
 import { useState } from "react";
 import { JobNotFound } from "../JobNotFound";
 import { motion } from "motion/react";
+import Pagination from "./Pagination";
 
 export const AllJobsSection = () => {
   const [sortOrder, setSortOrder] = useState("newest"); // Default: Newest first
-  useGetAllJobs(sortOrder);
+  useGetAllJobs(sortOrder, "allJobsPage");
 
   const { allJobs } = useSelector((store) => store.job);
   const { loading } = useSelector((store) => store.auth);
@@ -54,6 +55,7 @@ export const AllJobsSection = () => {
             })}
           </ul>
         )}
+        <Pagination scope="allJobsPage" />
       </div>
     </div>
   );

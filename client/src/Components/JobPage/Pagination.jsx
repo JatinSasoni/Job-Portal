@@ -1,26 +1,24 @@
+/* eslint-disable react/prop-types */
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setPaginationData } from "../../../store/jobSlice";
 
-const Pagination = () => {
-  const { paginationData } = useSelector((store) => store.job, shallowEqual);
+const Pagination = ({ scope }) => {
+  const paginationData = useSelector(
+    (store) => store.job.paginationData[scope],
+    shallowEqual
+  );
+
   const dispatch = useDispatch();
 
   const handlePageSelection = (type) => {
-    type?.toLowerCase() === "prev"
-      ? paginationData?.page > 1 &&
-        dispatch(
-          setPaginationData({
-            ...paginationData,
-            page: paginationData?.page - 1,
-          })
-        )
-      : paginationData?.page < paginationData?.totalPage &&
-        dispatch(
-          setPaginationData({
-            ...paginationData,
-            page: paginationData?.page + 1,
-          })
-        );
+    const newPage =
+      type.toLowerCase() === "prev"
+        ? paginationData?.page - 1
+        : paginationData?.page + 1;
+
+    if (newPage >= 1 && newPage <= paginationData.totalPage) {
+      dispatch(setPaginationData({ scope, data: { page: newPage } }));
+    }
   };
 
   return (
@@ -41,7 +39,7 @@ const Pagination = () => {
             onClick={() => {
               if (paginationData?.page !== index + 1) {
                 dispatch(
-                  setPaginationData({ ...paginationData, page: index + 1 })
+                  setPaginationData({ scope, data: { page: index + 1 } })
                 );
               }
             }}
