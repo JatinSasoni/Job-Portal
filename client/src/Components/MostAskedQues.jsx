@@ -11,7 +11,7 @@ const FAQBox = ({ data, openedIndex, handleDropdownClick, type }) => {
         <div
           onClick={() => handleDropdownClick(index, type)}
           key={index}
-          className="border p-2  dark:bg-zinc-800 rounded-xl shadow-md dark:border-none px-3"
+          className="border p-2 dark:bg-zinc-800 rounded-xl shadow-md dark:border-none px-3"
         >
           <div className="flex justify-between">
             <p className="text-zinc-900 dark:text-gray-100 text-sm md:text-md font-medium">
@@ -30,7 +30,7 @@ const FAQBox = ({ data, openedIndex, handleDropdownClick, type }) => {
             </button>
           </div>
           <p
-            className={`overflow-hidden text-sm md:text-md text-zinc-700 dark:text-gray-300 transition-all duration-300 ${
+            className={`overflow-hidden text-sm md:text-lg text-zinc-700 dark:text-gray-300 transition-all duration-300 ${
               openedIndex === index
                 ? "max-h-40 opacity-100"
                 : "max-h-0 opacity-0"

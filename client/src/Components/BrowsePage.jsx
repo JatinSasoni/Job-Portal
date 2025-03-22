@@ -14,7 +14,7 @@ export const BrowsePage = () => {
   useEffect(() => {
     const fetchFilteredData = async () => {
       try {
-        const response = await handleGetAllJobs(searchedQuery.keyword);
+        const response = await handleGetAllJobs(searchedQuery.keyword, 1, 20);
         if (response.data.SUCCESS) {
           //IF DATA CHANGED ONLY THEN
           JSON.stringify(response.data.allJobs) !== JSON.stringify(allJobs) &&

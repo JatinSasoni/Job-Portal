@@ -3,6 +3,7 @@ import { handleGetAllJobs } from "../../Api/getAPI";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setAllJobs, setPaginationData } from "../../store/jobSlice";
 import { toast } from "react-toastify";
+import { setLoading } from "../../store/authSlice";
 const useGetAllJobs = (sortOrder) => {
   const dispatch = useDispatch();
   const { filterQuery, filterSalary } = useSelector(
@@ -14,6 +15,7 @@ const useGetAllJobs = (sortOrder) => {
   useEffect(() => {
     const fetchAllJobs = async () => {
       try {
+        dispatch(setLoading(true));
         const response = await handleGetAllJobs(
           filterQuery,
           paginationData?.page,
@@ -50,6 +52,8 @@ const useGetAllJobs = (sortOrder) => {
       } catch (error) {
         console.error("Error fetching jobs:", error);
         toast.error(error?.response?.data?.MESSAGE);
+      } finally {
+        dispatch(setLoading(false));
       }
     };
 
@@ -59,8 +63,8 @@ const useGetAllJobs = (sortOrder) => {
     filterSalary,
     dispatch,
     sortOrder,
-    paginationData.page,
-    paginationData.limit,
+    paginationData?.page,
+    paginationData?.limit,
   ]);
 };
 

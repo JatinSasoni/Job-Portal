@@ -35,7 +35,7 @@ const Pagination = () => {
         >
           Prev
         </button>
-        {[...Array(paginationData.totalPage)].map((_, index) => (
+        {[...Array(paginationData?.totalPage)].map((_, index) => (
           <button
             key={index}
             onClick={() => {

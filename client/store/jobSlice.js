@@ -5,8 +5,8 @@ import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_NUMBER } from "../util/Constants";
 const initialState = {
   allJobs: [],
   paginationData: {
-    page: DEFAULT_PAGE_NUMBER,
-    limit: DEFAULT_PAGE_LIMIT,
+    page: DEFAULT_PAGE_NUMBER || 1,
+    limit: DEFAULT_PAGE_LIMIT || 8,
     totalPage: 1,
   }, //DEFAULT 1
   singleJobData: [],
