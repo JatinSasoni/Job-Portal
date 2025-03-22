@@ -172,10 +172,14 @@ const editJobPost = async (req, res) => {
 };
 
 //API FOR FETCHING JOBS FOR STUDENT || JobSEEKER
+
 const getAllJobs = async (req, res) => {
   try {
     //Keyword IS A QUERY STRING CONTAINING USER APPLIED FILTER FOR JOB LIKE "Frontend Dev"
     const keyword = req.query.keyword || ""; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
+    const page = Number(req.query.page) || 1; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
+    const limit = Number(req.query.limit) || 4; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
+    const skip = (page - 1) * limit;
 
     const query = {
       //RETURNS DOCUMENTS WITH EITHER TITLE OR DESCRIPTION MATCHED THROUGH $regex
@@ -186,25 +190,25 @@ const getAllJobs = async (req, res) => {
       ],
     };
 
+    const totalJobs = await Job.countDocuments(query);
     const allJobs = await Job.find(query)
       .sort({ createdAt: -1 })
-      .populate("CompanyID");
-
-    //NO JOBS FOUND
-    if (!allJobs) {
-      return res.status(400).json({
-        MESSAGE: "Jobs not found",
-        SUCCESS: false,
-      });
-    }
+      .populate("CompanyID")
+      .skip(skip)
+      .limit(limit);
 
     return res.status(200).json({
       MESSAGE: `Jobs found ${allJobs.length}`,
       allJobs,
+      page,
+      limit,
+      totalJobs,
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    console.log(error);
+
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
     console.log("Error while fetching jobs");
   }
 };

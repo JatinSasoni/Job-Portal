@@ -1,4 +1,5 @@
 import axios from "axios";
+import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_NUMBER } from "../util/Constants";
 
 //AXIOS INSTANCE
 const api = axios.create({
@@ -13,10 +14,17 @@ export const handleLogoutAPICall = () => {
 };
 
 //GET ALL JOBS API
-export const handleGetAllJobs = (keyword = "") => {
-  return api.get(`/api/v1/job/get?keyword=${keyword}`, {
-    withCredentials: true,
-  });
+export const handleGetAllJobs = (
+  keyword = "",
+  page = DEFAULT_PAGE_NUMBER,
+  limit = DEFAULT_PAGE_LIMIT
+) => {
+  return api.get(
+    `/api/v1/job/get?keyword=${keyword}&page=${page}&limit=${limit}`,
+    {
+      withCredentials: true,
+    }
+  );
 };
 
 //GET SINGLE JOB BY JOB ID

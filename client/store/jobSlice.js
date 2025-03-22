@@ -1,8 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_NUMBER } from "../util/Constants";
 
 //INITIAL STATE FOR JOB SLICE
 const initialState = {
   allJobs: [],
+  paginationData: {
+    page: DEFAULT_PAGE_NUMBER,
+    limit: DEFAULT_PAGE_LIMIT,
+    totalPage: 1,
+  }, //DEFAULT 1
   singleJobData: [],
   allAdminJobs: [],
   allAppliedJobs: [],
@@ -19,6 +25,9 @@ const jobSlice = createSlice({
     //--ACTIONS
     setAllJobs: (state, action) => {
       state.allJobs = action.payload;
+    },
+    setPaginationData: (state, action) => {
+      state.paginationData = action.payload;
     },
     setSingleJobData: (state, action) => {
       state.singleJobData = action.payload;
@@ -44,6 +53,7 @@ const jobSlice = createSlice({
 //EXPORTING REDUCERS/ACTION TO USE IN DIFFERENT COMPONENTS
 export const {
   setAllJobs,
+  setPaginationData,
   setSingleJobData,
   setAllAdminJobs,
   setAllAppliedJobs,

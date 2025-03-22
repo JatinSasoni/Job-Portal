@@ -1,20 +1,38 @@
 import { useEffect } from "react";
 import { handleGetAllJobs } from "../../Api/getAPI";
-import { useDispatch, useSelector } from "react-redux";
-import { setAllJobs } from "../../store/jobSlice";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { setAllJobs, setPaginationData } from "../../store/jobSlice";
 import { toast } from "react-toastify";
 const useGetAllJobs = (sortOrder) => {
   const dispatch = useDispatch();
-  const { filterQuery, filterSalary } = useSelector((store) => store.job);
+  const { filterQuery, filterSalary } = useSelector(
+    (store) => store.job,
+    shallowEqual
+  );
+  const { paginationData } = useSelector((store) => store.job, shallowEqual);
 
   useEffect(() => {
     const fetchAllJobs = async () => {
       try {
-        const response = await handleGetAllJobs(filterQuery);
+        const response = await handleGetAllJobs(
+          filterQuery,
+          paginationData?.page,
+          paginationData?.limit
+        );
 
         if (response.data.SUCCESS) {
-          let jobs = response.data.allJobs;
+          dispatch(
+            setPaginationData({
+              page: response?.data?.page,
+              limit: response?.data?.limit,
+              totalPage: Math.max(
+                1,
+                Math.ceil(response?.data?.totalJobs / response?.data?.limit)
+              ),
+            })
+          );
 
+          let jobs = response.data.allJobs;
           //ENSURES THERE IS SOMETHING IN FilterSalary
           if (filterSalary.length === 2) {
             const [minSalary, maxSalary] = filterSalary.map(parseFloat);
@@ -29,7 +47,6 @@ const useGetAllJobs = (sortOrder) => {
           if (sortOrder === "oldest") {
             jobs = jobs.reverse();
           }
-
           dispatch(setAllJobs(jobs));
         }
       } catch (error) {
@@ -39,7 +56,14 @@ const useGetAllJobs = (sortOrder) => {
     };
 
     fetchAllJobs();
-  }, [filterQuery, filterSalary, dispatch, sortOrder]);
+  }, [
+    filterQuery,
+    filterSalary,
+    dispatch,
+    sortOrder,
+    paginationData.page,
+    paginationData.limit,
+  ]);
 };
 
 export default useGetAllJobs;

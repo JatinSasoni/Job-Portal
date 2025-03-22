@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { setFilterQuery, setFilterSalary } from "../../../store/jobSlice";
+import {
+  setFilterQuery,
+  setFilterSalary,
+  setPaginationData,
+} from "../../../store/jobSlice";
+import {
+  DEFAULT_PAGE_LIMIT,
+  DEFAULT_PAGE_NUMBER,
+} from "../../../util/Constants";
 
 export const FilterAside = () => {
   const dispatch = useDispatch();
 
-  const { filterQuery, filterSalary } = useSelector(
-    (store) => ({
-      filterQuery: store.job.filterQuery,
-      filterSalary: store.job.filterSalary,
-    }),
+  const { filterQuery, filterSalary, paginationData } = useSelector(
+    (store) => store.job,
     shallowEqual // Prevents re-renders if values don't change
   );
 
@@ -23,6 +28,9 @@ export const FilterAside = () => {
     const keyword = e.target.value;
     setFilterState((prev) => ({ ...prev, keyword }));
     dispatch(setFilterQuery(keyword));
+    dispatch(
+      setPaginationData({ ...paginationData, page: DEFAULT_PAGE_NUMBER })
+    );
   };
 
   const handleSalaryRange = (e) => {
@@ -35,6 +43,13 @@ export const FilterAside = () => {
     setFilterState({ keyword: "", salaryRange: [0, 999] });
     dispatch(setFilterQuery(""));
     dispatch(setFilterSalary([0, 999]));
+    dispatch(
+      setPaginationData({
+        ...paginationData,
+        page: DEFAULT_PAGE_NUMBER,
+        limit: DEFAULT_PAGE_LIMIT,
+      })
+    );
   };
 
   return (
