@@ -49,7 +49,7 @@ export const AllJobsSection = () => {
             <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
           </div>
         ) : (
-          <ul className="grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-0 ">
+          <ul className="grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-0 overflow-x-hidden">
             {allJobs?.map((job, i) => {
               return <AllJobsCard key={i} cardData={job} />;
             })}

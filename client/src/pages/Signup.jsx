@@ -51,11 +51,11 @@ export const Signup = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ type: "tween", duration: 0.7 }}
       >
-        <div className="text-5xl font-bold mt-8  lg:mt-20 xl:mt-0 xl:mb-4 md:pt-3  text-[#1e0e4b] text-center dark:text-white leading-tight ">
+        <div className="text-5xl font-bold mt-8  lg:mt-20 xl:mt-0 xl:mb-4 md:pt-3  text-gray-700 text-center dark:text-white leading-tight ">
           Signup To <span className="text-blue-400 font-bold">TalentNest</span>
         </div>
 
-        <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black dark:bg-zinc-900  dark:shadow-none md:shadow-md">
+        <div className=" my-4 mx-auto max-w-lg relative flex flex-col px-4 py-0.5 rounded-xl text-black dark:bg-zinc-900  dark:shadow-none md:shadow-md ">
           {/* SIGNUP FORM */}
           <SignupForm onSubmit={onSubmit} />
           {/* ADDITIONAL DATA */}

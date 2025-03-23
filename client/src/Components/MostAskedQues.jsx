@@ -14,7 +14,7 @@ const FAQBox = ({ data, openedIndex, handleDropdownClick, type }) => {
           className="border p-2 dark:bg-zinc-800 rounded-xl shadow-md dark:border-none px-3"
         >
           <div className="flex justify-between">
-            <p className="text-zinc-900 dark:text-gray-100 text-sm md:text-md font-medium">
+            <p className="text-zinc-900 dark:text-gray-100 text-sm md:text-[15px] font-medium">
               {curr.ques}
             </p>
             <button
@@ -30,7 +30,7 @@ const FAQBox = ({ data, openedIndex, handleDropdownClick, type }) => {
             </button>
           </div>
           <p
-            className={`overflow-hidden text-sm md:text-lg text-zinc-700 dark:text-gray-300 transition-all duration-300 ${
+            className={`overflow-hidden text-sm md:text-md text-zinc-700 dark:text-gray-300 transition-all duration-300 ${
               openedIndex === index
                 ? "max-h-40 opacity-100"
                 : "max-h-0 opacity-0"
@@ -58,7 +58,7 @@ export const MostAskedQues = () => {
 
   return (
     <div className="max-w-6xl mx-auto my-8 mb-14">
-      <h1 className="text-3xl md:text-5xl dark:text-white my-2 lg:my-16  text-gray-700 text-center font-semibold">
+      <h1 className="text-3xl md:text-5xl dark:text-white my-2 lg:my-10 text-gray-700 text-center font-semibold">
         Frequently Asked
       </h1>
       <div className="grid lg:grid-cols-2 gap-6 overflow-hidden lg:overflow-visible px-3 lg:px-0">

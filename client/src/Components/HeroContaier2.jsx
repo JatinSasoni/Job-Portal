@@ -80,13 +80,13 @@ export const HeroContainer2 = () => {
                 key={index}
                 className="flex flex-col gap-1 md:gap-2 shadow-white p-2"
               >
-                <p className=" p-1 md:p-2 text-center rounded-xl text-blue-500 text-3xl md:text-5xl lg:text-6xl font-extrabold dark:text-blue-300">
+                <p className=" p-1 md:p-2 text-center rounded-xl text-blue-400 text-3xl md:text-5xl lg:text-6xl font-extrabold dark:text-blue-300">
                   {cases.figure}K+
                 </p>
                 <p className=" text-center rounded-xl text-black font-bold text-xs md:text-md lg:text-xl dark:text-white">
                   {cases.title}
                 </p>
-                <p className="  text-center rounded-xl text-slate-500 text-xs leading-tight md:text-sm lg:text-md xl:text-lg">
+                <p className="  text-center rounded-xl text-slate-500 text-xs leading-tight md:text-sm lg:text-md xl:text-[15px]">
                   {cases.description}
                 </p>
               </motion.div>

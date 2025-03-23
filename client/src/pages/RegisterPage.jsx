@@ -71,7 +71,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Right Section with Form */}
-        <div className="w-full xl:w-1/2 flex xl:items-center justify-center">
+        <div className="w-full xl:w-1/2 flex xl:items-center justify-center overflow-x-hidden">
           <Signup />
         </div>
       </div>

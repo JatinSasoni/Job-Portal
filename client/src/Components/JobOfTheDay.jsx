@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { handleGetAllJobs } from "../../Api/getAPI";
 import { JobNotFound } from "./JobNotFound";
 import { AllJobsCard } from "./Cards/AllJobsCard";
@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export const JobOfTheDay = () => {
   const [allJobs, setAllJobs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAllJobs = async () => {
@@ -27,16 +27,21 @@ export const JobOfTheDay = () => {
     fetchAllJobs();
   }, []);
 
-  const JobCards = () => {
+  //  useCallback to prevent unnecessary re-renders
+  const JobCards = useCallback(() => {
     return allJobs
       .slice(0, 4)
       .map((card) =>
         card._id ? <AllJobsCard key={card._id} cardData={card} /> : null
       );
-  };
+  }, [allJobs]);
 
   if (loading) {
-    return <div className="loading"></div>;
+    return (
+      <div className="flex justify-center items-center h-40">
+        <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+      </div>
+    );
   }
 
   return (
@@ -58,6 +63,7 @@ export const JobOfTheDay = () => {
         Explore the different types of available jobs to apply and discover
         which is right for you.
       </p>
+
       <div>
         {!allJobs.length ? (
           <div className="h-96 w-full">
@@ -65,7 +71,7 @@ export const JobOfTheDay = () => {
           </div>
         ) : (
           // <ul className="grid grid-cols-4 gap-8 place-items-center px-32 py-6 ">
-          <ul className="mt-4 grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-32 ">
+          <ul className="mt-4 lg:mt-0 grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-32 ">
             <JobCards />
           </ul>
         )}

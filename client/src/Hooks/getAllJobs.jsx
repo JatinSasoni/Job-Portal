@@ -4,6 +4,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setAllJobs, setPaginationData } from "../../store/jobSlice";
 import { toast } from "react-toastify";
 import { setLoading } from "../../store/authSlice";
+import { DEFAULT_PAGE_LIMIT } from "../../util/Constants";
 const useGetAllJobs = (sortOrder, scope) => {
   const dispatch = useDispatch();
   const { filterQuery, filterSalary } = useSelector(
@@ -27,7 +28,11 @@ const useGetAllJobs = (sortOrder, scope) => {
 
         if (response.data.SUCCESS) {
           const totalJobs = response?.data?.totalJobs; // Get totalJobs from backend
-          const totalPages = Math.ceil(totalJobs / paginationData?.limit); // Calculate total pages
+
+          const totalPages = Math.max(
+            1,
+            Math.ceil(totalJobs / paginationData?.limit)
+          );
 
           dispatch(
             setPaginationData({

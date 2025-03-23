@@ -71,7 +71,7 @@ export const BrowsePage = () => {
           type: "tween",
           duration: 1,
         }}
-        className="text-center text-blue-950 text-2xl md:text-4xl font-semibold dark:text-zinc-200 mt-3 md:mb-8"
+        className="text-center text-gray-700 text-2xl md:text-4xl font-semibold dark:text-zinc-200 mt-3 md:mb-8"
       >
         Explore Top Opportunities & Advance Your Career
       </motion.h1>
