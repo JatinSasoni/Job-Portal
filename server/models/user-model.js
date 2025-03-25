@@ -24,6 +24,12 @@ const userSchema = new Schema(
       enum: ["student", "recruiter"],
       required: true,
     },
+    // Subscription Details
+    subscription: {
+      id: { type: String }, // Razorpay Subscription ID
+      status: { type: String }, // Track status
+      expiryDate: { type: Date }, // Track when subscription ends
+    },
     profile: {
       bio: { type: String },
       skills: [{ type: String }],

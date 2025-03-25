@@ -27,6 +27,14 @@ export const handleGetAllJobs = (
   );
 };
 
+//GET FEATURED
+
+export const handleGetFeaturedJobs = () => {
+  return api.get(`/api/v1/job/get/featured`, {
+    withCredentials: true,
+  });
+};
+
 //GET SINGLE JOB BY JOB ID
 export const handleGetSingleJob = (JobID) => {
   return api.get(`/api/v1/job/get/${JobID}`, {

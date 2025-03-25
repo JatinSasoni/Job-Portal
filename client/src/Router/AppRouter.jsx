@@ -23,6 +23,8 @@ import { RegisterNewJob } from "../Components/admin/RegisterNewJob";
 import { AdminApplicants } from "../Components/admin/AdminApplicants";
 import { ViewApplicant } from "../Components/admin/ViewApplicant";
 import { UpdateJobPost } from "../Components/admin/UpdateJobPost";
+import MakePayment from "../test/MakePayment";
+import Success from "../test/Success";
 
 //ROUTES
 const AppRouter = createBrowserRouter([
@@ -85,6 +87,7 @@ const AppRouter = createBrowserRouter([
     errorElement: <ErrorPage />,
     element: <Contact />,
   },
+
   {
     path: "/user/reset-pass",
     element: <ResetPassPage />,
@@ -161,6 +164,23 @@ const AppRouter = createBrowserRouter([
         element: (
           <ProtectAdminRoute>
             <UpdateJobPost />
+          </ProtectAdminRoute>
+        ),
+      },
+
+      {
+        path: "subscribe",
+        element: (
+          <ProtectAdminRoute>
+            <MakePayment />
+          </ProtectAdminRoute>
+        ),
+      },
+      {
+        path: "payment-success",
+        element: (
+          <ProtectAdminRoute>
+            <Success />
           </ProtectAdminRoute>
         ),
       },

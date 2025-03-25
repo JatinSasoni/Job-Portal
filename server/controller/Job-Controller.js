@@ -372,6 +372,34 @@ const getSavedJobs = async (req, res) => {
   }
 };
 
+const getFeaturedJobs = async (req, res) => {
+  try {
+    // Find all recruiters with an active subscription
+    const activeSubscribers = await User.find(
+      { "subscription.status": "active" }, // Find users with active subscription
+      "_id" // Only fetch the recruiter IDs
+    );
+
+    // Extract recruiter IDs
+    const recruiterIds = activeSubscribers.map((user) => user._id);
+
+    // Fetch jobs posted by these recruiters
+    const featuredJobs = await Job.find({ createdBy: { $in: recruiterIds } })
+      .populate("CompanyID")
+      .sort({ createdAt: -1 }) // Sort by newest first
+      .limit(10); // Optional: Limit the number of featured jobs
+
+    res.status(200).json({
+      MESSAGE: "JOBS FOUND",
+      SUCCESS: true,
+      featuredJobs,
+    });
+  } catch (error) {
+    console.error("Error fetching featured jobs:", error);
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
+  }
+};
+
 module.exports = {
   postJobForAdmin,
   getAllJobs,
@@ -381,4 +409,5 @@ module.exports = {
   deleteJobByID,
   getSavedJobs,
   editJobPost,
+  getFeaturedJobs,
 };

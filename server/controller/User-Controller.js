@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const uploadToCloudinary = require("../utils/cloudinary");
 const { transporter } = require("../utils/nodemailer");
 const { sendMailUsingTransporter } = require("../utils/transporter");
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
 
 //HANDLING USER REGISTER
 const register = async (req, res) => {
@@ -80,7 +82,7 @@ const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
-    //CHECKING IF ALL FIELDS ARE THERE
+    // CHECKING IF ALL FIELDS ARE THERE
     if (!email || !password || !role) {
       return res.status(400).json({
         MESSAGE: "Something is missing",
@@ -88,12 +90,10 @@ const login = async (req, res) => {
       });
     }
 
-    //GETTING USER THROUGH EMAIL
-    let user = await User.findOne({
-      email,
-    });
+    // GETTING USER THROUGH EMAIL
+    let user = await User.findOne({ email });
 
-    //USER EXISTS? || REGISTERED EMAIL?
+    // USER EXISTS? || REGISTERED EMAIL?
     if (!user) {
       return res.status(400).json({
         MESSAGE: "Invalid Email or Password",
@@ -101,7 +101,7 @@ const login = async (req, res) => {
       });
     }
 
-    //CHECKING ROLE SPECIFIED BY USER IS MATCHING WITH ROLE IN DB
+    // CHECKING ROLE SPECIFIED BY USER IS MATCHING WITH ROLE IN DB
     if (role !== user.role) {
       return res.status(400).json({
         MESSAGE: "Account does not exist with specified role",
@@ -109,9 +109,8 @@ const login = async (req, res) => {
       });
     }
 
-    //VALIDATING PASSWORD
+    // VALIDATING PASSWORD
     const isPasswordMatch = await bcrypt.compare(password, user.password);
-
     if (!isPasswordMatch) {
       return res.status(400).json({
         MESSAGE: "Invalid Email or Password",
@@ -119,7 +118,17 @@ const login = async (req, res) => {
       });
     }
 
-    //GENERATING TOKEN
+    //  CHECK SUBSCRIPTION STATUS IF USER IS A RECRUITER
+    if (user.role === "recruiter" && user.subscription?.id) {
+      const now = new Date();
+      if (user.subscription.expiryDate && now > user.subscription.expiryDate) {
+        // SUBSCRIPTION HAS EXPIRED
+        user.subscription.status = "expired";
+        await user.save();
+      }
+    }
+
+    // GENERATING TOKEN
     const tokenPayload = {
       userID: user._id,
       role: user.role,
@@ -129,7 +138,7 @@ const login = async (req, res) => {
       expiresIn: "1d",
     });
 
-    //UPDATED USER OBJ TO BE SENT ON FRONTEND (PASSWORD SHOULD NOT BE SENT IN RESPONSE)
+    // UPDATED USER OBJ TO BE SENT ON FRONTEND (PASSWORD SHOULD NOT BE SENT)
     user = {
       _id: user._id,
       username: user.username,
@@ -141,27 +150,25 @@ const login = async (req, res) => {
       role: user.role,
       profile: user.profile,
       savedJobs: user.savedJobs,
+      subscription: user.subscription, // Include subscription details in response
     };
 
-    return (
-      res
-        .status(200)
-        .cookie("token", token, {
-          httpOnly: true, // Prevents client-side JS access
-          secure: true, // Only send cookie over HTTPS
-          sameSite: "None", // Allows cross-origin requests
-          maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
-        })
-        //ADD ADDITIONAL COOKIE DATA LATER
-        .json({
-          MESSAGE: `Welcome back ${user.username}`,
-          user,
-          SUCCESS: true,
-        })
-    );
+    return res
+      .status(200)
+      .cookie("token", token, {
+        httpOnly: true, // Prevents client-side JS access
+        secure: true, // Only send cookie over HTTPS
+        sameSite: "None", // Allows cross-origin requests
+        maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+      })
+      .json({
+        MESSAGE: `Welcome back ${user.username}`,
+        user,
+        SUCCESS: true,
+      });
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
-    console.log("ERROR WHILE LOGIN USER ");
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
+    console.log("ERROR WHILE LOGIN USER:", error);
   }
 };
 
@@ -511,7 +518,6 @@ const ChangePassword = async (req, res) => {
 const getUserForAdmin = async (req, res) => {
   try {
     const applicantID = req.params.applicantID;
-
     // Fetch user from database
     const user = await User.findById(applicantID);
 
@@ -526,7 +532,130 @@ const getUserForAdmin = async (req, res) => {
     res.status(200).json({ SUCCESS: true, MESSAGE: "Found", user });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
+  }
+};
+
+const createOrder = async (req, res) => {
+  try {
+    const userID = req.id;
+
+    if (!userID) {
+      return res
+        .status(400)
+        .json({ MESSAGE: "ID is required", SUCCESS: false });
+    }
+
+    const user = await User.findById(userID);
+
+    if (!user || user.role === "student") {
+      return res
+        .status(400)
+        .json({ MESSAGE: "You cannot subscribe", SUCCESS: false });
+    }
+
+    const instance = new Razorpay({
+      key_id: process.env.RAZOR_PAY_KEY,
+      key_secret: process.env.RAZOR_PAY_SECRET,
+    });
+
+    const subscription = await instance.subscriptions.create({
+      plan_id: process.env.RAZOR_PLAN_ID || "plan_QB21Cvk6UZg5Wi",
+      customer_notify: 1,
+      total_count: 6,
+    });
+
+    user.subscription.id = subscription.id;
+    user.subscription.status = subscription.status;
+
+    await user.save();
+
+    return res
+      .status(201)
+      .json({ MESSAGE: "OK", SUCCESS: true, subscriptionID: subscription.id });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
+  }
+};
+
+const paymentVerification = async (req, res) => {
+  try {
+    const {
+      razorpay_subscription_id,
+      razorpay_payment_id,
+      razorpay_signature,
+    } = req.body;
+
+    // CHECK IF ALL REQUIRED FIELDS ARE PRESENT
+    if (
+      !razorpay_subscription_id ||
+      !razorpay_payment_id ||
+      !razorpay_signature
+    ) {
+      return res.status(400).json({
+        SUCCESS: false,
+        MESSAGE: "Missing required payment details",
+      });
+    }
+
+    // GET THE USER FROM DATABASE
+    const user = await User.findById(req.id);
+    if (!user) {
+      return res.status(404).json({
+        SUCCESS: false,
+        MESSAGE: "User not found",
+      });
+    }
+
+    // VERIFY THE SIGNATURE
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZOR_PAY_SECRET)
+      .update(razorpay_payment_id + "|" + razorpay_subscription_id, "utf-8") // Correct Order
+      .digest("hex");
+
+    if (expectedSignature !== razorpay_signature) {
+      return res.status(400).json({
+        SUCCESS: false,
+        MESSAGE: "Payment verification failed",
+      });
+    }
+
+    // UPDATE USER SUBSCRIPTION STATUS & EXPIRY DATE (30 days from now)
+    user.subscription = {
+      id: razorpay_subscription_id,
+      status: "active",
+      expiryDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from today
+    };
+
+    await user.save();
+
+    // SEND JSON RESPONSE INSTEAD OF REDIRECT
+    let userData = {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      password: "",
+      phoneNumber: user.phoneNumber,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      role: user.role,
+      profile: user.profile,
+      savedJobs: user.savedJobs,
+      subscription: user.subscription, // Include subscription details in response
+    };
+
+    return res.status(200).json({
+      SUCCESS: true,
+      MESSAGE: "Payment successful",
+      userData, // Updated user details
+    });
+  } catch (error) {
+    console.error("Error in payment verification:", error);
+    res.status(500).json({
+      SUCCESS: false,
+      MESSAGE: "Server error",
+    });
   }
 };
 
@@ -540,4 +669,6 @@ module.exports = {
   validateOTPToChangePass,
   ChangePassword,
   getUserForAdmin,
+  paymentVerification,
+  createOrder,
 };

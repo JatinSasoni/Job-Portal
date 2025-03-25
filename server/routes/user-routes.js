@@ -20,7 +20,14 @@ router.route("/save-job").post(isAuthentication, userController.saveJob);
 router.route("/reset-password").post(userController.sendOTPForPass);
 router.route("/verify-otp").post(userController.validateOTPToChangePass);
 router.route("/change-password").post(userController.ChangePassword);
+
+router.route("/subscribe").get(isAuthentication, userController.createOrder);
+router
+  .route("/pay-verify")
+  .post(isAuthentication, userController.paymentVerification);
+
 router
   .route("/:applicantID")
   .get(isAuthentication, userController.getUserForAdmin);
+
 module.exports = router;

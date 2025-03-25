@@ -8,6 +8,7 @@ const router = Router();
 router.route("/post").post(isAuthentication, jobController.postJobForAdmin);
 
 router.route("/get").get(jobController.getAllJobs);
+router.route("/get/featured").get(jobController.getFeaturedJobs);
 router
   .route("/admin/:jobID/get")
   .get(isAuthentication, jobController.getJobInfoByIdForAdmin);

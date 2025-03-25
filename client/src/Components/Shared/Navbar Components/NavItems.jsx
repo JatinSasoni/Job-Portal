@@ -13,6 +13,12 @@ export const NavItems = ({ loggedInUser }) => {
             <li>
               <NavLink to="/admin/jobs">Jobs</NavLink>
             </li>
+            {loggedInUser?.subscription?.status !== "active" && (
+              <li>
+                <NavLink to="/admin/subscribe">Subscribe</NavLink>
+              </li>
+            )}
+
             <li>
               <NavLink to="/contact">Contact Us</NavLink>
             </li>

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { handleGetAllJobs } from "../../Api/getAPI";
+import { handleGetFeaturedJobs } from "../../Api/getAPI";
 import { JobNotFound } from "./JobNotFound";
 import { AllJobsCard } from "./Cards/AllJobsCard";
 import { motion } from "framer-motion";
@@ -12,10 +12,11 @@ export const JobOfTheDay = () => {
     const fetchAllJobs = async () => {
       try {
         setLoading(true);
-        const response = await handleGetAllJobs();
+        const response = await handleGetFeaturedJobs();
         if (response.data.SUCCESS) {
-          JSON.stringify(response.data.allJobs) !== JSON.stringify(allJobs) && //IF DATA DON'T CHANGED PREVENT RE-RENDER
-            setAllJobs(response.data.allJobs);
+          JSON.stringify(response.data.featuredJobs) !==
+            JSON.stringify(allJobs) && //IF DATA DON'T CHANGED PREVENT RE-RENDER
+            setAllJobs(response.data.featuredJobs);
         }
       } catch (error) {
         console.error("Error fetching jobs:", error);

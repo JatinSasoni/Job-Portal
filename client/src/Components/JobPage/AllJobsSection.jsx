@@ -27,7 +27,7 @@ export const AllJobsSection = () => {
             name="dateFilter"
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className=" rounded-md outline-none  dark:bg-zinc-900 px-2"
+            className=" rounded-md outline-none  dark:bg-zinc-900 px-2 bg-zinc-50"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
