@@ -563,6 +563,9 @@ const createOrder = async (req, res) => {
       plan_id: process.env.RAZOR_PLAN_ID || "plan_QB21Cvk6UZg5Wi",
       customer_notify: 1,
       total_count: 6,
+      notes: {
+        customerID: userID?.toString(), // Store Mongoose ID
+      },
     });
 
     user.subscription.id = subscription.id;

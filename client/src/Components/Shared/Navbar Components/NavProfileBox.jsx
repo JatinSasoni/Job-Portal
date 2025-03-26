@@ -4,6 +4,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import { TbLogout2 } from "react-icons/tb";
 import { motion } from "framer-motion";
 import { CiBookmarkCheck } from "react-icons/ci";
+import { GoVerified } from "react-icons/go";
 import Switch from "../../Switch";
 
 /* eslint-disable react/prop-types */
@@ -34,11 +35,15 @@ export const NavProfileBox = ({
 
           {/* Username & Email */}
           <div>
-            <h2 className="text-md lg:text-lg font-semibold text-gray-900 dark:text-white">
+            <p className="text-md lg:text-lg font-semibold text-gray-900 dark:text-white flex gap-2">
               {loggedInUser?.username?.length > 15
                 ? `${loggedInUser?.username?.slice(0, 15)}...`
                 : loggedInUser?.username}
-            </h2>
+
+              {loggedInUser?.subscription?.status === "active" && (
+                <GoVerified className="my-auto text-blue-400" />
+              )}
+            </p>
             <p className="text-xs lg:text-sm text-gray-600 dark:text-gray-400">
               @
               {loggedInUser?.email?.length > 20

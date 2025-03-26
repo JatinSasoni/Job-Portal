@@ -11,7 +11,6 @@ import { motion } from "framer-motion";
 import { setLoading } from "../../../store/authSlice";
 
 export const AdminJobs = () => {
-  console.log("ok");
   const dispatch = useDispatch();
   const [filterInput, setFilterInput] = useState("");
   const { loading } = useSelector((store) => store.auth);

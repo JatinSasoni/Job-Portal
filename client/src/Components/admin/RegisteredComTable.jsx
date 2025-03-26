@@ -1,5 +1,4 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { motion } from "motion/react";
 import { deleteCompanyAPI } from "../../../Api/deleteAPI";
 import { FaUserEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
@@ -77,7 +76,15 @@ export const RegisteredComTable = ({ allCompanies }) => {
               </td>
               <td className="px-6 py-4">{company?.companyName}</td>
               <td className="px-6 py-4">{company?.location}</td>
-              <td className="px-6 py-4">{company?.website}</td>
+              <td className="px-6 py-4">
+                {company?.website !== "NA" ? (
+                  <a href={company?.website} target="_blank">
+                    {company?.website}
+                  </a>
+                ) : (
+                  company?.website
+                )}
+              </td>
               <td className="px-6 py-4">{company?.createdAt?.split("T")[0]}</td>
               <td className="px-6 py-4">
                 <NavLink to={`/admin/company/update/${company?._id}`}>

@@ -24,6 +24,12 @@ const HamItems = ({ loggedInUser, setIsOpen }) => {
           >
             Jobs
           </NavLink>
+
+          {loggedInUser?.subscription?.status !== "active" && (
+            <li>
+              <NavLink to="/admin/subscribe">Subscribe</NavLink>
+            </li>
+          )}
           <NavLink
             to="/contact"
             className="block py-2 hover:text-blue-500 dark:text-white"
