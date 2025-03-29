@@ -52,7 +52,8 @@ export const UpdateJobPost = () => {
   if (localLoading) {
     return (
       <>
-        <div className="flex justify-center items-center h-96 lg:h-[calc(100vh)]">
+        <Navbar />
+        <div className="flex justify-center items-center h-[calc(100vh-120px)]">
           <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
         </div>
       </>
