@@ -2,6 +2,7 @@ const Application = require("../models/application-model");
 const Company = require("../models/company-model");
 const Job = require("../models/job-model");
 const uploadToCloudinary = require("../utils/cloudinary");
+const validateObjectID = require("../utils/validateMongooseObjectID");
 
 //REGISTERING COMPANY BY USER(Recruiter)
 const registerCompany = async (req, res) => {
@@ -39,7 +40,7 @@ const registerCompany = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while registering company");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -68,7 +69,7 @@ const getCompanyCreatedByRecruiter = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while loading companies");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -78,7 +79,7 @@ const getCompanyByID = async (req, res) => {
     const companyID = req.params.companyID; // companyID IS DEFINED IN ROUTE
 
     //NO COMPANY ID PROVIDED
-    if (!companyID) {
+    if (!companyID || !validateObjectID(companyID)) {
       return res.status(400).json({
         MESSAGE: "No Company ID provided",
         SUCCESS: false,
@@ -103,7 +104,7 @@ const getCompanyByID = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while loading company");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -113,9 +114,9 @@ const updateCompany = async (req, res) => {
     const companyID = req.params.companyID; // companyID IS DEFINED IN ROUTE
 
     //NO COMPANY ID PROVIDED
-    if (!companyID) {
+    if (!companyID || !validateObjectID(companyID)) {
       return res.status(400).json({
-        MESSAGE: "No Company ID provided",
+        MESSAGE: "Something went wrong",
         SUCCESS: false,
       });
     }
@@ -162,7 +163,7 @@ const updateCompany = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while updating company");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -171,7 +172,7 @@ const deleteCompanyByID = async (req, res) => {
   try {
     const companyID = req.params.companyID;
 
-    if (!companyID) {
+    if (!companyID || !validateObjectID(companyID)) {
       return res.status(400).json({
         MESSAGE: "No Company ID provided",
         SUCCESS: false,
@@ -208,7 +209,7 @@ const deleteCompanyByID = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
     console.log("Error while deleting company");
   }
 };

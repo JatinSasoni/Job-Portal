@@ -3,11 +3,20 @@ import { Navbar } from "../Components/Shared/Navbar";
 import { motion } from "framer-motion";
 import { FaCheckCircle, FaArrowRight, FaRegSmileBeam } from "react-icons/fa";
 import { MdCelebration } from "react-icons/md";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Success = () => {
   const searchQuery = useSearchParams()[0];
   const referenceNum = searchQuery.get("reference");
   const navigate = useNavigate();
+  const { loggedInUser } = useSelector((store) => store.auth);
+
+  useEffect(() => {
+    if (!loggedInUser || loggedInUser.role !== "recruiter" || !referenceNum) {
+      navigate("/admin/companies");
+    }
+  }, [loggedInUser, navigate, referenceNum]);
 
   return (
     <>

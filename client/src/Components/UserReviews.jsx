@@ -11,6 +11,7 @@ import { SWIPER_SLIDES, SWIPER_SPACE_BETWEEN } from "../../util/Constants";
 /* eslint-disable react/prop-types */
 export const UserReviews = () => {
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getContacts = async () => {
@@ -21,11 +22,21 @@ export const UserReviews = () => {
         }
       } catch (error) {
         toast.error(error.response.data.MESSAGE);
+      } finally {
+        setLoading(false);
       }
     };
 
     getContacts();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-32">
+        <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+      </div>
+    );
+  }
 
   return (
     <>

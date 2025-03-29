@@ -18,7 +18,7 @@ export const Home = () => {
     if (loggedInUser?.role === "recruiter") {
       navigate("/admin/companies");
     }
-  }, []);
+  }, [loggedInUser, navigate]);
 
   return (
     <>

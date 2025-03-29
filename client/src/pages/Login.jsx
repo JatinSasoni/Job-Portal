@@ -13,7 +13,7 @@ import { Navbar } from "../Components/Shared/Navbar";
 //LOGIN PAGE
 export const Login = () => {
   //HOOK FOR NAVIGATION
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   //DISPATCHER
   const dispatch = useDispatch();
@@ -31,15 +31,15 @@ export const Login = () => {
       const response = await handleLoginAPICall(data);
 
       //IF API CALL SUCCESS
-      if (response.data.SUCCESS) {
+      if (response?.data?.SUCCESS) {
         //---IF USER SUCCESSFULLY LOGGED IN--
-        dispatch(setLoggedInUser(response.data.user));
+        dispatch(setLoggedInUser(response?.data?.user));
         Navigate("/"); //NAVIGATE TO HOME PAGE IF LOGIN SUCCESSFUL
-        toast.success(response.data.MESSAGE);
+        toast.success(response?.data?.MESSAGE);
       }
     } catch (error) {
       //IF ANY ERROR FROM BACKEND (MISSING FIELD,INVALID EMAIL OR PASSWORD)
-      toast.error(error.response.data.MESSAGE);
+      toast.error(error?.response?.data?.MESSAGE);
     } finally {
       dispatch(setLoading(false));
     }
@@ -48,9 +48,9 @@ export const Login = () => {
   //IF USER ALREADY LOGGED IN
   useEffect(() => {
     if (loggedInUser) {
-      Navigate("/");
+      navigate("/");
     }
-  }, [loggedInUser, Navigate]);
+  }, [loggedInUser, navigate]);
 
   return (
     <>

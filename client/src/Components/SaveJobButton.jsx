@@ -20,9 +20,9 @@ const SaveJobButton = ({ jobId }) => {
     try {
       const res = await saveUnsavePostAPI(jobId);
       if (res.data.SUCCESS) {
-        setIsSaved(!isSaved); // Toggle the save state
+        setIsSaved((prev) => !prev); // Toggle the save state
         // toast.success(res.data.MESSAGE);
-        dispatch(setLoggedInUser(res.data.user));
+        dispatch(setLoggedInUser(res?.data?.user));
       }
     } catch (error) {
       toast.error(error.response.data.MESSAGE);

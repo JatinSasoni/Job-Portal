@@ -23,7 +23,10 @@ const initialState = {
   singleJobData: [],
   allAdminJobs: [],
   allAppliedJobs: [],
-  searchedQuery: "",
+  searchedQuery: {
+    keyword: "",
+    city: "",
+  },
   filterQuery: "",
   filterSalary: [],
 };
@@ -51,7 +54,7 @@ const jobSlice = createSlice({
       state.allAppliedJobs = action.payload;
     },
     setSearchQuery: (state, action) => {
-      state.searchedQuery = action.payload;
+      state.searchedQuery = { ...state.searchedQuery, ...action.payload };
     },
     setFilterQuery: (state, action) => {
       state.filterQuery = action.payload;

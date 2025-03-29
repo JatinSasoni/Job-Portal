@@ -2,6 +2,7 @@ const Application = require("../models/application-model");
 const Job = require("../models/job-model");
 const User = require("../models/user-model");
 const { sendMailUsingTransporter } = require("../utils/transporter");
+const validateObjectID = require("../utils/validateMongooseObjectID");
 
 //CREATE JOB API FOR AUTHENTICATED ADMIN
 const postJobForAdmin = async (req, res) => {
@@ -103,7 +104,7 @@ const postJobForAdmin = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
     console.log("Error while Posting JOB");
   }
 };
@@ -112,6 +113,12 @@ const editJobPost = async (req, res) => {
   try {
     const { jobID } = req.params; // Get Job ID from URL params
     const userId = req.id; // Get logged-in user's ID (assuming authentication middleware)
+
+    if (!jobID || !validateObjectID(jobID)) {
+      return res
+        .status(400)
+        .json({ SUCCESS: false, MESSAGE: "Something went wrong" });
+    }
 
     // Fields that can be updated
     const updatableFields = [
@@ -177,8 +184,8 @@ const getAllJobs = async (req, res) => {
   try {
     //Keyword IS A QUERY STRING CONTAINING USER APPLIED FILTER FOR JOB LIKE "Frontend Dev"
     const keyword = req.query.keyword || ""; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
-    const page = Number(req.query.page) || 1; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
-    const limit = Number(req.query.limit) || 8; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 8;
     const skip = (page - 1) * limit;
 
     const query = {
@@ -217,6 +224,13 @@ const getAllJobs = async (req, res) => {
 const getJobInfoById = async (req, res) => {
   try {
     const jobID = req.params.jobID;
+
+    if (!jobID || !validateObjectID(jobID)) {
+      return res
+        .status(400)
+        .json({ SUCCESS: false, MESSAGE: "Something went wrong" });
+    }
+
     const job = await Job.findById(jobID)
       .populate("CompanyID")
       .populate("application");
@@ -236,7 +250,7 @@ const getJobInfoById = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while fetching job info");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -245,11 +259,10 @@ const getJobInfoByIdForAdmin = async (req, res) => {
   try {
     const jobID = req.params.jobID;
 
-    if (!jobID) {
-      return res.status(400).json({
-        MESSAGE: "Something is missing",
-        SUCCESS: false,
-      });
+    if (!jobID || !validateObjectID(jobID)) {
+      return res
+        .status(400)
+        .json({ SUCCESS: false, MESSAGE: "Something went wrong" });
     }
 
     // Ensure only the creator or admin can edit the job
@@ -306,7 +319,7 @@ const getPostedJobByAdmin = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while fetching job info");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -314,7 +327,7 @@ const getPostedJobByAdmin = async (req, res) => {
 const deleteJobByID = async (req, res) => {
   try {
     const jobID = req.params.jobID;
-    if (!jobID) {
+    if (!jobID || !validateObjectID(jobID)) {
       return res.status(400).json({
         MESSAGE: "No jobID ID provided",
         SUCCESS: false,
@@ -339,7 +352,7 @@ const deleteJobByID = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
     console.log("Error while deleting company");
   }
 };

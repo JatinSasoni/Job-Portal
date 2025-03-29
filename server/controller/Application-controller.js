@@ -3,6 +3,7 @@ const Job = require("../models/job-model");
 const User = require("../models/user-model");
 const { transporter } = require("../utils/nodemailer");
 const { sendMailUsingTransporter } = require("../utils/transporter");
+const validateObjectID = require("../utils/validateMongooseObjectID");
 
 //STUDENT|| JobSEEKER APPLYING FOR JOB
 const applyForJob = async (req, res) => {
@@ -11,9 +12,9 @@ const applyForJob = async (req, res) => {
     const jobID = req.params.jobID;
     const userID = req.id;
 
-    if (!jobID) {
+    if (!jobID || !validateObjectID(jobID)) {
       return res.status(400).json({
-        MESSAGE: "Job id required",
+        MESSAGE: "Something went wrong",
         SUCCESS: false,
       });
     }
@@ -118,7 +119,7 @@ const applyForJob = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while applying for job");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -154,7 +155,7 @@ const getAppliedJobsByUser = async (req, res) => {
     });
   } catch (error) {
     console.log("Error while fetching applied jobs");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -167,6 +168,13 @@ const updateApplicationStatus = async (req, res) => {
     if (!status) {
       return res.status(400).json({
         MESSAGE: "Status is required",
+        SUCCESS: false,
+      });
+    }
+
+    if (!applicationID || !validateObjectID(applicationID)) {
+      return res.status(400).json({
+        MESSAGE: "Something went wrong",
         SUCCESS: false,
       });
     }
@@ -273,7 +281,7 @@ const updateApplicationStatus = async (req, res) => {
     });
   } catch (error) {
     console.error("Error while updating status of application:", error);
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -282,6 +290,13 @@ const appliedApplicationsForJob = async (req, res) => {
   try {
     const userID = req.id;
     const jobID = req.params.jobID;
+
+    if (!jobID || !validateObjectID(jobID)) {
+      return res.status(400).json({
+        MESSAGE: "Something went wrong",
+        SUCCESS: false,
+      });
+    }
 
     const job = await Job.findById(jobID).populate({
       path: "application",
@@ -307,7 +322,7 @@ const appliedApplicationsForJob = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Error while updating status of application");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -315,7 +330,7 @@ const appliedApplicationsForJob = async (req, res) => {
 const getTopRecruiters = async (req, res) => {
   try {
     const topRecruiters = await Application.aggregate([
-      // { $match: { status: "accepted" } }, COMMENT COZ ONLY TWO COMPANY FOR NOW WHO ACCEPTED APPLICANTS :)
+      { $match: { status: "accepted" } }, //COMMENT COZ ONLY TWO COMPANY FOR NOW WHO ACCEPTED APPLICANTS :)
       { $group: { _id: "$job" } }, //$job is Ref to Job Collection
       {
         $lookup: {
@@ -367,7 +382,7 @@ const getTopRecruiters = async (req, res) => {
     });
   } catch (error) {
     console.log("Error fetching top recruiters");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 

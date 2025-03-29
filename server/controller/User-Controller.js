@@ -6,6 +6,8 @@ const { transporter } = require("../utils/nodemailer");
 const { sendMailUsingTransporter } = require("../utils/transporter");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const { default: mongoose } = require("mongoose");
+const validateObjectID = require("../utils/validateMongooseObjectID");
 
 //HANDLING USER REGISTER
 const register = async (req, res) => {
@@ -19,8 +21,9 @@ const register = async (req, res) => {
         SUCCESS: false,
       });
     }
+    const lowerCaseEmail = email.toLowerCase();
     //IF EMAIL ALREADY EXISTS?
-    const alreadyExists = await User.findOne({ email: email });
+    const alreadyExists = await User.findOne({ email: lowerCaseEmail });
     if (alreadyExists) {
       return res.status(400).json({
         MESSAGE: "Email already exists",
@@ -34,7 +37,7 @@ const register = async (req, res) => {
     //REGISTERING USER
     const user = await User.create({
       username,
-      email,
+      email: lowerCaseEmail,
       phoneNumber,
       password: hashedPassword,
       role: role,
@@ -63,7 +66,7 @@ const register = async (req, res) => {
     };
 
     if (mailOption) {
-      sendMailUsingTransporter(mailOption);
+      await sendMailUsingTransporter(mailOption);
     }
 
     return res.status(201).json({
@@ -71,7 +74,7 @@ const register = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
 
     console.log("ERROR WHILE REGISTERING USER ");
   }
@@ -221,7 +224,10 @@ const updateProfile = async (req, res) => {
 
     //UPDATING DATA
     if (username) user.username = username;
-    if (email) user.email = email;
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (email && emailRegex.test(email)) {
+      user.email = email;
+    }
     if (phoneNumber) user.phoneNumber = phoneNumber;
     user.profile.bio = bio;
     user.profile.skills = skillsArray;
@@ -268,7 +274,7 @@ const updateProfile = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
 
     console.log("ERROR WHILE UPDATING PROFILE");
   }
@@ -310,8 +316,7 @@ const saveJob = async (req, res) => {
         .json({ MESSAGE: "Job saved successfully", SUCCESS: true, user });
     }
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -333,7 +338,6 @@ const sendOTPForPass = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         MESSAGE: "Account does not exist",
-
         SUCCESS: false,
       });
     }
@@ -356,7 +360,7 @@ const sendOTPForPass = async (req, res) => {
       `,
     };
     //MAIL SENT
-    sendMailUsingTransporter(mailOptions);
+    await sendMailUsingTransporter(mailOptions);
 
     user.otpForPass = otp;
     user.otpForPassExpiresIn = Date.now() + 5 * 60 * 1000; //5 MINUTES
@@ -369,7 +373,7 @@ const sendOTPForPass = async (req, res) => {
     });
   } catch (error) {
     console.log("ERROR WHILE RESETTING PASSWORD");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -428,7 +432,7 @@ const validateOTPToChangePass = async (req, res) => {
         SUCCESS: true,
       });
   } catch (error) {
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
 
     console.log("ERROR WHILE RESETTING PASSWORD");
   }
@@ -502,7 +506,7 @@ const ChangePassword = async (req, res) => {
       `,
     };
 
-    sendMailUsingTransporter(mailOptions);
+    await sendMailUsingTransporter(mailOptions);
 
     return res.status(200).clearCookie("auth").json({
       MESSAGE: "Password Changed",
@@ -510,7 +514,7 @@ const ChangePassword = async (req, res) => {
     });
   } catch (error) {
     console.log("ERROR WHILE CHANGING PASSWORD");
-    res.status(500).json({ MESSAGE: "Server error", SUCCESS: FALSE });
+    res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
 
@@ -518,6 +522,13 @@ const ChangePassword = async (req, res) => {
 const getUserForAdmin = async (req, res) => {
   try {
     const applicantID = req.params.applicantID;
+
+    if (!applicantID || !validateObjectID(applicantID)) {
+      return res
+        .status(400)
+        .json({ SUCCESS: false, MESSAGE: "Something went wrong" });
+    }
+
     // Fetch user from database
     const user = await User.findById(applicantID);
 

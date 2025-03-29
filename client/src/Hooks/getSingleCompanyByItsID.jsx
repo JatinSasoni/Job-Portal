@@ -3,6 +3,7 @@ import { handleGetSingleCompanyDes } from "../../Api/getAPI";
 import { useDispatch } from "react-redux";
 
 import { setSingleCompanyData } from "../../store/companySlice";
+import { toast } from "react-toastify";
 
 //WHERE EVER THIS CUSTOM HOOK IS USED useEffect EXECUTE ACC TO ITS WORKING
 const useGetSingleCompanyData = (companyID) => {
@@ -17,7 +18,7 @@ const useGetSingleCompanyData = (companyID) => {
         dispatch(setSingleCompanyData(response.data.company));
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.MESSAGE);
     }
   };
 

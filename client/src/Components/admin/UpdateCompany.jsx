@@ -64,7 +64,6 @@ export const UpdateCompany = () => {
         navigate("/admin/companies");
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.MESSAGE);
     } finally {
       dispatch(setLoading(false));

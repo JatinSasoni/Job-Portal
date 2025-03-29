@@ -30,7 +30,7 @@ const FAQBox = ({ data, openedIndex, handleDropdownClick, type }) => {
             </button>
           </div>
           <p
-            className={`overflow-hidden text-sm md:text-md text-zinc-700 dark:text-gray-300 transition-all duration-300 ${
+            className={`overflow-hidden text-sm md:text-md text-zinc-700 dark:text-gray-300 transition-all duration-500 ${
               openedIndex === index
                 ? "max-h-40 opacity-100"
                 : "max-h-0 opacity-0"

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import Lottie from "lottie-react";
-import notFound3 from "../test/notFound3.json";
+import notFound3 from "../LottieAssets/notFound3.json";
 
 export const JobNotFound = () => {
   const { isDarkMode } = useSelector((store) => store.auth);

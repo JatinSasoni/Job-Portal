@@ -4,7 +4,11 @@ import { NavLink } from "react-router-dom";
 export const NavItems = ({ loggedInUser }) => {
   return (
     <nav className="hidden lg:grid place-items-center">
-      <ul className="xl:ml-20 flex gap-3 md:gap-9 [&>*]:text-xs  md:[&>*]:text-lg  [&>*]:text-gray-600 dark:[&>li]:text-gray-400  ">
+      <ul
+        className={`${
+          !loggedInUser && "xl:ml-20"
+        } flex gap-3 md:gap-9 [&>*]:text-xs  md:[&>*]:text-lg  [&>*]:text-gray-600 dark:[&>li]:text-gray-400  `}
+      >
         {loggedInUser?.role === "recruiter" ? (
           <>
             <li>

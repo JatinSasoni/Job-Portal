@@ -55,7 +55,7 @@ export const AllJobsSection = () => {
             })}
           </ul>
         )}
-        <Pagination scope="allJobsPage" />
+        {allJobs?.length > 0 && <Pagination scope="allJobsPage" />}
       </div>
     </div>
   );

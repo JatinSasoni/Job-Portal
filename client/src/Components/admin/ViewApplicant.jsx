@@ -21,7 +21,7 @@ export const ViewApplicant = () => {
           setApplicant(response.data.user);
         }
       } catch (error) {
-        toast.error("User not found");
+        toast.error(error.response.data.MESSAGE);
       } finally {
         setLoading(false);
       }
@@ -41,8 +41,10 @@ export const ViewApplicant = () => {
     return (
       <>
         <Navbar />
-        <div className="text-center mt-10 text-4xl text-red-500 font-semibold">
+        <div className="text-center mt-10 text-5xl text-red-500 font-semibold">
           User not found.
+        </div>
+        <div className=" grid place-items-center my-3">
           <NavLink to="/admin/jobs">
             <AdminButton label="Go Back" />
           </NavLink>

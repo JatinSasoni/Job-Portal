@@ -23,8 +23,8 @@ import { RegisterNewJob } from "../Components/admin/RegisterNewJob";
 import { AdminApplicants } from "../Components/admin/AdminApplicants";
 import { ViewApplicant } from "../Components/admin/ViewApplicant";
 import { UpdateJobPost } from "../Components/admin/UpdateJobPost";
-import MakePayment from "../test/MakePayment";
-import Success from "../test/Success";
+import MakePayment from "../Razorpay/MakePayment";
+import Success from "../Razorpay/Success";
 
 //ROUTES
 const AppRouter = createBrowserRouter([
@@ -77,21 +77,25 @@ const AppRouter = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  //SIGN-UP
   {
     errorElement: <ErrorPage />,
     path: "/signup",
     element: <RegisterPage />,
   },
+  //CONTACT
   {
     path: "/contact",
     errorElement: <ErrorPage />,
     element: <Contact />,
   },
 
+  //RESET PASSWORD
   {
     path: "/user/reset-pass",
     element: <ResetPassPage />,
   },
+  //VERIFY PASSWORD
   {
     path: "/user/:userID/verify-otp",
     element: <VerifyOTPPage />,

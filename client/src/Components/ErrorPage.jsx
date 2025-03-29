@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import Lottie from "lottie-react";
-import errorAnimation from "../test/errorAnimation.json";
+import errorAnimation from "../LottieAssets/errorAnimation.json";
 import { Navbar } from "./Shared/Navbar";
 
 export const ErrorPage = () => {

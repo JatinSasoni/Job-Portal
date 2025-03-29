@@ -6,11 +6,10 @@ import { AllJobsCard } from "./Cards/AllJobsCard";
 
 export const SavedJobs = () => {
   const [savedJobs, setSavedJobs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSavedJobs = async () => {
-      setLoading(true);
       try {
         const res = await handleGetSavedJobsAPI();
         if (res.data.SUCCESS) {
@@ -38,9 +37,14 @@ export const SavedJobs = () => {
     <section className="mx-auto max-w-7xl my-8 ">
       <div>
         {savedJobs?.length <= 0 ? (
-          <div className="h-96 overflow-hidden">
-            <JobNotFound />
-          </div>
+          <>
+            <h2 className="text-center text-zinc-700 dark:text-slate-50 text-2xl md:text-4xl">
+              You don't have any Job post saved
+            </h2>
+            <div className="h-96 overflow-hidden">
+              <JobNotFound />
+            </div>
+          </>
         ) : (
           <ul className="grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-32 ">
             {savedJobs?.map((job, i) => {

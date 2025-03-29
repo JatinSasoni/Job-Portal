@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 export const SearchBox = () => {
   const { searchedQuery } = useSelector((store) => store.job);
   const [search, setSearch] = useState({
-    keyword: searchedQuery?.keyword,
-    city: searchedQuery?.city,
+    keyword: searchedQuery?.keyword || "",
+    city: searchedQuery?.city || "",
   });
 
   const dispatch = useDispatch();

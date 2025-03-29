@@ -8,12 +8,11 @@ import { setAllAdminJobs } from "../../../store/jobSlice";
 import { JobNotFound } from "../JobNotFound";
 import AdminButton from "./admin components/AdminButton";
 import { motion } from "framer-motion";
-import { setLoading } from "../../../store/authSlice";
 
 export const AdminJobs = () => {
   const dispatch = useDispatch();
   const [filterInput, setFilterInput] = useState("");
-  const { loading } = useSelector((store) => store.auth);
+  const [loading, setLoading] = useState(true);
 
   //EXECUTES ONLY WHEN COMPONENT IF MOUNTED FOR THE FIRST TIME
   useEffect(() => {
@@ -49,9 +48,12 @@ export const AdminJobs = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
-      </div>
+      <>
+        <Navbar />
+        <div className="flex justify-center items-center h-96 lg:h-[calc(100vh-112px)]">
+          <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+        </div>
+      </>
     );
   }
 

@@ -12,18 +12,22 @@ import AdminButton from "./admin components/AdminButton";
 export const AdminCompanies = () => {
   const dispatch = useDispatch();
   const [filterInput, setFilterInput] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  //EXECUTES ONLY WHEN COMPONENT IF MOUNTED FOR THE FIRST TIME
   useEffect(() => {
     const getAllCompanies = async () => {
       try {
         const response = await handleGetAllCompanyDes();
-
         if (response.data.SUCCESS) {
           dispatch(setAllCompanies(response.data.companies));
         }
       } catch (error) {
-        console.log("Error fetching companies", error);
+        console.error(
+          "Error fetching companies:",
+          error?.response?.data || error
+        );
+      } finally {
+        setLoading(false);
       }
     };
     getAllCompanies();
@@ -31,20 +35,34 @@ export const AdminCompanies = () => {
 
   const { allCompanies } = useSelector((store) => store.company, shallowEqual);
 
-  // Deriving filtered data dynamically instead of using state
   const filteredCompanies = useMemo(() => {
-    if (!filterInput || filterInput?.length === 0) return allCompanies;
+    if (!filterInput) return allCompanies;
     return allCompanies?.filter((company) =>
-      company?.companyName?.toLowerCase().includes(filterInput.toLowerCase())
+      company.companyName.toLowerCase().includes(filterInput.toLowerCase())
     );
   }, [filterInput, allCompanies]);
+
+  const handleFilterChange = (e) => {
+    setFilterInput(e.target.value);
+  };
+
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="flex justify-center items-center h-96 lg:h-[calc(100vh-112px)]">
+          <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
       <Navbar />
 
       <section className="mx-auto max-w-7xl pt-6 p-4 mb-8">
-        <div className=" max-md:flex-col max-md:gap-2 flex justify-between md:p-3 ">
+        <div className="max-md:flex-col max-md:gap-2 flex justify-between md:p-3">
           <h1 className="text-3xl md:text-4xl text-slate-800 font-semibold dark:text-slate-100 max-md:text-center">
             Registered Companies
           </h1>
@@ -58,11 +76,10 @@ export const AdminCompanies = () => {
             placeholder="Filter By name..."
             className="border p-2 outline-none rounded-md dark:bg-zinc-800 dark:text-slate-50"
             value={filterInput}
-            onChange={(e) => setFilterInput(e.target.value)}
+            onChange={handleFilterChange}
           />
         </div>
 
-        {/* TABLE CONTAINING LIST OF REGISTERED COMPANIES */}
         <main className="mt-5">
           <motion.div
             initial={{ opacity: 0, y: 50 }}

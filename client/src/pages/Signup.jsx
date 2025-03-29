@@ -13,7 +13,7 @@ export const Signup = () => {
   const { loggedInUser } = useSelector((state) => state.auth);
 
   //NAVIGATION
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   //SUBMIT FN FOR SIGNUP
   const onSubmit = async (data) => {
@@ -40,9 +40,9 @@ export const Signup = () => {
   //IF USER ALREADY LOGGED IN
   useEffect(() => {
     if (loggedInUser) {
-      Navigate("/");
+      navigate("/");
     }
-  }, [loggedInUser, Navigate]);
+  }, [loggedInUser, navigate]);
 
   return (
     <>

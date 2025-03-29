@@ -2,9 +2,12 @@
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import { useState } from "react";
 
 export const LoginForm = ({ onSubmit }) => {
   const { loading } = useSelector((state) => state.auth);
+  const [viewPass, setViewpass] = useState(false);
 
   //USE FORM HOOK
   const {
@@ -28,6 +31,7 @@ export const LoginForm = ({ onSubmit }) => {
         </label>
         <input
           type="email"
+          id="email"
           {...register("email", {
             required: {
               value: true,
@@ -51,12 +55,24 @@ export const LoginForm = ({ onSubmit }) => {
       <div className="block relative">
         <label
           htmlFor="password"
-          className="block text-gray-600 cursor-text text-sm leading-[140%] font-normal mb-2"
+          className=" text-gray-600 cursor-text text-sm leading-[140%] font-normal mb-2 flex gap-2 "
         >
           Password
+          {viewPass ? (
+            <VscEye
+              className="my-auto size-5 cursor-pointer"
+              onClick={() => setViewpass((prev) => !prev)}
+            />
+          ) : (
+            <VscEyeClosed
+              className="my-auto size-5 cursor-pointer"
+              onClick={() => setViewpass((prev) => !prev)}
+            />
+          )}
         </label>
         <input
-          type="text"
+          type={viewPass ? "text" : "password"}
+          id="password"
           {...register("password", {
             required: {
               value: true,
@@ -75,6 +91,7 @@ export const LoginForm = ({ onSubmit }) => {
           })}
           className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0 dark:bg-zinc-700 dark:border-none dark:text-white"
         />
+
         {errors.password && (
           <span className="text-blue-900 dark:text-blue-300">
             *{errors.password.message}
@@ -132,13 +149,13 @@ export const LoginForm = ({ onSubmit }) => {
       {/* SUBMIT BUTTON */}
       <button
         type="submit"
-        className="hover:scale-105 transition w-full m-auto font-medium px-6 py-2 rounded-xl text-white text-sm bg-blue-400  "
+        className="hover:scale-105 transition w-full m-auto font-medium px-6 py-2 rounded-xl text-white text-sm bg-blue-400 duration-300"
       >
         {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE SUBMIT BUTTON */}
         {loading ? (
           <>
             <div className="flex gap-2 justify-center">
-              <div className="loader "></div>
+              <div className="loader"></div>
               {/* <span className="animate-bounce">wait</span> */}
             </div>
           </>

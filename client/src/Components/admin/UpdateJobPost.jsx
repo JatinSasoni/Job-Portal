@@ -14,6 +14,7 @@ export const UpdateJobPost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [singleJobInfo, setSingleJobInfo] = useState(null);
+  const [localLoading, setLocalLoading] = useState(true);
 
   useEffect(() => {
     const getSingleJobPost = async (jobID) => {
@@ -23,7 +24,9 @@ export const UpdateJobPost = () => {
           setSingleJobInfo(response.data.job);
         }
       } catch (error) {
-        console.log(error);
+        toast.error(error.response.data.MESSAGE);
+      } finally {
+        setLocalLoading(false);
       }
     };
 
@@ -31,8 +34,6 @@ export const UpdateJobPost = () => {
   }, [jobID]);
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     try {
       dispatch(setLoading(true));
       const response = await handleEditJobAPI(jobID, data);
@@ -47,6 +48,16 @@ export const UpdateJobPost = () => {
       dispatch(setLoading(false));
     }
   };
+
+  if (localLoading) {
+    return (
+      <>
+        <div className="flex justify-center items-center h-96 lg:h-[calc(100vh)]">
+          <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <section>

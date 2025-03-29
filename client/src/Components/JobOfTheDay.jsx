@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { handleGetFeaturedJobs } from "../../Api/getAPI";
 import { JobNotFound } from "./JobNotFound";
 import { AllJobsCard } from "./Cards/AllJobsCard";
@@ -6,17 +6,20 @@ import { motion } from "framer-motion";
 
 export const JobOfTheDay = () => {
   const [allJobs, setAllJobs] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAllJobs = async () => {
       try {
-        setLoading(true);
         const response = await handleGetFeaturedJobs();
         if (response.data.SUCCESS) {
-          JSON.stringify(response.data.featuredJobs) !==
-            JSON.stringify(allJobs) && //IF DATA DON'T CHANGED PREVENT RE-RENDER
-            setAllJobs(response.data.featuredJobs);
+          setAllJobs((prevJobs) =>
+            JSON.stringify(prevJobs) !==
+            JSON.stringify(response.data.featuredJobs)
+              ? response.data.featuredJobs
+              : prevJobs
+          );
         }
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -27,15 +30,6 @@ export const JobOfTheDay = () => {
 
     fetchAllJobs();
   }, []);
-
-  //  useCallback to prevent unnecessary re-renders
-  const JobCards = useCallback(() => {
-    return allJobs
-      .slice(0, 4)
-      .map((card) =>
-        card._id ? <AllJobsCard key={card._id} cardData={card} /> : null
-      );
-  }, [allJobs]);
 
   if (loading) {
     return (
@@ -71,9 +65,12 @@ export const JobOfTheDay = () => {
             <JobNotFound />
           </div>
         ) : (
-          // <ul className="grid grid-cols-4 gap-8 place-items-center px-32 py-6 ">
-          <ul className="mt-4 lg:mt-0 grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center  md:px-32 lg:px-32 ">
-            <JobCards />
+          <ul className="mt-4 lg:mt-0 grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center md:px-32 lg:px-32">
+            {allJobs
+              .slice(0, 8)
+              .map((card) =>
+                card._id ? <AllJobsCard key={card._id} cardData={card} /> : null
+              )}
           </ul>
         )}
       </div>

@@ -15,9 +15,9 @@ export const handleLogoutAPICall = () => {
 
 //GET ALL JOBS API
 export const handleGetAllJobs = (
-  keyword = "",
-  page = DEFAULT_PAGE_NUMBER,
-  limit = DEFAULT_PAGE_LIMIT
+  keyword = "", //DEFAULT
+  page = DEFAULT_PAGE_NUMBER, //DEFAULT
+  limit = DEFAULT_PAGE_LIMIT //DEFAULT
 ) => {
   return api.get(
     `/api/v1/job/get?keyword=${keyword}&page=${page}&limit=${limit}`,

@@ -3,13 +3,13 @@ import { UpdateProfile } from "./UpdateProfile";
 import { createPortal } from "react-dom";
 import { ProfileInfo } from "./ProfileInfo";
 import { AppliedJobs } from "./AppliedJobs";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export const Profile = () => {
   //TOGGLE FOR UPDATE PROFILE
   const [isUpdateProfile, setIsUpdateProfile] = useState(false);
-  const { loggedInUser } = useSelector((store) => store.auth);
+  const { loggedInUser } = useSelector((store) => store.auth, shallowEqual);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export const Profile = () => {
       <ProfileInfo setIsUpdateProfile={setIsUpdateProfile} />
 
       {/* APPLIED JOBS */}
-      {loggedInUser?.role === "student" && <AppliedJobs />}
+      {loggedInUser?.role !== "recruiter" && <AppliedJobs />}
 
       {/* LOGIC FOR UPDATE PROFILE */}
 

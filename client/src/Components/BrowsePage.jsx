@@ -15,7 +15,7 @@ export const BrowsePage = () => {
     (store) => ({
       searchedQuery: store.job.searchedQuery,
       allJobs: store.job.allJobs,
-      paginationData: store.job.paginationData["browseJobsPage"], // Scoped pagination for BrowsePage
+      paginationData: store.job.paginationData["browseJobsPage"],
     }),
     shallowEqual
   );
@@ -23,42 +23,52 @@ export const BrowsePage = () => {
   useEffect(() => {
     const fetchFilteredData = async () => {
       try {
+        const page = paginationData?.page || 1;
+        const limit = paginationData?.limit || 10;
+
         const response = await handleGetAllJobs(
-          searchedQuery.keyword,
-          paginationData?.page,
-          paginationData?.limit
+          searchedQuery?.keyword,
+          page,
+          limit
         );
 
         if (response.data.SUCCESS) {
-          // Calculate total pages
-          const totalJobs = response.data.totalJobs;
-          const totalPages = Math.ceil(totalJobs / paginationData?.limit);
+          const totalJobs = response.data?.totalJobs;
+          const totalPages = Math.ceil(totalJobs / limit);
 
-          dispatch(
-            setPaginationData({
-              scope: "browseJobsPage",
-              data: { totalPage: totalPages },
-            })
-          );
+          // Update pagination only if totalPage has changed
+          if (totalPages !== paginationData?.totalPage) {
+            dispatch(
+              setPaginationData({
+                scope: "browseJobsPage",
+                data: {
+                  totalPage: totalPages,
+                  page: Math.min(page, totalPages),
+                },
+              })
+            );
+          }
 
-          // Update job list if data has changed
-          JSON.stringify(response.data.allJobs) !== JSON.stringify(allJobs) &&
-            dispatch(setAllJobs(response.data.allJobs));
+          // Update job list only if different
+          if (
+            response.data?.allJobs.length !== allJobs.length ||
+            JSON.stringify(response.data?.allJobs) !== JSON.stringify(allJobs)
+          ) {
+            dispatch(setAllJobs(response.data?.allJobs));
+          }
         }
       } catch (error) {
-        toast.error(error.response?.data?.MESSAGE);
+        toast.error(error.response?.data?.MESSAGE || "Failed to fetch jobs.");
       }
     };
 
     fetchFilteredData();
   }, [searchedQuery, paginationData?.page, paginationData?.limit, dispatch]);
 
-  // Apply city filter (client-side)
+  // Apply client-side city filter
   const displayedJobs = searchedQuery?.city
     ? allJobs.filter((job) =>
-        job?.location
-          ?.toLowerCase()
-          .includes(searchedQuery?.city?.toLowerCase())
+        job?.location?.toLowerCase().includes(searchedQuery.city.toLowerCase())
       )
     : allJobs;
 
@@ -67,10 +77,7 @@ export const BrowsePage = () => {
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{
-          type: "tween",
-          duration: 1,
-        }}
+        transition={{ type: "tween", duration: 1 }}
         className="text-center text-gray-700 text-2xl md:text-4xl font-semibold dark:text-zinc-200 mt-3 md:mb-8"
       >
         Explore Top Opportunities & Advance Your Career
@@ -83,13 +90,13 @@ export const BrowsePage = () => {
 
       {/* JOB LIST */}
       <div className="mt-8 xl:mt-4">
-        {displayedJobs?.length <= 0 ? (
+        {displayedJobs?.length === 0 ? (
           <div className="h-96 overflow-hidden">
             <JobNotFound />
           </div>
         ) : (
           <ul className="grid sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 lg:gap-8 lg:py-6 place-items-center md:px-32 lg:px-32">
-            {displayedJobs?.map((job, i) => (
+            {displayedJobs.map((job, i) => (
               <AllJobsCard key={i} cardData={job} />
             ))}
           </ul>
@@ -97,7 +104,7 @@ export const BrowsePage = () => {
       </div>
 
       {/* PAGINATION */}
-      <Pagination scope="browseJobsPage" />
+      {displayedJobs.length > 0 && <Pagination scope="browseJobsPage" />}
     </section>
   );
 };

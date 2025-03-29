@@ -1,7 +1,7 @@
 // import { useEffect } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { handleUpdateAPICall } from "../../Api/postAPI";
 import { setLoading, setLoggedInUser } from "../../store/authSlice";
 import { toast } from "react-toastify";
@@ -18,7 +18,7 @@ export const UpdateProfile = ({ setIsUpdateProfile }) => {
   // }, []);
 
   // LOGGED IN USER INFO
-  const { loggedInUser } = useSelector((state) => state.auth);
+  const { loggedInUser } = useSelector((state) => state.auth, shallowEqual);
 
   //USE FORM HOOK
   const {
