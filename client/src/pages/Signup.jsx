@@ -26,7 +26,7 @@ export const Signup = () => {
 
       //IF RESPONSE IS OK
       if (response.data.SUCCESS) {
-        Navigate("/login"); //NAVIGATE TO LOGIN PAGE WHEN SIGNUP SUCCESSFUL
+        navigate("/login"); //NAVIGATE TO LOGIN PAGE WHEN SIGNUP SUCCESSFUL
         toast.success(response.data.MESSAGE);
       }
     } catch (error) {
