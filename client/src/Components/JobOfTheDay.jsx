@@ -33,7 +33,7 @@ export const JobOfTheDay = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center max-sm:h-[calc(100vh-72px)]  sm:h-[calc(100vh-112px)]">
+      <div className="flex justify-center items-center h-32 xl:h-48">
         <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
       </div>
     );
