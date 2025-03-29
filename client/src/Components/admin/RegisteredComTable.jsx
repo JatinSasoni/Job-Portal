@@ -95,7 +95,7 @@ export const RegisteredComTable = ({ allCompanies }) => {
               </td>
               <td className="px-6 py-4">
                 <button
-                  className="p-2 text-white rounded-xl px-4"
+                  className="p-2 dark:text-white rounded-xl px-4"
                   onClick={() => handleCompanyDelete(company?._id)}
                   disabled={loadingID === company?._id}
                 >

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 
 import { setSingleCompanyData } from "../../store/companySlice";
 import { toast } from "react-toastify";
+import { setLoading } from "../../store/authSlice";
 
 //WHERE EVER THIS CUSTOM HOOK IS USED useEffect EXECUTE ACC TO ITS WORKING
 const useGetSingleCompanyData = (companyID) => {
@@ -12,6 +13,7 @@ const useGetSingleCompanyData = (companyID) => {
   //FUNCTION DEFINED TO FETCH ALL JOBS
   const fetchSingleCompany = async (companyIDD) => {
     try {
+      dispatch(setLoading(true));
       const response = await handleGetSingleCompanyDes(companyIDD);
       //IF DATA FETCHED SUCCESSFULLY
       if (response.data.SUCCESS) {
@@ -19,6 +21,8 @@ const useGetSingleCompanyData = (companyID) => {
       }
     } catch (error) {
       toast.error(error.response.data.MESSAGE);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 

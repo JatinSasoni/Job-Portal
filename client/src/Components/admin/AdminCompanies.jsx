@@ -12,11 +12,12 @@ import AdminButton from "./admin components/AdminButton";
 export const AdminCompanies = () => {
   const dispatch = useDispatch();
   const [filterInput, setFilterInput] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getAllCompanies = async () => {
       try {
+        setLoading(true);
         const response = await handleGetAllCompanyDes();
         if (response.data.SUCCESS) {
           dispatch(setAllCompanies(response.data.companies));
@@ -50,7 +51,7 @@ export const AdminCompanies = () => {
     return (
       <>
         <Navbar />
-        <div className="flex justify-center items-center h-96 lg:h-[calc(100vh-112px)]">
+        <div className="flex justify-center items-center max-sm:h-[calc(100vh-72px)]  sm:h-[calc(100vh-112px)]">
           <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
         </div>
       </>

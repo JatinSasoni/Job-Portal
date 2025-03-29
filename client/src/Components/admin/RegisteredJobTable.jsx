@@ -2,8 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaUsers } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import { FaUserEdit } from "react-icons/fa";
-import { motion } from "motion/react";
-import { toast } from "react-toastify";
+
 import { deleteJobAPI } from "../../../Api/deleteAPI";
 import { useState } from "react";
 
@@ -87,7 +86,7 @@ export const RegisteredJobTable = ({ allAdminJobs }) => {
                 {/* api/v1/job/job-post/:jobID/edit */}
 
                 <button
-                  className="p-2 text-white rounded-xl px-4"
+                  className="p-2 dark:text-white rounded-xl px-4"
                   onClick={() => handleJobDelete(job?._id)}
                   disabled={loadingID === job?._id}
                 >

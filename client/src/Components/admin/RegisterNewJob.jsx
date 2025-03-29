@@ -1,16 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import { Navbar } from "../Shared/Navbar";
 
 import { toast } from "react-toastify";
 import { handlePostJobAPI } from "../../../Api/postAPI";
 import { PostJobForm } from "./admin components/PostJobForm";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../../store/authSlice";
 
 export const RegisterNewJob = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   //   ONSUBMIT FN
   const onSubmit = async (data) => {
     try {
+      dispatch(setLoading(true));
       const response = await handlePostJobAPI(data);
       if (response.data.SUCCESS) {
         toast.success(response.data.MESSAGE);
@@ -18,6 +20,8 @@ export const RegisterNewJob = () => {
       }
     } catch (error) {
       toast.error(error.response.data.MESSAGE);
+    } finally {
+      dispatch(setLoading(true));
     }
   };
 

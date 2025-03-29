@@ -9,6 +9,7 @@ import AdminButton from "./admin components/AdminButton";
 
 export const RegisterNewCompany = () => {
   const [companyName, setCompanyName] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   //REGISTER NEW COMPANY
@@ -16,6 +17,7 @@ export const RegisterNewCompany = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await handleRegisterComAPI({ companyName });
 
       if (response.data.SUCCESS) {
@@ -23,8 +25,9 @@ export const RegisterNewCompany = () => {
         navigate(`/admin/companies`);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.MESSAGE);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,7 +77,16 @@ export const RegisterNewCompany = () => {
             className="bg-indigo-500 w-full md:w-3/12 mx-auto p-1 text-white rounded-xl"
             type="submit"
           >
-            Register
+            {loading ? (
+              <>
+                <div className="flex gap-2 justify-center">
+                  <div className="loader"></div>
+                  {/* <span className="animate-bounce">wait</span> */}
+                </div>
+              </>
+            ) : (
+              "Register"
+            )}
           </button>
         </form>
       </div>

@@ -38,7 +38,7 @@ body {
 }
 
 .dark .toast-custom {
-  @apply bg-zinc-900 text-white border-zinc-800 shadow-xl;
+  @apply bg-zinc-800 text-white border-zinc-800 shadow-xl;
 }
 
 /* INPUT TYPE NUMBER */

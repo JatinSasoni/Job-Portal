@@ -1,12 +1,12 @@
 import { Navbar } from "../Shared/Navbar";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { handleUpdateComAPI } from "../../../Api/postAPI";
 import useGetSingleCompanyData from "../../Hooks/getSingleCompanyByItsID";
-import { setLoading } from "../../../store/authSlice";
+
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 export const UpdateCompany = () => {
@@ -15,6 +15,7 @@ export const UpdateCompany = () => {
   useGetSingleCompanyData(companyID);
 
   const { singleCompanyData } = useSelector((store) => store.company);
+  const [localLoading, setLocalLoading] = useState(false);
 
   //USE FORM HOOK
   const {
@@ -38,14 +39,13 @@ export const UpdateCompany = () => {
 
   //LOADING STATE
   const { loading } = useSelector((store) => store.auth);
-  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   //onSubmit
   const onSubmit = async (data) => {
     try {
-      dispatch(setLoading(true));
+      setLocalLoading(true);
       //FORM DATA
       const formData = new FormData();
       formData.append("companyName", data.companyName);
@@ -66,9 +66,19 @@ export const UpdateCompany = () => {
     } catch (error) {
       toast.error(error.response.data.MESSAGE);
     } finally {
-      dispatch(setLoading(false));
+      setLocalLoading(false);
     }
   };
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="flex justify-center items-center max-sm:h-[calc(100vh-100px)]  sm:h-[calc(100vh-112px)]">
+          <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <section>
@@ -223,7 +233,7 @@ export const UpdateCompany = () => {
                 className="bg-blue-400 w-full rounded-xl m-auto px-6 py-2  text-white text-sm font-normal"
               >
                 {/* IF LOADING IS TRUE THEN SHOW LOADER ELSE SUBMIT BUTTON */}
-                {loading ? (
+                {localLoading ? (
                   <div className="grid place-items-center">
                     <div className="loader"></div>
                   </div>

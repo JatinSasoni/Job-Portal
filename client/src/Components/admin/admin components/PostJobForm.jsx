@@ -7,7 +7,10 @@ import { useForm } from "react-hook-form";
 /* eslint-disable react/prop-types */
 export const PostJobForm = ({ onSubmit, singleJobInfo = "" }) => {
   const { allCompanies } = useSelector((store) => store.company, shallowEqual);
-  const { isDarkMode } = useSelector((store) => store.auth, shallowEqual);
+  const { isDarkMode, loading } = useSelector(
+    (store) => store.auth,
+    shallowEqual
+  );
   const navigate = useNavigate();
 
   const {
@@ -178,7 +181,16 @@ export const PostJobForm = ({ onSubmit, singleJobInfo = "" }) => {
           type="submit"
           className="w-full mt-5 bg-blue-400 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded-lg transition duration-200"
         >
-          Post
+          {loading ? (
+            <>
+              <div className="flex gap-2 justify-center">
+                <div className="loader"></div>
+                {/* <span className="animate-bounce">wait</span> */}
+              </div>
+            </>
+          ) : (
+            "Post"
+          )}
         </button>
         <button
           type="button"

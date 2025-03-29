@@ -179,8 +179,8 @@ export const SignupForm = ({ onSubmit }) => {
       </div>
 
       {/* ROLE */}
-      <div className="relative flex justify-evenly">
-        <div>
+      <div className="relative flex justify-evenly my-px">
+        <div className="flex gap-1">
           <input
             type="radio"
             value="student"
@@ -196,7 +196,7 @@ export const SignupForm = ({ onSubmit }) => {
             Student
           </label>
         </div>
-        <div>
+        <div className="flex gap-1">
           <input
             type="radio"
             value="recruiter"
