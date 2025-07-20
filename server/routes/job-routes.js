@@ -1,13 +1,28 @@
 const { Router } = require("express");
 const jobController = require("../controller/Job-Controller");
 const isAuthentication = require("../middleware/userAuthentications");
+const { validateJobCreation } = require("../validations/jobValidators");
+const validateResults = require("../middleware/validate-result");
 
 const router = Router();
 
 //JOB BUSINESS LOGIC
-router.route("/post").post(isAuthentication, jobController.postJobForAdmin);
+router
+  .route("/post")
+  .post(
+    isAuthentication,
+    validateJobCreation,
+    validateResults,
+    jobController.postJobForAdmin
+  );
+router
+  .route("/server/info")
+  .get((req, res) =>
+    res.status(200).json({ MESSAGE: "Server live", SUCCESS: true })
+  );
 
 router.route("/get").get(jobController.getAllJobs);
+//mongoose id validated in controller's
 router.route("/get/featured").get(jobController.getFeaturedJobs);
 router
   .route("/admin/:jobID/get")

@@ -30,7 +30,7 @@ export const PostJobForm = ({ onSubmit, singleJobInfo = "" }) => {
         salary: singleJobInfo?.salary || "",
         jobType: singleJobInfo?.jobType || "",
         position: singleJobInfo?.position || "",
-        experienceLevel: singleJobInfo?.experienceLevel || "",
+        experienceLevel: singleJobInfo?.experienceLevel || 0,
         location: singleJobInfo?.location || "",
         CompanyID: singleJobInfo?.CompanyID?._id || "", //CompanyID._id because we populated CompanyID with some data
       });

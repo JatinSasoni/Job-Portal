@@ -32,11 +32,7 @@ export const Footer = () => {
             transition={{ duration: 0.5 }}
             className="block text-xs text-gray-500 text-center dark:text-gray-400"
           >
-            © 2023{" "}
-            <Link href="https://flowbite.com/" className="hover:underline">
-              Jatin@8084™
-            </Link>
-            . All Rights Reserved.
+            © 2024 Jatin@8084™ . All Rights Reserved.
           </motion.p>
         </div>
       </footer>

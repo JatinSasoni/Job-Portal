@@ -223,6 +223,7 @@ export const UpdateCompany = () => {
                   type="file"
                   id="file"
                   {...register("companyLogo")}
+                  accept="image/*"
                   className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-10 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:text-gray-50 dark:border-none"
                 />
               </div>

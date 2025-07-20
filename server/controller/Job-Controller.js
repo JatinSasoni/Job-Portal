@@ -136,7 +136,7 @@ const editJobPost = async (req, res) => {
     // Create an update object with only provided fields
     const updateData = {};
     updatableFields.forEach((field) => {
-      if (req.body[field] !== undefined) {
+      if (req.body[field] && req.body[field] !== undefined) {
         updateData[field] = req.body[field];
       }
     });

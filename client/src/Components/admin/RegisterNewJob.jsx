@@ -21,7 +21,7 @@ export const RegisterNewJob = () => {
     } catch (error) {
       toast.error(error.response.data.MESSAGE);
     } finally {
-      dispatch(setLoading(true));
+      dispatch(setLoading(false));
     }
   };
 

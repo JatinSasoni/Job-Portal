@@ -16,7 +16,7 @@ const isAuthentication = async (req, res, next) => {
     const tokenDecode = jwt.verify(token, process.env.SECRET_KEY);
     if (!tokenDecode) {
       return res.status(401).json({
-        MESSAGE: "Invalid token",
+        MESSAGE: "Please Login first",
         SUCCESS: false,
       });
     }

@@ -80,6 +80,10 @@ const ContactForm = ({ handleSubmit, onSubmit, register, errors, loading }) => {
               value: true,
               message: "Message is required",
             },
+            minLength: {
+              value: 5,
+              message: "Message must be at least 5 characters",
+            },
           })}
           // className="outline-none p-2 w-full resize-none h-40 dark:bg-zinc-700 rounded border border-gray-200 focus:ring-1 ring-offset-2"
           className="resize-none h-40 rounded border  border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block  m-0 p-[11px] focus:ring-1 ring-offset-2  ring-gray-900 outline-0 dark:bg-zinc-700 dark:border-none dark:text-gray-50"

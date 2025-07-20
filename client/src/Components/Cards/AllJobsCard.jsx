@@ -12,7 +12,7 @@ export const AllJobsCard = ({ cardData }) => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5, type: "tween" }}
-      className="p-4 border rounded-xl shadow-md dark:drop-shadow-md dark:shadow-zinc-600 
+      className="p-4 border rounded-xl shadow-md max-sm:dark:shadow-none dark:shadow-zinc-600 
       dark:bg-zinc-800 dark:border-zinc-500 w-full sm:w-5/6 md:w-full max-w-[310px] md:max-w-none 
       flex flex-col justify-between h-[300px] lg:h-[300px]" // Ensuring Fixed Height
     >
@@ -40,7 +40,7 @@ export const AllJobsCard = ({ cardData }) => {
         {/* TITLE AND JOB TYPE */}
         <h4 className="mt-2 text-sm md:text-md lg:text-md font-semibold text-blue-950 dark:text-white">
           {cardData?.title?.length > 20
-            ? `${cardData?.title?.slice(0, 22)}...`
+            ? `${cardData?.title?.slice(0, 20)}...`
             : cardData?.title}
         </h4>
         <div className="mt-1 flex gap-10  md:gap-4 [&>p]:text-xs">
