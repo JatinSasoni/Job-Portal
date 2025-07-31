@@ -1,4 +1,3 @@
-
 # 💼 TalentNest Pro - MERN Stack Job Portal
 
 A **MERN Stack Job Portal** built to connect recruiters and job seekers through a seamless and modern web experience. This project leverages **React**, **Express**, **MongoDB**, and **Node.js** — with real-time notifications, secure payments, and elegant UI animations.
@@ -8,26 +7,18 @@ A **MERN Stack Job Portal** built to connect recruiters and job seekers through 
 ## 🌐 Live Preview
 
 > ⚠️ **Important:**  
-> The backend is hosted on **Render**, which suspends the server when idle.  
-> 👉 Please **first visit the backend URL** below to wake up the server (this may take a few seconds):
+> Both frontend and backend are hosted on **Vercel**. If idle, the initial load might take a few seconds.
 
-🔗 **Backend API (wake up server first):**  
-[https://job-portal-ac6k.onrender.com/api/v1/job/server/info](https://job-portal-ac6k.onrender.com/api/v1/job/server/info)
+🔗 **Preview:**  
+[https://talentnest-pro.vercel.app](https://talentnest-pro.vercel.app)
 
-🔗 **Frontend:**  
-[https://talentnestpro.netlify.app/](https://talentnestpro.netlify.app/)
-
-> 🐢 **Note:** The application may respond slowly due to **Render’s free-tier resource limits**.
-
-
-
+> 🐢 **Note:** The application may respond slowly due to **vercel's free-tier resource limits**.
 
 ## 📸 Screenshots:
+
 ![Portal-preview](./screenshots/portal1.jpg)
 ![Portal-preview](./screenshots/portal2.jpg)
 ![Portal-preview](./screenshots/portal3.jpg)
-
-
 
 ## 🚀 Key Features
 
@@ -82,10 +73,12 @@ A **MERN Stack Job Portal** built to connect recruiters and job seekers through 
 - Nodemailer (Email notifications)
 - Render (Backend hosting)
 - Netlify (Frontend hosting)
+
 ## 🚀 Getting Started
+
 ### Prerequisites
 
-- Node.js 
+- Node.js
 - MongoDB Atlas account or local MongoDB
 - Razorpay developer account (for payments)
 - Cloudinary account (for image uploads)
@@ -143,18 +136,20 @@ VITE_API_URI=your_backend_api_base_url
 VITE_RAZOR_PAY_KEY=your_razorpay_key
 VITE_SUBSCRIPTION_PRICE=your_subscription_price
 ```
+
 ### 🚀 Deployment
+
 Frontend: Deployed on Netlify
 
 Backend: Deployed on Render
 
-
-
 ### 🧩 Folder Structure
+
 - /Client --> React Frontend
 - /Server --> Express Backend API
 
-###  🔮 To-Do / Future Enhancements
+### 🔮 To-Do / Future Enhancements
+
 - ✅ Admin dashboard for management
 - ✅ Job analytics for recruiters
 - ✅ Enhanced search & filter optimizations
@@ -163,4 +158,5 @@ Backend: Deployed on Render
 - ✅ Resume builder
 
 ## 📬 Dev?
+
 ### Jatin Sasoni :)
