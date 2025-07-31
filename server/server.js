@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 const allowedOrigins = [
   "http://localhost:5173",
   "https://talentnestpro.netlify.app",
+  "https://talentnest-pro.vercel.app",
 ];
 
 // CORS OPTION
