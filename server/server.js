@@ -8,6 +8,7 @@ const jobRoute = require("./routes/job-routes");
 const contactRoute = require("./routes/Contact-Us-route");
 const applicationRoute = require("./routes/application-route");
 require("dotenv").config();
+const redis = require("./utils/redis"); // initialize once here
 
 // Initializing app
 const app = express();
