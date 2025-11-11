@@ -304,6 +304,13 @@ const saveJob = async (req, res) => {
       user.savedJobs = user.savedJobs.filter((id) => id.toString() !== jobId);
       await user.save();
 
+      const cacheKey = `user:savedJobs:${userId}`;
+      try {
+        await redis.del(cacheKey);
+      } catch (cacheErr) {
+        console.error("Redis cache deletion error:", cacheErr.message);
+      }
+
       return res.status(200).json({
         MESSAGE: "Job removed from saved list",
         user,
@@ -312,6 +319,12 @@ const saveJob = async (req, res) => {
     } else {
       user.savedJobs.push(jobId);
       await user.save();
+      const cacheKey = `user:savedJobs:${userId}`;
+      try {
+        await redis.del(cacheKey);
+      } catch (cacheErr) {
+        console.error("Redis cache deletion error:", cacheErr.message);
+      }
       return res
         .status(200)
         .json({ MESSAGE: "Job saved successfully", SUCCESS: true, user });

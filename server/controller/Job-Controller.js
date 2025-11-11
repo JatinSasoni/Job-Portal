@@ -32,24 +32,6 @@ const postJobForAdmin = async (req, res) => {
       });
     }
 
-    //IF ANY FIELD LEFT OUT
-    if (
-      !title ||
-      !description ||
-      !requirements ||
-      !salary ||
-      !location ||
-      !jobType ||
-      !position ||
-      !experienceLevel ||
-      !CompanyID
-    ) {
-      return res.status(400).json({
-        MESSAGE: "Please fill out every detail",
-        SUCCESS: false,
-      });
-    }
-
     //REQUIREMENTS LOGIC
     const requirementArray = requirements.split(",").map((elem) => elem);
 
@@ -98,6 +80,19 @@ const postJobForAdmin = async (req, res) => {
     if (mailOption) {
       sendMailUsingTransporter(mailOption);
     }
+    try {
+      const allJobkeys = await redis.keys("jobs:all:*");
+      if (allJobkeys.length > 0) {
+        await redis.del(...allJobkeys);
+      }
+
+      const featuredKeys = await redis.keys("jobs:get:featured*");
+      if (featuredKeys.length > 0) {
+        await redis.del(...featuredKeys);
+      }
+    } catch (err) {
+      console.error("Redis cache invalidation error:", err.message);
+    }
 
     return res.status(201).json({
       MESSAGE: "Job Posted Successfully",
@@ -106,7 +101,6 @@ const postJobForAdmin = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
-    console.log("Error while Posting JOB");
   }
 };
 
@@ -168,6 +162,19 @@ const editJobPost = async (req, res) => {
       { new: true, runValidators: true } //By default, findByIdAndUpdate() bypasses schema validation.
     );
 
+    try {
+      const keys = await redis.keys("jobs:all:*");
+      if (keys.length > 0) {
+        await redis.del(...keys);
+      }
+      const featuredKeys = await redis.keys("jobs:get:featured*");
+      if (featuredKeys.length > 0) {
+        await redis.del(...featuredKeys);
+      }
+    } catch (err) {
+      console.error("Redis cache invalidation error:", err.message);
+    }
+
     res.status(200).json({
       MESSAGE: "Job post updated successfully",
       job: updatedJob,
@@ -189,6 +196,17 @@ const getAllJobs = async (req, res) => {
     const limit = Number(req.query.limit) || 8;
     const skip = (page - 1) * limit;
 
+    //unique cache key based on query parameters
+    const cacheKey = `jobs:all:keyword=${keyword}:page=${page}:limit:${limit}`;
+    try {
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        return res.status(200).json(JSON.parse(cachedData));
+      }
+    } catch (err) {
+      console.error("Redis get error (getAllJobs):", err.message);
+    }
+
     const query = {
       //RETURNS DOCUMENTS WITH EITHER TITLE OR DESCRIPTION MATCHED THROUGH $regex
       // $options: "i" = CASE-INSENSITIVE
@@ -205,19 +223,25 @@ const getAllJobs = async (req, res) => {
       .skip(skip)
       .limit(limit);
 
-    return res.status(200).json({
+    const responseData = {
       MESSAGE: `Jobs found ${allJobs.length}`,
       allJobs,
       page,
       limit,
       totalJobs,
       SUCCESS: true,
-    });
-  } catch (error) {
-    console.log(error);
+    };
 
+    // Step 3: Cache the result for 10 minutes
+    try {
+      await redis.set(cacheKey, JSON.stringify(responseData), "EX", 600);
+    } catch (err) {
+      console.error("Redis set error (getAllJobs):", err.message);
+    }
+
+    return res.status(200).json(responseData);
+  } catch (error) {
     res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
-    console.log("Error while fetching jobs");
   }
 };
 
@@ -250,7 +274,6 @@ const getJobInfoById = async (req, res) => {
       SUCCESS: true,
     });
   } catch (error) {
-    console.log("Error while fetching job info");
     res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
@@ -346,7 +369,20 @@ const deleteJobByID = async (req, res) => {
       });
     }
 
-    const deletedApplications = await Application.deleteMany({ job: jobID });
+    await Application.deleteMany({ job: jobID });
+
+    try {
+      const allJobKey = await redis.keys("jobs:all:*");
+      if (allJobKey.length > 0) {
+        await redis.del(...allJobKey);
+      }
+      const featuredKeys = await redis.keys("jobs:get:featured*");
+      if (featuredKeys.length > 0) {
+        await redis.del(...featuredKeys);
+      }
+    } catch (err) {
+      console.error("Redis cache invalidation error:", err.message);
+    }
 
     return res.status(200).json({
       MESSAGE: "Job Post and all related applications removed successfully",
@@ -360,9 +396,25 @@ const deleteJobByID = async (req, res) => {
 
 //GET SAVED JOB
 const getSavedJobs = async (req, res) => {
-  const userId = req.id;
-
   try {
+    const userId = req.id;
+    let cachedData = null;
+
+    const cacheKey = `user:savedJobs:${userId}`;
+    try {
+      cachedData = await redis.get(cacheKey);
+    } catch (error) {
+      console.log("Error fetching cache data", error?.message);
+    }
+
+    if (cachedData) {
+      return res.status(200).json({
+        MESSAGE: "JOBS FOUND",
+        SUCCESS: true,
+        savedJobs: JSON.parse(cachedData),
+      });
+    }
+
     const user = await User.findById(userId).populate({
       path: "savedJobs",
       populate: {
@@ -375,6 +427,8 @@ const getSavedJobs = async (req, res) => {
         .status(404)
         .json({ MESSAGE: "User not found", SUCCESS: false });
     }
+
+    await redis.set(cacheKey, JSON.stringify(user.savedJobs), "EX", 300);
 
     res.status(200).json({
       MESSAGE: "JOBS FOUND",
