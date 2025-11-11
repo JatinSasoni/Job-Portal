@@ -8,6 +8,7 @@ const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const { default: mongoose } = require("mongoose");
 const validateObjectID = require("../utils/validateMongooseObjectID");
+const redis = require("../utils/redis");
 
 //HANDLING USER REGISTER
 const register = async (req, res) => {
@@ -643,6 +644,16 @@ const paymentVerification = async (req, res) => {
     };
 
     await user.save();
+
+    //Invalidate "featured jobs" cache
+    try {
+      const keys = await redis.keys("jobs:get:featured*");
+      if (keys.length > 0) {
+        await redis.del(...keys);
+      }
+    } catch (cacheErr) {
+      console.error("Redis cache invalidation failed:", cacheErr.message);
+    }
 
     // SEND JSON RESPONSE INSTEAD OF REDIRECT
     let userData = {

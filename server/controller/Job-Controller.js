@@ -3,6 +3,7 @@ const Job = require("../models/job-model");
 const User = require("../models/user-model");
 const { sendMailUsingTransporter } = require("../utils/transporter");
 const validateObjectID = require("../utils/validateMongooseObjectID");
+const redis = require("../utils/redis");
 
 //CREATE JOB API FOR AUTHENTICATED ADMIN
 const postJobForAdmin = async (req, res) => {
@@ -387,6 +388,22 @@ const getSavedJobs = async (req, res) => {
 
 const getFeaturedJobs = async (req, res) => {
   try {
+    const cachedKey = `jobs${req.path.replace(/\//g, ":")}`;
+    let cachedData = null;
+    //safeguard for redis errors
+    try {
+      cachedData = await redis.get(cachedKey);
+    } catch (err) {
+      console.error("Redis error (getFeaturedJobs):", err.message);
+    }
+
+    if (cachedData) {
+      return res.status(200).json({
+        MESSAGE: "JOBS FOUND",
+        SUCCESS: true,
+        featuredJobs: JSON.parse(cachedData),
+      });
+    }
     // Find all recruiters with an active subscription
     const activeSubscribers = await User.find(
       { "subscription.status": "active" }, // Find users with active subscription
@@ -400,7 +417,10 @@ const getFeaturedJobs = async (req, res) => {
     const featuredJobs = await Job.find({ createdBy: { $in: recruiterIds } })
       .populate("CompanyID")
       .sort({ createdAt: -1 }) // Sort by newest first
-      .limit(10); // Optional: Limit the number of featured jobs
+      .limit(10); //  Limit the number of featured jobs
+
+    // Cache the result for future requests (e.g., cache for 10 minutes)
+    await redis.set(cachedKey, JSON.stringify(featuredJobs), "EX", 600);
 
     res.status(200).json({
       MESSAGE: "JOBS FOUND",
