@@ -4,6 +4,7 @@ const User = require("../models/user-model");
 const { sendMailUsingTransporter } = require("../utils/transporter");
 const validateObjectID = require("../utils/validateMongooseObjectID");
 const redis = require("../utils/redis");
+const { clearCache } = require("../utils/clearCache");
 
 //CREATE JOB API FOR AUTHENTICATED ADMIN
 const postJobForAdmin = async (req, res) => {
@@ -80,19 +81,12 @@ const postJobForAdmin = async (req, res) => {
     if (mailOption) {
       sendMailUsingTransporter(mailOption);
     }
-    try {
-      const allJobkeys = await redis.keys("jobs:all:*");
-      if (allJobkeys.length > 0) {
-        await redis.del(...allJobkeys);
-      }
 
-      const featuredKeys = await redis.keys("jobs:get:featured*");
-      if (featuredKeys.length > 0) {
-        await redis.del(...featuredKeys);
-      }
-    } catch (err) {
-      console.error("Redis cache invalidation error:", err.message);
-    }
+    await clearCache([
+      "jobs:all:*",
+      "jobs:get:featured*",
+      `jobs:info:admin:posted:${userID}`,
+    ]);
 
     return res.status(201).json({
       MESSAGE: "Job Posted Successfully",
@@ -162,18 +156,14 @@ const editJobPost = async (req, res) => {
       { new: true, runValidators: true } //By default, findByIdAndUpdate() bypasses schema validation.
     );
 
-    try {
-      const keys = await redis.keys("jobs:all:*");
-      if (keys.length > 0) {
-        await redis.del(...keys);
-      }
-      const featuredKeys = await redis.keys("jobs:get:featured*");
-      if (featuredKeys.length > 0) {
-        await redis.del(...featuredKeys);
-      }
-    } catch (err) {
-      console.error("Redis cache invalidation error:", err.message);
-    }
+    await clearCache([
+      "jobs:all:*",
+      "jobs:get:featured*",
+      `job:info:${jobID}`,
+      `job:info:admin:${jobID}`,
+      "user:savedJobs:*",
+      `jobs:info:admin:posted:${userId}`,
+    ]);
 
     res.status(200).json({
       MESSAGE: "Job post updated successfully",
@@ -256,6 +246,20 @@ const getJobInfoById = async (req, res) => {
         .json({ SUCCESS: false, MESSAGE: "Something went wrong" });
     }
 
+    const cacheKey = `job:info:${jobID}`;
+    try {
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        return res.status(200).json({
+          MESSAGE: `Jobs found successfully`,
+          job: JSON.parse(cachedData),
+          SUCCESS: true,
+        });
+      }
+    } catch (err) {
+      console.error("Redis get error (jobinfobyid):", err.message);
+    }
+
     const job = await Job.findById(jobID)
       .populate("CompanyID")
       .populate("application");
@@ -268,6 +272,7 @@ const getJobInfoById = async (req, res) => {
       });
     }
 
+    await redis.set(cacheKey, JSON.stringify(job), "EX", 300);
     return res.status(200).json({
       MESSAGE: `Jobs found successfully`,
       job,
@@ -294,6 +299,20 @@ const getJobInfoByIdForAdmin = async (req, res) => {
       return res
         .status(403)
         .json({ MESSAGE: "Unauthorized to edit this job", SUCCESS: false });
+    }
+
+    const cacheKey = `job:info:admin:${jobID}`;
+    try {
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        return res.status(200).json({
+          MESSAGE: `Jobs found successfully`,
+          job: JSON.parse(cachedData),
+          SUCCESS: true,
+        });
+      }
+    } catch (err) {
+      console.error("Redis get error (getAllJobs):", err.message);
     }
 
     const job = await Job.findById(jobID).populate({
@@ -325,6 +344,20 @@ const getPostedJobByAdmin = async (req, res) => {
   try {
     const userID = req.id; //MIDDLEWARE
 
+    const cacheKey = `jobs:info:admin:posted:${userID}`;
+    try {
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        return res.status(200).json({
+          MESSAGE: `Jobs found ${JSON.parse(cachedData).length}`,
+          postedJobs: JSON.parse(cachedData),
+          SUCCESS: true,
+        });
+      }
+    } catch (err) {
+      console.error("Redis get error (getAllJobs):", err.message);
+    }
+
     const postedJobs = await Job.find({
       createdBy: userID,
     }).populate("CompanyID");
@@ -335,7 +368,7 @@ const getPostedJobByAdmin = async (req, res) => {
         SUCCESS: false,
       });
     }
-
+    await redis.set(cacheKey, JSON.stringify(postedJobs), "EX", 300);
     return res.status(200).json({
       MESSAGE: `Jobs found ${postedJobs.length}`,
       postedJobs,
@@ -371,18 +404,13 @@ const deleteJobByID = async (req, res) => {
 
     await Application.deleteMany({ job: jobID });
 
-    try {
-      const allJobKey = await redis.keys("jobs:all:*");
-      if (allJobKey.length > 0) {
-        await redis.del(...allJobKey);
-      }
-      const featuredKeys = await redis.keys("jobs:get:featured*");
-      if (featuredKeys.length > 0) {
-        await redis.del(...featuredKeys);
-      }
-    } catch (err) {
-      console.error("Redis cache invalidation error:", err.message);
-    }
+    await clearCache([
+      "jobs:all:*",
+      "jobs:get:featured*",
+      `job:info:*`,
+      `jobs:info:admin:posted:*`,
+      "user:savedJobs:*",
+    ]);
 
     return res.status(200).json({
       MESSAGE: "Job Post and all related applications removed successfully",

@@ -9,6 +9,7 @@ const crypto = require("crypto");
 const { default: mongoose } = require("mongoose");
 const validateObjectID = require("../utils/validateMongooseObjectID");
 const redis = require("../utils/redis");
+const { clearCache } = require("../utils/clearCache");
 
 //HANDLING USER REGISTER
 const register = async (req, res) => {
@@ -299,17 +300,13 @@ const saveJob = async (req, res) => {
         .json({ MESSAGE: "User not found", SUCCESS: false });
 
     const isSaved = user.savedJobs.includes(jobId);
+    const cacheKey = `user:savedJobs:${userId}`;
 
     if (isSaved) {
       user.savedJobs = user.savedJobs.filter((id) => id.toString() !== jobId);
       await user.save();
 
-      const cacheKey = `user:savedJobs:${userId}`;
-      try {
-        await redis.del(cacheKey);
-      } catch (cacheErr) {
-        console.error("Redis cache deletion error:", cacheErr.message);
-      }
+      await clearCache([cacheKey]);
 
       return res.status(200).json({
         MESSAGE: "Job removed from saved list",
@@ -319,12 +316,7 @@ const saveJob = async (req, res) => {
     } else {
       user.savedJobs.push(jobId);
       await user.save();
-      const cacheKey = `user:savedJobs:${userId}`;
-      try {
-        await redis.del(cacheKey);
-      } catch (cacheErr) {
-        console.error("Redis cache deletion error:", cacheErr.message);
-      }
+      await clearCache([cacheKey]);
       return res
         .status(200)
         .json({ MESSAGE: "Job saved successfully", SUCCESS: true, user });
@@ -659,14 +651,7 @@ const paymentVerification = async (req, res) => {
     await user.save();
 
     //Invalidate "featured jobs" cache
-    try {
-      const keys = await redis.keys("jobs:get:featured*");
-      if (keys.length > 0) {
-        await redis.del(...keys);
-      }
-    } catch (cacheErr) {
-      console.error("Redis cache invalidation failed:", cacheErr.message);
-    }
+    await clearCache(["jobs:get:featured*", "jobs:get:featured*"]);
 
     // SEND JSON RESPONSE INSTEAD OF REDIRECT
     let userData = {
