@@ -1,8 +1,12 @@
-const Redis = require("ioredis");
+import Redis from "ioredis";
 let redis;
 
 if (!redis) {
-  redis = new Redis(process.env.REDIS_URL, { tls: {} });
+  redis = new Redis(process.env.REDIS_URL, {
+    maxRetriesPerRequest: null, //  required for BullMQ
+    enableReadyCheck: false, //  improves startup reliability
+    tls: {}, // only if using Upstash or another secure host
+  });
   redis.on("connect", () => {
     console.log("Redis connected successfully");
   });
@@ -12,4 +16,4 @@ if (!redis) {
   });
 }
 
-module.exports = redis;
+export default redis;

@@ -1,22 +1,24 @@
-const { Router } = require("express");
-const applicationController = require("../controller/Application-controller");
-const isAuthentication = require("../middleware/userAuthentications");
+import { Router } from "express";
+import {
+  appliedApplicationsForJob,
+  applyForJob,
+  getAppliedJobsByUser,
+  getTopRecruiters,
+  updateApplicationStatus,
+} from "../controller/Application-controller.js";
+import isAuthentication from "../middleware/userAuthentications.js";
 
 const router = Router();
 
 //USER BUSINESS LOGIC
-router
-  .route("/apply/:jobID")
-  .get(isAuthentication, applicationController.applyForJob);
-router
-  .route("/get")
-  .get(isAuthentication, applicationController.getAppliedJobsByUser);
+router.route("/apply/:jobID").get(isAuthentication, applyForJob);
+router.route("/get").get(isAuthentication, getAppliedJobsByUser);
 router
   .route("/:jobID/applicants")
-  .get(isAuthentication, applicationController.appliedApplicationsForJob);
+  .get(isAuthentication, appliedApplicationsForJob);
 router
   .route("/status/:applicationID/update")
-  .post(isAuthentication, applicationController.updateApplicationStatus);
-router.route("/get/top-recruiters").get(applicationController.getTopRecruiters);
+  .post(isAuthentication, updateApplicationStatus);
+router.route("/get/top-recruiters").get(getTopRecruiters);
 
-module.exports = router;
+export default router;

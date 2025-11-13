@@ -1,11 +1,11 @@
-const Application = require("../models/application-model");
-const Company = require("../models/company-model");
-const Job = require("../models/job-model");
-const uploadToCloudinary = require("../utils/cloudinary");
-const validateObjectID = require("../utils/validateMongooseObjectID");
+import Application from "../models/application-model.js";
+import Company from "../models/company-model.js";
+import Job from "../models/job-model.js";
+import uploadToCloudinary from "../utils/cloudinary.js";
+import validateObjectID from "../utils/validateMongooseObjectID.js";
 
 //REGISTERING COMPANY BY USER(Recruiter)
-const registerCompany = async (req, res) => {
+export const registerCompany = async (req, res) => {
   try {
     const { companyName } = req.body;
 
@@ -45,7 +45,7 @@ const registerCompany = async (req, res) => {
 };
 
 //API FOR COMPANIES CREATED BY USER(Recruiter)
-const getCompanyCreatedByRecruiter = async (req, res) => {
+export const getCompanyCreatedByRecruiter = async (req, res) => {
   try {
     const userID = req.id; //LOGGED IN USER
 
@@ -74,7 +74,7 @@ const getCompanyCreatedByRecruiter = async (req, res) => {
 };
 
 //API FOR COMPANY ID
-const getCompanyByID = async (req, res) => {
+export const getCompanyByID = async (req, res) => {
   try {
     const companyID = req.params.companyID; // companyID IS DEFINED IN ROUTE
 
@@ -109,7 +109,7 @@ const getCompanyByID = async (req, res) => {
 };
 
 //API FOR UPDATING COMPANY PROFILE
-const updateCompany = async (req, res) => {
+export const updateCompany = async (req, res) => {
   try {
     const companyID = req.params.companyID; // companyID IS DEFINED IN ROUTE
 
@@ -168,7 +168,7 @@ const updateCompany = async (req, res) => {
 };
 
 //DELETE COMPANY BY ID
-const deleteCompanyByID = async (req, res) => {
+export const deleteCompanyByID = async (req, res) => {
   try {
     const companyID = req.params.companyID;
 
@@ -212,12 +212,4 @@ const deleteCompanyByID = async (req, res) => {
     res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
     console.log("Error while deleting company");
   }
-};
-
-module.exports = {
-  registerCompany,
-  getCompanyCreatedByRecruiter,
-  getCompanyByID,
-  updateCompany,
-  deleteCompanyByID,
 };

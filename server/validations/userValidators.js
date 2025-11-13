@@ -1,7 +1,7 @@
-const { body } = require("express-validator");
-const { default: mongoose } = require("mongoose");
+import { body } from "express-validator";
+import mongoose from "mongoose";
 
-const validateUserRegistration = [
+export const validateUserRegistration = [
   body("username")
     .trim()
     .notEmpty()
@@ -36,7 +36,7 @@ const validateUserRegistration = [
     .isIn(["student", "recruiter"])
     .withMessage("Invalid role specified"),
 ];
-const validateUserLogin = [
+export const validateUserLogin = [
   body("email")
     .trim()
     .notEmpty()
@@ -55,7 +55,7 @@ const validateUserLogin = [
     .isIn(["student", "recruiter"])
     .withMessage("Invalid role specified"),
 ];
-const validateEmailForOTP = [
+export const validateEmailForOTP = [
   body("email")
     .trim()
     .notEmpty()
@@ -63,7 +63,7 @@ const validateEmailForOTP = [
     .isEmail()
     .withMessage("Invalid email format"),
 ];
-const validatePasswordReset = [
+export const validatePasswordReset = [
   body("userID")
     .notEmpty()
     .withMessage("userID is required")
@@ -81,17 +81,9 @@ const validatePasswordReset = [
     .withMessage("Password must be at least 8 characters"),
 ];
 
-const validateMongooseID = (value) => {
+export const validateMongooseID = (value) => {
   if (!mongoose.isValidObjectId(value)) {
     throw new Error("Invalid MongoDB ObjectId");
   }
   return true; // validation passed
-};
-
-module.exports = {
-  validateUserRegistration,
-  validateUserLogin,
-  validateEmailForOTP,
-  validatePasswordReset,
-  validateMongooseID,
 };

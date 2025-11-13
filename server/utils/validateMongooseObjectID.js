@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const validateObjectID = (mongooseID) => {
   return mongoose.Types.ObjectId.isValid(mongooseID);
 };
-module.exports = validateObjectID;
+export default validateObjectID;

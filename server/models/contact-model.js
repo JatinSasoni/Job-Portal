@@ -1,4 +1,5 @@
-const { Schema, model, Types, default: mongoose } = require("mongoose");
+import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
 const contactSchema = new Schema(
   {
@@ -20,4 +21,4 @@ const contactSchema = new Schema(
 );
 
 const Contact = model("contact", contactSchema);
-module.exports = Contact;
+export default Contact;

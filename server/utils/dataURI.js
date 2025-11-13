@@ -1,5 +1,5 @@
-const path = require("path");
-const DataUriParser = require("datauri/parser.js");
+import path from "path";
+import DataUriParser from "datauri/parser.js";
 
 // The file is stored in memory (since we are using memoryStorage() instead of diskStorage in multer ) .
 //memoryStorage() is temporary storage
@@ -18,4 +18,4 @@ const getDataURI = (file) => {
   //Cloudinary accepts this Base64 format, so we can upload it without saving the file to disk.
 };
 
-module.exports = getDataURI;
+export default getDataURI;

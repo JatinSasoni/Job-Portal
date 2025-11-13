@@ -1,6 +1,6 @@
-const { body } = require("express-validator");
+import { body } from "express-validator";
 
-const validateContactForm = [
+export const validateContactForm = [
   body("username")
     .trim()
     .notEmpty()
@@ -22,4 +22,3 @@ const validateContactForm = [
     .isLength({ min: 5 })
     .withMessage("Message must be at least 5 characters"),
 ];
-module.exports = { validateContactForm };

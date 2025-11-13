@@ -1,7 +1,7 @@
-const { body } = require("express-validator");
-const { default: mongoose } = require("mongoose");
+import { body } from "express-validator";
+import mongoose from "mongoose";
 
-const validateJobCreation = [
+export const validateJobCreation = [
   body("title").trim().notEmpty().withMessage("Title is required"),
 
   body("description").trim().notEmpty().withMessage("Description is required"),
@@ -37,4 +37,3 @@ const validateJobCreation = [
       return true;
     }),
 ];
-module.exports = { validateJobCreation };

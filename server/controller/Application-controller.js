@@ -1,12 +1,11 @@
-const Application = require("../models/application-model");
-const Job = require("../models/job-model");
-const User = require("../models/user-model");
-const { transporter } = require("../utils/nodemailer");
-const { sendMailUsingTransporter } = require("../utils/transporter");
-const validateObjectID = require("../utils/validateMongooseObjectID");
+import Application from "../models/application-model.js";
+import Job from "../models/job-model.js";
+import User from "../models/user-model.js";
+import { emailQueue } from "../queues/emailQueue.js";
+import validateObjectID from "../utils/validateMongooseObjectID.js";
 
 //STUDENT|| JobSEEKER APPLYING FOR JOB
-const applyForJob = async (req, res) => {
+export const applyForJob = async (req, res) => {
   try {
     //JOB AND APPLICANT
     const jobID = req.params.jobID;
@@ -105,9 +104,7 @@ const applyForJob = async (req, res) => {
     };
 
     // Send email only if mailOptions is set
-    if (mailOptions) {
-      sendMailUsingTransporter(mailOptions);
-    }
+    await emailQueue.add("newJobApplication", { mailOptions });
 
     //UPDATE JOB COLLECTION
     job.application.push(newApplication._id);
@@ -124,7 +121,7 @@ const applyForJob = async (req, res) => {
 };
 
 //API FOR FETCHING JOBS APPLIED BY THE USER
-const getAppliedJobsByUser = async (req, res) => {
+export const getAppliedJobsByUser = async (req, res) => {
   try {
     const userID = req.id;
 
@@ -160,7 +157,7 @@ const getAppliedJobsByUser = async (req, res) => {
 };
 
 //UPDATING JOB / APPLICATION STATUS BY ADMIN || RECRUITER
-const updateApplicationStatus = async (req, res) => {
+export const updateApplicationStatus = async (req, res) => {
   try {
     const { status } = req.body;
     const applicationID = req.params.applicationID;
@@ -271,9 +268,7 @@ const updateApplicationStatus = async (req, res) => {
     }
 
     // Send email only if mailOptions is set
-    if (mailOptions) {
-      sendMailUsingTransporter(mailOptions);
-    }
+    await emailQueue.add("applicationStatusUpdate", { mailOptions });
 
     return res.status(200).json({
       MESSAGE: "Application Status Updated",
@@ -286,7 +281,7 @@ const updateApplicationStatus = async (req, res) => {
 };
 
 //API FOR FETCHING ALL JOB APPLICATIONS APPLIED TO JOBS POSTED BY RECRUITER
-const appliedApplicationsForJob = async (req, res) => {
+export const appliedApplicationsForJob = async (req, res) => {
   try {
     const userID = req.id;
     const jobID = req.params.jobID;
@@ -327,7 +322,7 @@ const appliedApplicationsForJob = async (req, res) => {
 };
 
 //GET TOP RECRUITERS
-const getTopRecruiters = async (req, res) => {
+export const getTopRecruiters = async (req, res) => {
   try {
     const topRecruiters = await Application.aggregate([
       { $match: { status: "accepted" } }, //COMMENT COZ ONLY TWO COMPANY FOR NOW WHO ACCEPTED APPLICANTS :)
@@ -384,12 +379,4 @@ const getTopRecruiters = async (req, res) => {
     console.log("Error fetching top recruiters");
     res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
-};
-
-module.exports = {
-  applyForJob,
-  getAppliedJobsByUser,
-  updateApplicationStatus,
-  appliedApplicationsForJob,
-  getTopRecruiters,
 };

@@ -1,6 +1,6 @@
-const cron = require("node-cron");
-const Razorpay = require("razorpay");
-const User = require("../models/user-model");
+import cron from "node-cron";
+import Razorpay from "razorpay";
+import User from "../models/user-model.js";
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZOR_PAY_KEY,

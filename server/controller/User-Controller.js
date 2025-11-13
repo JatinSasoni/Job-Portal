@@ -1,18 +1,15 @@
-const User = require("../models/user-model");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const uploadToCloudinary = require("../utils/cloudinary");
-const { transporter } = require("../utils/nodemailer");
-const { sendMailUsingTransporter } = require("../utils/transporter");
-const Razorpay = require("razorpay");
-const crypto = require("crypto");
-const { default: mongoose } = require("mongoose");
-const validateObjectID = require("../utils/validateMongooseObjectID");
-const redis = require("../utils/redis");
-const { clearCache } = require("../utils/clearCache");
-
+import User from "../models/user-model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import uploadToCloudinary from "../utils/cloudinary.js";
+import Razorpay from "razorpay";
+import crypto from "crypto";
+import validateObjectID from "../utils/validateMongooseObjectID.js";
+import redis from "../utils/redis.js";
+import { clearCache } from "../utils/clearCache.js";
+import { emailQueue } from "../queues/emailQueue.js";
 //HANDLING USER REGISTER
-const register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { username, email, password, phoneNumber, role } = req.body;
 
@@ -68,7 +65,7 @@ const register = async (req, res) => {
     };
 
     if (mailOption) {
-      await sendMailUsingTransporter(mailOption);
+      await emailQueue.add("welcomeEmail", { mailOptions: mailOption });
     }
 
     return res.status(201).json({
@@ -83,7 +80,7 @@ const register = async (req, res) => {
 };
 
 //HANDLING USER LOGIN
-const login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
@@ -178,7 +175,7 @@ const login = async (req, res) => {
 };
 
 //HANDLING USER LOGOUT
-const logout = async (req, res) => {
+export const logout = async (req, res) => {
   try {
     return res
       .status(200)
@@ -199,7 +196,7 @@ const logout = async (req, res) => {
 };
 
 //HANDLING USER PROFILE UPDATE
-const updateProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
   try {
     const { username, email, phoneNumber, bio, skills } = req.body;
 
@@ -282,7 +279,7 @@ const updateProfile = async (req, res) => {
   }
 };
 //HANDLE JOB POST SAVE  AND ALSO JOB UNSAVE LOGIC
-const saveJob = async (req, res) => {
+export const saveJob = async (req, res) => {
   try {
     const userId = req.id; // Assuming user is authenticated
     const { jobId } = req.body;
@@ -327,7 +324,7 @@ const saveJob = async (req, res) => {
 };
 
 //HANDLING FORGET PASSWORD
-const sendOTPForPass = async (req, res) => {
+export const sendOTPForPass = async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -350,6 +347,9 @@ const sendOTPForPass = async (req, res) => {
 
     const otp = Math.floor(100000 + Math.random() * 900000);
 
+    // Store OTP in Redis (5 min)
+    await redis.set(`otp:${email}`, otp, "EX", 300);
+
     //SENDING OTP
     const mailOptions = {
       from: `"${process.env.COMPANY_NAME}" <${process.env.COMPANY_EMAIL}>`, // Replace with your email
@@ -366,11 +366,7 @@ const sendOTPForPass = async (req, res) => {
       `,
     };
     //MAIL SENT
-    await sendMailUsingTransporter(mailOptions);
-
-    user.otpForPass = otp;
-    user.otpForPassExpiresIn = Date.now() + 5 * 60 * 1000; //5 MINUTES
-    await user.save();
+    await emailQueue.add("sendOTPEmail", { mailOptions });
 
     return res.status(200).json({
       MESSAGE: "OTP sent to your email",
@@ -384,7 +380,7 @@ const sendOTPForPass = async (req, res) => {
 };
 
 //VALIDATING PASSWORD OTP
-const validateOTPToChangePass = async (req, res) => {
+export const validateOTPToChangePass = async (req, res) => {
   try {
     const { otp, userID } = req.body;
 
@@ -403,23 +399,24 @@ const validateOTPToChangePass = async (req, res) => {
       });
     }
 
-    if (user.otpForPass === "" || user.otpForPass !== otp) {
+    const storedOtp = await redis.get(`otp:${user.email}`);
+
+    if (!storedOtp) {
+      return res.status(400).json({
+        MESSAGE: "OTP expired or not found",
+        SUCCESS: false,
+      });
+    }
+
+    if (storedOtp !== otp) {
       return res.status(400).json({
         MESSAGE: "Invalid OTP",
         SUCCESS: false,
       });
     }
 
-    if (user.otpForPassExpiresIn < Date.now()) {
-      return res.status(400).json({
-        MESSAGE: "OTP Expired",
-        SUCCESS: false,
-      });
-    }
-
-    user.otpForPass = "";
-    user.otpForPassExpiresIn = 0;
-    await user.save();
+    // OTP verified — remove from Redis
+    await redis.del(`otp:${user.email}`);
 
     const token = jwt.sign({ optVerified: true }, process.env.SECRET_KEY, {
       expiresIn: "1d",
@@ -444,7 +441,7 @@ const validateOTPToChangePass = async (req, res) => {
   }
 };
 
-const ChangePassword = async (req, res) => {
+export const ChangePassword = async (req, res) => {
   try {
     const auth = req.cookies.auth;
 
@@ -512,7 +509,7 @@ const ChangePassword = async (req, res) => {
       `,
     };
 
-    await sendMailUsingTransporter(mailOptions);
+    await emailQueue.add("passwordChangeEmail", { mailOptions });
 
     return res.status(200).clearCookie("auth").json({
       MESSAGE: "Password Changed",
@@ -525,7 +522,7 @@ const ChangePassword = async (req, res) => {
 };
 
 //GET USER INFO FOR ADMIN
-const getUserForAdmin = async (req, res) => {
+export const getUserForAdmin = async (req, res) => {
   try {
     const applicantID = req.params.applicantID;
 
@@ -553,7 +550,7 @@ const getUserForAdmin = async (req, res) => {
   }
 };
 
-const createOrder = async (req, res) => {
+export const createOrder = async (req, res) => {
   try {
     const userID = req.id;
 
@@ -599,7 +596,7 @@ const createOrder = async (req, res) => {
   }
 };
 
-const paymentVerification = async (req, res) => {
+export const paymentVerification = async (req, res) => {
   try {
     const {
       razorpay_subscription_id,
@@ -680,18 +677,4 @@ const paymentVerification = async (req, res) => {
       MESSAGE: "Server error",
     });
   }
-};
-
-module.exports = {
-  register,
-  login,
-  updateProfile,
-  logout,
-  saveJob,
-  sendOTPForPass,
-  validateOTPToChangePass,
-  ChangePassword,
-  getUserForAdmin,
-  paymentVerification,
-  createOrder,
 };

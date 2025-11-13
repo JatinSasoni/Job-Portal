@@ -1,6 +1,6 @@
-const redis = require("../utils/redis");
+import redis from "../utils/redis.js";
 
-exports.clearCache = async (patterns = []) => {
+export const clearCache = async (patterns = []) => {
   try {
     for (const pattern of patterns) {
       const keys = await redis.keys(pattern);

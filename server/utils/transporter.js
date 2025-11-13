@@ -1,4 +1,4 @@
-const { transporter, transporterContact } = require("./nodemailer");
+import { transporter, transporterContact } from "./nodemailer.js";
 
 const sendMailUsingTransporter = async (mailOption) => {
   try {

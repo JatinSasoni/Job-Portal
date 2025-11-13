@@ -1,4 +1,5 @@
-const { Schema, model, default: mongoose } = require("mongoose");
+import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
 const jobSchema = new Schema(
   {
@@ -61,4 +62,4 @@ const jobSchema = new Schema(
 );
 
 const Job = model("Job", jobSchema);
-module.exports = Job;
+export default Job;

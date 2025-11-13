@@ -1,11 +1,8 @@
-const Contact = require("../models/contact-model");
-const User = require("../models/user-model");
-const { transporterContact } = require("../utils/nodemailer");
-const nodemailer = require("nodemailer");
-const { sendMailUsingTransporterContact } = require("../utils/transporter");
+import Contact from "../models/contact-model.js";
+import User from "../models/user-model.js";
 
 //CONTACT PAGE
-const contactController = async (req, res) => {
+export const contactController = async (req, res) => {
   try {
     const { username, email, message } = req.body;
 
@@ -55,9 +52,7 @@ const contactController = async (req, res) => {
       `,
     };
 
-    if (mailOption) {
-      sendMailUsingTransporterContact(mailOption);
-    }
+    await emailQueue.add("contactFormSubmission", { mailOptions: mailOption });
 
     return res.status(200).json({
       MESSAGE: "Your message has been sent successfully!",
@@ -70,7 +65,7 @@ const contactController = async (req, res) => {
   }
 };
 
-const getAllContacts = async (req, res) => {
+export const getAllContacts = async (req, res) => {
   try {
     const allContacts = await Contact.find({ isApproved: true })
       .populate("userID", "username profile.profilePhoto role")
@@ -94,5 +89,3 @@ const getAllContacts = async (req, res) => {
     res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
 };
-
-module.exports = { getAllContacts, contactController };

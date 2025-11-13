@@ -1,6 +1,6 @@
-const { v2: cloudinary } = require("cloudinary");
-const getDataURI = require("./dataURI");
-require("dotenv").config();
+import { v2 as cloudinary } from "cloudinary";
+import getDataURI from "./dataURI.js";
+import "dotenv/config";
 
 //CLOUDINARY CONFIG
 cloudinary.config({
@@ -24,4 +24,4 @@ const uploadToCloudinary = async (file, folder) => {
   }
 };
 
-module.exports = uploadToCloudinary;
+export default uploadToCloudinary;

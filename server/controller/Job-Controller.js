@@ -1,13 +1,13 @@
-const Application = require("../models/application-model");
-const Job = require("../models/job-model");
-const User = require("../models/user-model");
-const { sendMailUsingTransporter } = require("../utils/transporter");
-const validateObjectID = require("../utils/validateMongooseObjectID");
-const redis = require("../utils/redis");
-const { clearCache } = require("../utils/clearCache");
+import Application from "../models/application-model.js";
+import Job from "../models/job-model.js";
+import User from "../models/user-model.js";
+import validateObjectID from "../utils/validateMongooseObjectID.js";
+import redis from "../utils/redis.js";
+import { clearCache } from "../utils/clearCache.js";
+import { emailQueue } from "../queues/emailQueue.js";
 
 //CREATE JOB API FOR AUTHENTICATED ADMIN
-const postJobForAdmin = async (req, res) => {
+export const postJobForAdmin = async (req, res) => {
   try {
     //DESTRUCTURING DATA
     const {
@@ -78,9 +78,7 @@ const postJobForAdmin = async (req, res) => {
     ${process.env.COMPANY_NAME} Team`,
     };
 
-    if (mailOption) {
-      sendMailUsingTransporter(mailOption);
-    }
+    await emailQueue.add("jobPostingConfirmation", { mailOptions: mailOption });
 
     await clearCache([
       "jobs:all:*",
@@ -98,7 +96,7 @@ const postJobForAdmin = async (req, res) => {
   }
 };
 
-const editJobPost = async (req, res) => {
+export const editJobPost = async (req, res) => {
   try {
     const { jobID } = req.params; // Get Job ID from URL params
     const userId = req.id; // Get logged-in user's ID (assuming authentication middleware)
@@ -178,7 +176,7 @@ const editJobPost = async (req, res) => {
 
 //API FOR FETCHING JOBS FOR STUDENT || JobSEEKER
 
-const getAllJobs = async (req, res) => {
+export const getAllJobs = async (req, res) => {
   try {
     //Keyword IS A QUERY STRING CONTAINING USER APPLIED FILTER FOR JOB LIKE "Frontend Dev"
     const keyword = req.query.keyword || ""; //BY DEFAULT "" MEANS EVERY DOCUMENT WILL RETURN
@@ -236,7 +234,7 @@ const getAllJobs = async (req, res) => {
 };
 
 //API FOR FETCHING JOB DESCRIPTION BY JOB-ID FOR STUDENT
-const getJobInfoById = async (req, res) => {
+export const getJobInfoById = async (req, res) => {
   try {
     const jobID = req.params.jobID;
 
@@ -284,7 +282,7 @@ const getJobInfoById = async (req, res) => {
 };
 
 //API FOR FETCHING JOB DESCRIPTION BY JOB-ID FOR RECRUITER
-const getJobInfoByIdForAdmin = async (req, res) => {
+export const getJobInfoByIdForAdmin = async (req, res) => {
   try {
     const jobID = req.params.jobID;
 
@@ -340,7 +338,7 @@ const getJobInfoByIdForAdmin = async (req, res) => {
 };
 
 //API FOR FETCHING JOBS POSTED BY AUTHENTICATED ADMIN || RECRUITER
-const getPostedJobByAdmin = async (req, res) => {
+export const getPostedJobByAdmin = async (req, res) => {
   try {
     const userID = req.id; //MIDDLEWARE
 
@@ -381,7 +379,7 @@ const getPostedJobByAdmin = async (req, res) => {
 };
 
 //DELETE Job BY ID
-const deleteJobByID = async (req, res) => {
+export const deleteJobByID = async (req, res) => {
   try {
     const jobID = req.params.jobID;
     if (!jobID || !validateObjectID(jobID)) {
@@ -423,7 +421,7 @@ const deleteJobByID = async (req, res) => {
 };
 
 //GET SAVED JOB
-const getSavedJobs = async (req, res) => {
+export const getSavedJobs = async (req, res) => {
   try {
     const userId = req.id;
     let cachedData = null;
@@ -468,7 +466,7 @@ const getSavedJobs = async (req, res) => {
   }
 };
 
-const getFeaturedJobs = async (req, res) => {
+export const getFeaturedJobs = async (req, res) => {
   try {
     const cachedKey = `jobs${req.path.replace(/\//g, ":")}`;
     let cachedData = null;
@@ -513,16 +511,4 @@ const getFeaturedJobs = async (req, res) => {
     console.error("Error fetching featured jobs:", error);
     res.status(500).json({ MESSAGE: "Server error", SUCCESS: false });
   }
-};
-
-module.exports = {
-  postJobForAdmin,
-  getAllJobs,
-  getJobInfoById,
-  getPostedJobByAdmin,
-  getJobInfoByIdForAdmin,
-  deleteJobByID,
-  getSavedJobs,
-  editJobPost,
-  getFeaturedJobs,
 };

@@ -1,14 +1,15 @@
-const { Router } = require("express");
-const {
+import { Router } from "express";
+import {
   contactController,
   getAllContacts,
-} = require("../controller/Contact-Controller");
-const { validateContactForm } = require("../validations/contactValidators");
-const validateResults = require("../middleware/validate-result");
+} from "../controller/Contact-Controller.js";
+import { validateContactForm } from "../validations/contactValidators.js";
+import validateResults from "../middleware/validate-result.js";
+
 const router = Router();
 
 router
   .route("/reach-out")
   .post(validateContactForm, validateResults, contactController);
 router.route("/get/contacts").get(getAllContacts);
-module.exports = router;
+export default router;

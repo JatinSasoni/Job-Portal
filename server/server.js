@@ -1,14 +1,14 @@
-const express = require("express");
-const cors = require("cors");
-const connectDB = require("./utils/connectToDb");
-const cookieParser = require("cookie-parser");
-const userRoute = require("./routes/user-routes");
-const companyRoute = require("./routes/company-routes");
-const jobRoute = require("./routes/job-routes");
-const contactRoute = require("./routes/Contact-Us-route");
-const applicationRoute = require("./routes/application-route");
-require("dotenv").config();
-const redis = require("./utils/redis"); // initialize once here
+import "dotenv/config"; // Imports and configures dotenv immediately
+import express from "express";
+import cors from "cors";
+import connectDB from "./utils/connectToDb.js";
+import cookieParser from "cookie-parser";
+import userRoute from "./routes/user-routes.js";
+import companyRoute from "./routes/company-routes.js";
+import jobRoute from "./routes/job-routes.js";
+import contactRoute from "./routes/Contact-Us-route.js";
+import applicationRoute from "./routes/application-route.js";
+import "./utils/redis.js";
 
 // Initializing app
 const app = express();
@@ -48,5 +48,5 @@ connectDB().then(() => {
   });
 
   // Start cron job AFTER the server starts
-  require("./utils/cronJob");
+  import("./utils/cronJob.js");
 });

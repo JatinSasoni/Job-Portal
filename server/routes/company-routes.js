@@ -1,30 +1,26 @@
-const { Router } = require("express");
-const companyController = require("../controller/Company-Controller");
-const isAuthentication = require("../middleware/userAuthentications");
-const upload = require("../middleware/multer");
+import { Router } from "express";
+import isAuthentication from "../middleware/userAuthentications.js";
+import upload from "../middleware/multer.js";
+import {
+  deleteCompanyByID,
+  getCompanyByID,
+  getCompanyCreatedByRecruiter,
+  registerCompany,
+  updateCompany,
+} from "../controller/Company-Controller.js";
 
 const router = Router();
 
 //USER BUSINESS LOGIC
-router
-  .route("/register")
-  .post(isAuthentication, companyController.registerCompany);
-router
-  .route("/get")
-  .get(isAuthentication, companyController.getCompanyCreatedByRecruiter);
-router
-  .route("/get/:companyID")
-  .get(isAuthentication, companyController.getCompanyByID);
+router.route("/register").post(isAuthentication, registerCompany);
+router.route("/get").get(isAuthentication, getCompanyCreatedByRecruiter);
+router.route("/get/:companyID").get(isAuthentication, getCompanyByID);
 router
   .route("/update/:companyID")
-  .put(
-    isAuthentication,
-    upload.single("file"),
-    companyController.updateCompany
-  );
+  .put(isAuthentication, upload.single("file"), updateCompany);
 
 router
   .route("/remove/:companyID/delete")
-  .delete(isAuthentication, companyController.deleteCompanyByID);
+  .delete(isAuthentication, deleteCompanyByID);
 
-module.exports = router;
+export default router;
