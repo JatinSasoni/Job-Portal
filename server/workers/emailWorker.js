@@ -1,7 +1,7 @@
-require("dotenv").config();
+import "dotenv/config";
 import { Worker } from "bullmq";
-import { sendMailUsingTransporter } from "../utils/emailService.js";
-import { redis } from "../config/redisConfig.js";
+import { sendMailUsingTransporter } from "../utils/transporter.js";
+import redis from "../utils/redis.js";
 
 const emailWorker = new Worker(
   "emailQueue",

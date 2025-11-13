@@ -1,6 +1,6 @@
 import { transporter, transporterContact } from "./nodemailer.js";
 
-const sendMailUsingTransporter = async (mailOption) => {
+export const sendMailUsingTransporter = async (mailOption) => {
   try {
     await transporter.sendMail(mailOption);
   } catch (error) {
@@ -8,7 +8,7 @@ const sendMailUsingTransporter = async (mailOption) => {
   }
 };
 
-const sendMailUsingTransporterContact = async (mailOption) => {
+export const sendMailUsingTransporterContact = async (mailOption) => {
   try {
     await transporterContact.sendMail(mailOption);
   } catch (error) {
@@ -16,4 +16,4 @@ const sendMailUsingTransporterContact = async (mailOption) => {
   }
 };
 
-module.exports = { sendMailUsingTransporter, sendMailUsingTransporterContact };
+

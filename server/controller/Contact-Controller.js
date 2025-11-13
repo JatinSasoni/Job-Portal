@@ -1,5 +1,6 @@
 import Contact from "../models/contact-model.js";
 import User from "../models/user-model.js";
+import {emailQueue} from "../queues/emailQueue.js";
 
 //CONTACT PAGE
 export const contactController = async (req, res) => {
