@@ -15,5 +15,3 @@ export const sendMailUsingTransporterContact = async (mailOption) => {
     console.log(error);
   }
 };
-
-

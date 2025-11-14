@@ -1,6 +1,6 @@
 import Contact from "../models/contact-model.js";
 import User from "../models/user-model.js";
-import {emailQueue} from "../queues/emailQueue.js";
+import { emailQueue } from "../queues/emailQueue.js";
 
 //CONTACT PAGE
 export const contactController = async (req, res) => {
@@ -21,7 +21,7 @@ export const contactController = async (req, res) => {
       const postedContactData = await Contact.create({
         userID: isRegisteredUser._id,
         message,
-        isApproved: true,
+        isApproved: false,
       });
     }
 

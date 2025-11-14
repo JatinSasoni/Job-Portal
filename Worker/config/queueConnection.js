@@ -1,9 +1,10 @@
 import "dotenv/config";
-import Redis from "redis";
+import Redis from "ioredis";
 
 const queueConnection = new Redis(process.env.REDIS_URL, {
   maxRetriesPerRequest: null,
   enableReadyCheck: false,
+  tls: {},
 });
 
 queueConnection.on("connect", () => {

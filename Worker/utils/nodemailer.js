@@ -3,17 +3,17 @@ import nodemailer from "nodemailer";
 export const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
   port: 587,
-  secure: false, // true for port 465, false for other ports
+  secure: false,
   auth: {
-    user: "865a40002@smtp-brevo.com",
-    pass: "vPEd12A0fyQBKabO",
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_PASS,
   },
 });
 
 export const transporterContact = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "jatinhubhai6284@gmail.com",
-    pass: "derl wbtg rzbq dema",
+    user: process.env.SELF_EMAIL,
+    pass: process.env.SELF_PASSS,
   },
 });

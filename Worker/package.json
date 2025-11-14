@@ -5,14 +5,17 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node worker.js"
+    "start": "node worker.js",
+    "dev": "node --watch worker.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bullmq": "^5.63.1",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "ioredis": "^5.8.2"
+    "ioredis": "^5.8.2",
+    "nodemailer": "^7.0.10"
   }
 }
