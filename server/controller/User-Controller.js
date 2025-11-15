@@ -366,7 +366,18 @@ export const sendOTPForPass = async (req, res) => {
       `,
     };
     //MAIL SENT
-    await emailQueue.add("sendOTPEmail", { mailOptions });
+    await emailQueue.add(
+      "sendOTPEmail",
+      { mailOptions },
+      {
+        attempts: 2,
+        backoff: {
+          type: "fixed",
+          delay: 1000,
+        },
+        removeOnComplete: true,
+      }
+    );
 
     return res.status(200).json({
       MESSAGE: "OTP sent to your email",

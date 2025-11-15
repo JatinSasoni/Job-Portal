@@ -14,8 +14,10 @@ const emailWorker = new Worker(
     const { mailOptions } = job.data;
     console.log(" Sending email to:", mailOptions?.to);
     if (job.name === "contactFormSubmission") {
+      console.log("Contact form email");
       await sendMailUsingTransporterContact(mailOptions);
     } else {
+      console.log("TalentNest email");
       await sendMailUsingTransporter(mailOptions);
     }
     console.log("Email sent successfully to:", mailOptions.to);
