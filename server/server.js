@@ -21,6 +21,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://talentnestpro.netlify.app",
   "https://talentnest-pro.vercel.app",
+  "http://localhost",
 ];
 
 // CORS OPTION
