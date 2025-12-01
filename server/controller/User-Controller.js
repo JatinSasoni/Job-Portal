@@ -159,7 +159,7 @@ export const login = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true, // Prevents client-side JS access
-        secure: true, // Only send cookie over HTTPS
+        // secure: true, // Only send cookie over HTTPS
         sameSite: "None", // Allows cross-origin requests
         maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
       })
@@ -181,7 +181,7 @@ export const logout = async (req, res) => {
       .status(200)
       .cookie("token", "", {
         httpOnly: true,
-        secure: true,
+        // secure: true,
         sameSite: "None",
         expires: new Date(0), // Force browser to remove cookie
       })
@@ -437,7 +437,7 @@ export const validateOTPToChangePass = async (req, res) => {
       .status(200)
       .cookie("auth", token, {
         httpOnly: true, // Prevents client-side JS access
-        secure: true, // Only send cookie over HTTPS
+        // secure: true, // Only send cookie over HTTPS
         sameSite: "None", // Allows cross-origin requests
         maxAge: 5 * 60 * 1000, //5 Minutes
       })
