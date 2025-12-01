@@ -50,6 +50,16 @@ jobs:
             echo "PORT=${{ secrets.PORT }}" >> .env
             echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> .env
             echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+            echo "CLOUD_NAME=${{ secrets.CLOUD_NAME }}" >> .env
+            echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
+            echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
+            echo "COMPANY_NAME=${{ secrets.COMPANY_NAME }}" >> .env
+            echo "COMPANY_EMAIL=${{ secrets.COMPANY_EMAIL }}" >> .env
+            echo "RAZOR_PAY_KEY=${{ secrets.RAZOR_PAY_KEY }}" >> .env
+            echo "RAZOR_PAY_SECRET=${{ secrets.RAZOR_PAY_SECRET }}" >> .env
+            echo "RAZOR_PLAN_ID=${{ secrets.RAZOR_PLAN_ID }}" >> .env
+            echo "EMAIL_QUEUE_NAME=${{ secrets.EMAIL_QUEUE_NAME }}" >> .env
 
             # 2. Create docker-compose.yml on the fly
             cat <<EOF > docker-compose.yml
