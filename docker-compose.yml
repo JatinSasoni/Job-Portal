@@ -2,6 +2,7 @@ version: "3.8"
 services:
   frontend:
     build:
+      context: ./client
       args:
         VITE_API_URI: ${VITE_API_URI}
         VITE_RAZOR_PAY_KEY: ${VITE_RAZOR_PAY_KEY}
