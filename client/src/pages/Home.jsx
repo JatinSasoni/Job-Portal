@@ -11,6 +11,7 @@ import TrustedCompanies from "../Components/TrustedCompanies";
 
 export const Home = () => {
   const { loggedInUser } = useSelector((store) => store.auth);
+  console.log(import.meta.env.VITE_API_URIc);
 
   const navigate = useNavigate();
 
