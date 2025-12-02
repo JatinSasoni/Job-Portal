@@ -15,9 +15,9 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     outputs:
-      frontend_tag: ${{ steps.set-tags.outputs.frontend_tag }}
-      backend_tag: ${{ steps.set-tags.outputs.backend_tag }}
-      worker_tag: ${{ steps.set-tags.outputs.worker_tag }}
+      f_tag: ${{ steps.set-tags.outputs.frontend_tag }}
+      b_tag: ${{ steps.set-tags.outputs.backend_tag }}
+      w_tag: ${{ steps.set-tags.outputs.worker_tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -134,7 +134,7 @@ jobs:
             mv deploy.env ../app/.env
             chmod 600 ../app/.env
 
-            echo "frontend_tag_hai= ${{ steps.set-tags.outputs.frontend_tag }} "
+            echo "frontend_tag_hai= ${{ needs.build-and-push.outputs.f_tag }} "
 
             # Generate docker-compose.yml 
             # IMPORTANT: The content below is left-aligned to ensure valid YAML
@@ -142,18 +142,18 @@ jobs:
             version: '3.8'
             services:
               frontend:
-                image: ${{ needs.build-and-push.outputs.frontend_tag }}
+                image: ${{ needs.build-and-push.outputs.f_tag }}
                 ports:
                   - "80:80"
                 restart: unless-stopped
               server:
-                image: ${{ needs.build-and-push.outputs.backend_tag }}
+                image: ${{ needs.build-and-push.outputs.b_tag }}
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
                 restart: unless-stopped
               worker:
-                image: ${{ needs.build-and-push.outputs.worker_tag }}
+                image: ${{ needs.build-and-push.outputs.w_tag }}
                 env_file: ../app/.env
                 restart: unless-stopped
             EOF
