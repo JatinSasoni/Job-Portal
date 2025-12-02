@@ -145,25 +145,23 @@ jobs:
             version: '3.8'
             services:
               frontend:
-                image: $FRONTEND_TAG
+                image: ${FRONTEND_TAG}
                 ports:
                   - "80:80"
                 restart: unless-stopped
               server:
-                image: $BACKEND_TAG
+                image: ${BACKEND_TAG}
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
                 restart: unless-stopped
               worker:
-                image: $WORKER_TAG
+                image: ${WORKER_TAG}
                 env_file: ../app/.env
                 restart: unless-stopped
             EOF
 
             # Deploy
+            docker compose down
             docker compose pull
             docker compose up -d
-
-            # Cleanup unused images
-            docker image prune -f
