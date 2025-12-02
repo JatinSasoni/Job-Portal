@@ -17,6 +17,7 @@ jobs:
     outputs:
       frontend_tag: ${{ steps.set-tags.outputs.frontend_tag }}
       backend_tag: ${{ steps.set-tags.outputs.backend_tag }}
+      worker_tag: ${{ steps.set-tags.outputs.worker_tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,10 +28,12 @@ jobs:
           SHA=${GITHUB_SHA::8} # Takes the first 8 chars of the commit hash
           FRONT_TAG=${IMAGE_PREFIX}-client:sha-${SHA}
           BACK_TAG=${IMAGE_PREFIX}-server:sha-${SHA}
+          WORKER_TAG=${IMAGE_PREFIX}-worker:sha-${SHA}
 
           # Save to GitHub Output system
           echo "frontend_tag=$FRONT_TAG" >> $GITHUB_OUTPUT
           echo "backend_tag=$BACK_TAG" >> $GITHUB_OUTPUT
+          echo "worker_tag=${WORKER_TAG}" >> $GITHUB_OUTPUT
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -58,6 +61,15 @@ jobs:
             ${{ steps.set-tags.outputs.backend_tag }}
             ${{ secrets.DOCKER_USERNAME }}/job-portal-server:latest
 
+      - name: Build and push worker
+        users: docker/build-push-action@v4
+        with:
+          context: ./worker
+          push: true
+          tags: |
+            ${{ steps.set-tags.outputs.worker_tag }}
+            ${{ secrets.DOCKER_USERNAME }}/job-portal-worker:latest
+
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
@@ -79,6 +91,10 @@ jobs:
           RAZOR_PAY_SECRET=${{ secrets.RAZOR_PAY_SECRET }}
           RAZOR_PLAN_ID=${{ secrets.RAZOR_PLAN_ID }}
           EMAIL_QUEUE_NAME=${{ secrets.EMAIL_QUEUE_NAME }}
+          BREVO_USER=${{ secrets.BREVO_USER }}
+          BREVO_PASS=${{ secrets.BREVO_PASS }}
+          SELF_EMAIL=${{ secrets.SELF_EMAIL }}
+          SELF_PASSS=${{ secrets.SELF_PASSS }}
           EOF
 
       - name: Upload .env to EC2
@@ -108,6 +124,7 @@ jobs:
 
             FRONT_TAG=${{ needs.build-and-push.outputs.frontend_tag }}
             BACK_TAG=${{ needs.build-and-push.outputs.backend_tag }}
+            WORKER_TAG=${{ needs.build-and-push.outputs.worker_tag }}
 
             # Create docker-compose.yml
             cat <<EOF > docker-compose.yml
@@ -123,6 +140,10 @@ jobs:
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
+                restart: unless-stopped
+              worker:
+                image: $WORKER_TAG
+                env_file: ../app/.env
                 restart: unless-stopped
             EOF
 
