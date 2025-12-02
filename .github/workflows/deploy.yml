@@ -121,17 +121,12 @@ jobs:
       # 4. SSH to generate docker-compose and run containers
       - name: Run remote (EC2) deploy
         uses: appleboy/ssh-action@master
-        env:
-          FRONTEND_TAG: ${{ needs.build-and-push.outputs.frontend_tag }}
-          BACKEND_TAG: ${{ needs.build-and-push.outputs.backend_tag }}
-          WORKER_TAG: ${{ needs.build-and-push.outputs.worker_tag }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
-          envs: FRONTEND_TAG,BACKEND_TAG,WORKER_TAG
           script: |
-            # set -e
+            set -e
 
             cd ~/deploy
 
@@ -139,28 +134,33 @@ jobs:
             mv deploy.env ../app/.env
             chmod 600 ../app/.env
 
+            echo "frontend_tag_hai= ${{ steps.set-tags.outputs.frontend_tag }} "
+
             # Generate docker-compose.yml 
             # IMPORTANT: The content below is left-aligned to ensure valid YAML
             cat <<EOF > docker-compose.yml
             version: '3.8'
             services:
               frontend:
-                image: ${FRONTEND_TAG}
+                image: ${{ needs.build-and-push.outputs.frontend_tag }}
                 ports:
                   - "80:80"
                 restart: unless-stopped
               server:
-                image: ${BACKEND_TAG}
+                image: ${{ needs.build-and-push.outputs.backend_tag }}
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
                 restart: unless-stopped
               worker:
-                image: ${WORKER_TAG}
+                image: ${{ needs.build-and-push.outputs.worker_tag }}
                 env_file: ../app/.env
                 restart: unless-stopped
             EOF
+
             # Deploy
-            docker compose down
             docker compose pull
             docker compose up -d
+
+            # Cleanup unused images
+            docker image prune -f
