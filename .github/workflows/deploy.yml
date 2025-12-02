@@ -133,7 +133,7 @@ jobs:
             version: '3.8'
             services:
               frontend:
-                image: jatinsasoni/job-portal-client:${{ needs.build-and-push.outputs.deploy_tag }}
+                image: ${{ DOCKER_USERNAME }}/job-portal-client:${{ needs.build-and-push.outputs.deploy_tag }}
                 ports:
                   - "80:80"
                 restart: unless-stopped
