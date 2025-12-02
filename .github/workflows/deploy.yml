@@ -6,7 +6,7 @@ on:
 
 permissions:
   contents: read
-  id-token: write #used for OIDC Login : future security
+  id-token: write # used for OIDC Login : future security
 
 env:
   IMAGE_PREFIX: ${{ secrets.DOCKER_USERNAME }}/job-portal
@@ -25,14 +25,11 @@ jobs:
       - name: Set image tags
         id: set-tags
         run: |
-          SHA=${GITHUB_SHA::8} # Takes the first 8 chars of the commit hash
+          SHA=${GITHUB_SHA::8}
           FRONT_TAG=${IMAGE_PREFIX}-client:sha-${SHA}
           BACK_TAG=${IMAGE_PREFIX}-server:sha-${SHA}
           WORKER_TAG=${IMAGE_PREFIX}-worker:sha-${SHA}
 
-          echo "FRONT_TAG=$FRONT_TAG"
-
-          # Save to GitHub Output system
           echo "frontend_tag=$FRONT_TAG" >> $GITHUB_OUTPUT
           echo "backend_tag=$BACK_TAG" >> $GITHUB_OUTPUT
           echo "worker_tag=$WORKER_TAG" >> $GITHUB_OUTPUT
@@ -76,29 +73,42 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Create .env file (in github action)
+      # 1. Create directories on EC2 FIRST so SCP doesn't fail
+      - name: Prepare directories on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            mkdir -p ~/deploy
+            mkdir -p ~/app
+
+      # 2. Create .env file locally with quotes for safety
+      - name: Create .env file locally
         run: |
           cat <<EOF > deploy.env
-          MONGODB_URI=${{ secrets.MONGODB_URI }}
-          PORT=${{ secrets.PORT }}
-          REDIS_URL=${{ secrets.REDIS_URL }}
-          FRONTEND_URL=${{ secrets.FRONTEND_URL }}
-          SECRET_KEY=${{ secrets.SECRET_KEY }}
-          CLOUD_NAME=${{ secrets.CLOUD_NAME }}
-          CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}
-          CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}
-          COMPANY_NAME=${{ secrets.COMPANY_NAME }}
-          COMPANY_EMAIL=${{ secrets.COMPANY_EMAIL }}
-          RAZOR_PAY_KEY=${{ secrets.RAZOR_PAY_KEY }}
-          RAZOR_PAY_SECRET=${{ secrets.RAZOR_PAY_SECRET }}
-          RAZOR_PLAN_ID=${{ secrets.RAZOR_PLAN_ID }}
-          EMAIL_QUEUE_NAME=${{ secrets.EMAIL_QUEUE_NAME }}
-          BREVO_USER=${{ secrets.BREVO_USER }}
-          BREVO_PASS=${{ secrets.BREVO_PASS }}
-          SELF_EMAIL=${{ secrets.SELF_EMAIL }}
-          SELF_PASSS=${{ secrets.SELF_PASSS }}
+          MONGODB_URI="${{ secrets.MONGODB_URI }}"
+          PORT="${{ secrets.PORT }}"
+          REDIS_URL="${{ secrets.REDIS_URL }}"
+          FRONTEND_URL="${{ secrets.FRONTEND_URL }}"
+          SECRET_KEY="${{ secrets.SECRET_KEY }}"
+          CLOUD_NAME="${{ secrets.CLOUD_NAME }}"
+          CLOUDINARY_API_KEY="${{ secrets.CLOUDINARY_API_KEY }}"
+          CLOUDINARY_API_SECRET="${{ secrets.CLOUDINARY_API_SECRET }}"
+          COMPANY_NAME="${{ secrets.COMPANY_NAME }}"
+          COMPANY_EMAIL="${{ secrets.COMPANY_EMAIL }}"
+          RAZOR_PAY_KEY="${{ secrets.RAZOR_PAY_KEY }}"
+          RAZOR_PAY_SECRET="${{ secrets.RAZOR_PAY_SECRET }}"
+          RAZOR_PLAN_ID="${{ secrets.RAZOR_PLAN_ID }}"
+          EMAIL_QUEUE_NAME="${{ secrets.EMAIL_QUEUE_NAME }}"
+          BREVO_USER="${{ secrets.BREVO_USER }}"
+          BREVO_PASS="${{ secrets.BREVO_PASS }}"
+          SELF_EMAIL="${{ secrets.SELF_EMAIL }}"
+          SELF_PASSS="${{ secrets.SELF_PASSS }}"
           EOF
 
+      # 3. Upload .env to EC2
       - name: Upload .env to EC2
         uses: appleboy/scp-action@master
         with:
@@ -108,44 +118,18 @@ jobs:
           source: "deploy.env"
           target: "/home/${{ secrets.EC2_USER }}/deploy"
 
-      - name: Run remote (EC2) deploy (pull specific tags, deploy)
+      # 4. SSH to generate docker-compose and run containers
+      - name: Run remote (EC2) deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            set -e  # Fails the pipeline if any command fails
+            set -e
 
-            mkdir -p ~/app
-            mkdir -p ~/deploy
             cd ~/deploy
 
-
+            # Move env file to app directory
             mv deploy.env ../app/.env
-            chmod 600 ../app/.env
-
-            # Create docker-compose.yml
-            cat <<EOF > docker-compose.yml
-            version: '3.8'
-            services:
-              frontend:
-                image: ${{ needs.build-and-push.outputs.frontend_tag }}
-                ports:
-                  - "80:80"
-                restart: unless-stopped
-              server:
-                image: ${{ needs.build-and-push.outputs.backend_tag }}
-                env_file: ../app/.env
-                ports:
-                  - "8000:8000"
-                restart: unless-stopped
-              worker:
-                image: ${{ needs.build-and-push.outputs.worker_tag }}
-                env_file: ../app/.env
-                restart: unless-stopped
-            EOF
-            # Deploy
-            docker compose pull
-            docker compose up -d
-            docker image prune -f
+            chmod 60
