@@ -113,7 +113,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            # 3. FIX: Create the app directory if it doesn't exist
+            set -e  # Fails the pipeline if any command fails
+
             mkdir -p ~/app
             mkdir -p ~/deploy
             cd ~/deploy
