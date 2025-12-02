@@ -6,24 +6,18 @@ on:
 
 permissions:
   contents: read
-  id-token: write # used for OIDC Login : future security
+  id-token: write
+
+env:
+  IMAGE_TAG: ${{ github.sha }} # <--- GOLD STANDARD
+  DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
 
 jobs:
-  build-and-push:
+  build:
     runs-on: ubuntu-latest
-    outputs:
-      deploy_tag: ${{ steps.set-tags.outputs.short_sha }}
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set image tags
-        id: set-tags
-        run: |
-          SHA=${GITHUB_SHA::8}
-          TAG_SUFFIX="sha-${SHA}"
-
-          echo "short_sha=$TAG_SUFFIX" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v4
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -31,42 +25,40 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push frontend
+      # FRONTEND
+      - name: Build & push frontend
         uses: docker/build-push-action@v4
         with:
           context: ./client
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/job-portal-client:${{ steps.set-tags.outputs.short_sha }}
-            ${{ secrets.DOCKER_USERNAME }}/job-portal-client:latest
-          build-args: |
-            VITE_API_URI=${{ secrets.VITE_API_URI }}
+            ${{ env.DOCKER_USER }}/job-portal-client:${{ env.IMAGE_TAG }}
 
-      - name: Build and push backend
+      # BACKEND
+      - name: Build & push backend
         uses: docker/build-push-action@v4
         with:
           context: ./server
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/job-portal-server:${{ steps.set-tags.outputs.short_sha }}
-            ${{ secrets.DOCKER_USERNAME }}/job-portal-server:latest
+            ${{ env.DOCKER_USER }}/job-portal-server:${{ env.IMAGE_TAG }}
 
-      - name: Build and push worker
+      # WORKER
+      - name: Build & push worker
         uses: docker/build-push-action@v4
         with:
           context: ./Worker
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/job-portal-worker:${{ steps.set-tags.outputs.short_sha }}
-            ${{ secrets.DOCKER_USERNAME }}/job-portal-worker:latest
+            ${{ env.DOCKER_USER }}/job-portal-worker:${{ env.IMAGE_TAG }}
 
   deploy:
-    needs: build-and-push
     runs-on: ubuntu-latest
+    needs: build
+
     steps:
-      # 1. Create directories on EC2 FIRST so SCP doesn't fail
-      - name: Prepare directories on EC2
-        uses: appleboy/ssh-action@master
+      # Create folders on EC2
+      - uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
@@ -75,33 +67,22 @@ jobs:
             mkdir -p ~/deploy
             mkdir -p ~/app
 
-      # 2. Create .env file locally with quotes for safety
-      - name: Create .env file locally
+      # Generate env file locally
+      - name: Create .env
         run: |
           cat <<EOF > deploy.env
           MONGODB_URI="${{ secrets.MONGODB_URI }}"
-          PORT="${{ secrets.PORT }}"
           REDIS_URL="${{ secrets.REDIS_URL }}"
+          PORT="${{ secrets.PORT }}"
           FRONTEND_URL="${{ secrets.FRONTEND_URL }}"
           SECRET_KEY="${{ secrets.SECRET_KEY }}"
           CLOUD_NAME="${{ secrets.CLOUD_NAME }}"
           CLOUDINARY_API_KEY="${{ secrets.CLOUDINARY_API_KEY }}"
           CLOUDINARY_API_SECRET="${{ secrets.CLOUDINARY_API_SECRET }}"
-          COMPANY_NAME="${{ secrets.COMPANY_NAME }}"
-          COMPANY_EMAIL="${{ secrets.COMPANY_EMAIL }}"
-          RAZOR_PAY_KEY="${{ secrets.RAZOR_PAY_KEY }}"
-          RAZOR_PAY_SECRET="${{ secrets.RAZOR_PAY_SECRET }}"
-          RAZOR_PLAN_ID="${{ secrets.RAZOR_PLAN_ID }}"
-          EMAIL_QUEUE_NAME="${{ secrets.EMAIL_QUEUE_NAME }}"
-          BREVO_USER="${{ secrets.BREVO_USER }}"
-          BREVO_PASS="${{ secrets.BREVO_PASS }}"
-          SELF_EMAIL="${{ secrets.SELF_EMAIL }}"
-          SELF_PASSS="${{ secrets.SELF_PASSS }}"
           EOF
 
-      # 3. Upload .env to EC2
-      - name: Upload .env to EC2
-        uses: appleboy/scp-action@master
+      # Upload env file
+      - uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
@@ -109,47 +90,40 @@ jobs:
           source: "deploy.env"
           target: "/home/${{ secrets.EC2_USER }}/deploy"
 
-      # 4. SSH to generate docker-compose and run containers
-      - name: Run remote (EC2) deploy
-        uses: appleboy/ssh-action@master
+      # Deploy via SSH
+      - uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            set -e
-
             cd ~/deploy
 
-            # Move env file to app directory
             mv deploy.env ../app/.env
             chmod 600 ../app/.env
 
-            echo "frontend_tag_hai= ${{ needs.build-and-push.outputs.f_tag }} "
-
-            # Generate docker-compose.yml 
-            # IMPORTANT: The content below is left-aligned to ensure valid YAML
+            # Write docker-compose
             cat <<EOF > docker-compose.yml
             version: '3.8'
             services:
               frontend:
-                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-client:${{ needs.build-and-push.outputs.deploy_tag }}
+                image: ${DOCKER_USER}/job-portal-client:${IMAGE_TAG}
                 ports:
                   - "80:80"
                 restart: unless-stopped
+
               server:
-                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-server:${{ needs.build-and-push.outputs.deploy_tag }}
+                image: ${DOCKER_USER}/job-portal-server:${IMAGE_TAG}
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
                 restart: unless-stopped
+
               worker:
-                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-worker:${{ needs.build-and-push.outputs.deploy_tag }}
+                image: ${DOCKER_USER}/job-portal-worker:${IMAGE_TAG}
                 env_file: ../app/.env
                 restart: unless-stopped
             EOF
 
-            # Deploy
-            docker compose down
             docker compose pull
             docker compose up -d
