@@ -132,4 +132,33 @@ jobs:
 
             # Move env file to app directory
             mv deploy.env ../app/.env
-            chmod 60
+            chmod 600 ../app/.env
+
+            # Generate docker-compose.yml 
+            # IMPORTANT: The content below is left-aligned to ensure valid YAML
+            cat <<EOF > docker-compose.yml
+            version: '3.8'
+            services:
+              frontend:
+                image: ${{ needs.build-and-push.outputs.frontend_tag }}
+                ports:
+                  - "80:80"
+                restart: unless-stopped
+              server:
+                image: ${{ needs.build-and-push.outputs.backend_tag }}
+                env_file: ../app/.env
+                ports:
+                  - "8000:8000"
+                restart: unless-stopped
+              worker:
+                image: ${{ needs.build-and-push.outputs.worker_tag }}
+                env_file: ../app/.env
+                restart: unless-stopped
+            EOF
+
+            # Deploy
+            docker compose pull
+            docker compose up -d
+
+            # Cleanup unused images
+            docker image prune -f
