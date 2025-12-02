@@ -30,6 +30,8 @@ jobs:
           BACK_TAG=${IMAGE_PREFIX}-server:sha-${SHA}
           WORKER_TAG=${IMAGE_PREFIX}-worker:sha-${SHA}
 
+          echo "FRONT_TAG=$FRONT_TAG"
+
           # Save to GitHub Output system
           echo "frontend_tag=$FRONT_TAG" >> $GITHUB_OUTPUT
           echo "backend_tag=$BACK_TAG" >> $GITHUB_OUTPUT
