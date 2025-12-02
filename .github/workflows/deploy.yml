@@ -1,3 +1,13 @@
+name: Build and Deploy to EC2
+
+on:
+  push:
+    branches: ["testing"]
+
+permissions:
+  contents: read
+  id-token: write # used for OIDC Login : future security
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
