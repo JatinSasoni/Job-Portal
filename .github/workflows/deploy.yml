@@ -127,27 +127,30 @@ jobs:
             BACK_TAG=${{ needs.build-and-push.outputs.backend_tag }}
             WORKER_TAG=${{ needs.build-and-push.outputs.worker_tag }}
 
+            echo "FRONT_TAG=$FRONT_TAG"
+            echo "BACK_TAG=$BACK_TAG"
+            echo "WORKER_TAG=$WORKER_TAG"
+
             # Create docker-compose.yml
             cat <<EOF > docker-compose.yml
             version: '3.8'
             services:
               frontend:
-                image: $FRONT_TAG
+                image: "$FRONT_TAG"
                 ports:
                   - "80:80"
                 restart: unless-stopped
               server:
-                image: $BACK_TAG
+                image: "$BACK_TAG"
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
                 restart: unless-stopped
               worker:
-                image: $WORKER_TAG
+                image: "$WORKER_TAG"
                 env_file: ../app/.env
                 restart: unless-stopped
             EOF
-
             # Deploy
             docker compose pull
             docker compose up -d
