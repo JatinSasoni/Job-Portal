@@ -4,80 +4,128 @@ on:
   push:
     branches: ["testing"]
 
+permissions:
+  contents: read
+  id-token: write #used for OIDC Login : future security
+
+env:
+  IMAGE_PREFIX: ${{ secrets.DOCKER_USERNAME }}/job-portal
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    outputs:
+      frontend_tag: ${{ steps.set-tags.outputs.frontend_tag }}
+      backend_tag: ${{ steps.set-tags.outputs.backend_tag }}
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Log in to Docker hub
+      - name: Set image tags
+        id: set-tags
+        run: |
+          SHA=${GITHUB_SHA::8} # Takes the first 8 chars of the commit hash
+          FRONT_TAG=${IMAGE_PREFIX}-client:sha-${SHA}
+          BACK_TAG=${IMAGE_PREFIX}-server:sha-${SHA}
+
+          # Save to GitHub Output system
+          echo "frontend_tag=$FRONT_TAG" >> $GITHUB_OUTPUT
+          echo "backend_tag=$BACK_TAG" >> $GITHUB_OUTPUT
+
+      - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Build Frontend (Baking in the API URL)
-      - name: Build and Push frontend
+      - name: Build and push frontend
         uses: docker/build-push-action@v4
         with:
           context: ./client
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/job-portal-client:latest
+          tags: |
+            ${{ steps.set-tags.outputs.frontend_tag }}
+            ${{ secrets.DOCKER_USERNAME }}/job-portal-client:latest
           build-args: |
             VITE_API_URI=${{ secrets.VITE_API_URI }}
 
-      # Build Backend
-      - name: Build and Push backend
+      - name: Build and push backend
         uses: docker/build-push-action@v4
         with:
           context: ./server
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/job-portal-server:latest
+          tags: |
+            ${{ steps.set-tags.outputs.backend_tag }}
+            ${{ secrets.DOCKER_USERNAME }}/job-portal-server:latest
+
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: SSH into EC2 and Deploy
+      - name: Create .env file (in github ubuntu)
+        run: |
+          umask 077
+          cat > deploy.env <<EOF
+          MONGODB_URI=${{ secrets.MONGODB_URI }}
+          PORT=${{ secrets.PORT }}
+          REDIS_URL=${{ secrets.REDIS_URL }}
+          FRONTEND_URL=${{ secrets.FRONTEND_URL }}
+          SECRET_KEY=${{ secrets.SECRET_KEY }}
+          CLOUD_NAME=${{ secrets.CLOUD_NAME }}
+          CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}
+          COMPANY_NAME=${{ secrets.COMPANY_NAME }}
+          COMPANY_EMAIL=${{ secrets.COMPANY_EMAIL }}
+          RAZOR_PAY_KEY=${{ secrets.RAZOR_PAY_KEY }}
+          RAZOR_PAY_SECRET=${{ secrets.RAZOR_PAY_SECRET }}
+          RAZOR_PLAN_ID=${{ secrets.RAZOR_PLAN_ID }}
+          EMAIL_QUEUE_NAME=${{ secrets.EMAIL_QUEUE_NAME }}
+          EOF
+
+      - name: Upload .env to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: "deploy.env"
+          target: "~/deploy"
+
+      - name: Run remote (EC2) deploy (pull specific tags, deploy)
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            # 1. Create .env for Backend (Using the secrets you added)
-            echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" > .env
-            echo "PORT=${{ secrets.PORT }}" >> .env
-            echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> .env
-            echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
-            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-            echo "CLOUD_NAME=${{ secrets.CLOUD_NAME }}" >> .env
-            echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
-            echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
-            echo "COMPANY_NAME=${{ secrets.COMPANY_NAME }}" >> .env
-            echo "COMPANY_EMAIL=${{ secrets.COMPANY_EMAIL }}" >> .env
-            echo "RAZOR_PAY_KEY=${{ secrets.RAZOR_PAY_KEY }}" >> .env
-            echo "RAZOR_PAY_SECRET=${{ secrets.RAZOR_PAY_SECRET }}" >> .env
-            echo "RAZOR_PLAN_ID=${{ secrets.RAZOR_PLAN_ID }}" >> .env
-            echo "EMAIL_QUEUE_NAME=${{ secrets.EMAIL_QUEUE_NAME }}" >> .env
+            set -e
+            cd ~/deploy || mkdir -p ~/deploy && cd ~/deploy
+            # place deploy.env at app folder with strict perms
+            mv deploy.env ../app/.env
+            chmod 600 ../app/.env
 
-            # 2. Create docker-compose.yml on the fly
-            cat <<EOF > docker-compose.yml
+            # Create a docker-compose.yml referencing the specific image tags
+            cat > docker-compose.yml <<EOF
             version: '3.8'
             services:
               frontend:
-                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-client:latest
+                image: ${{ steps.set-tags.outputs.frontend_tag }}
                 ports:
                   - "80:80"
-                pull_policy: always
                 restart: unless-stopped
+                deploy:
+                  restart_policy:
+                    condition: any
               server:
-                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-server:latest
+                image: ${{ steps.set-tags.outputs.backend_tag }}
+                env_file: ../app/.env
                 ports:
                   - "8000:8000"
-                env_file: .env
-                pull_policy: always
+                restart: unless-stopped
             EOF
 
-            docker compose down
+            # Pull new images then bring containers up
+            docker compose pull
             docker compose up -d
+            # Optional: prune old images
+            docker image prune -f
