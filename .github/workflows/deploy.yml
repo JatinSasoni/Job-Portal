@@ -62,10 +62,9 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Create .env file (in github ubuntu)
+      - name: Create .env file (in github action)
         run: |
-          umask 077
-          cat > deploy.env <<EOF
+          cat <<EOF > deploy.env
           MONGODB_URI=${{ secrets.MONGODB_URI }}
           PORT=${{ secrets.PORT }}
           REDIS_URL=${{ secrets.REDIS_URL }}
@@ -89,7 +88,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           source: "deploy.env"
-          target: "~/deploy"
+          target: "/home/${{ secrets.EC2_USER }}/deploy"
 
       - name: Run remote (EC2) deploy (pull specific tags, deploy)
         uses: appleboy/ssh-action@master
@@ -98,34 +97,36 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            set -e
-            cd ~/deploy || mkdir -p ~/deploy && cd ~/deploy
-            # place deploy.env at app folder with strict perms
+            # 3. FIX: Create the app directory if it doesn't exist
+            mkdir -p ~/app
+            mkdir -p ~/deploy
+            cd ~/deploy
+
+
             mv deploy.env ../app/.env
             chmod 600 ../app/.env
 
-            # Create a docker-compose.yml referencing the specific image tags
-            cat > docker-compose.yml <<EOF
+            FRONT_TAG=${{ needs.build-and-push.outputs.frontend_tag }}
+            BACK_TAG=${{ needs.build-and-push.outputs.backend_tag }}
+
+            # Create docker-compose.yml
+            cat <<EOF > docker-compose.yml
             version: '3.8'
             services:
               frontend:
-                image: ${{ steps.set-tags.outputs.frontend_tag }}
+                image: $FRONT_TAG
                 ports:
                   - "80:80"
                 restart: unless-stopped
-                deploy:
-                  restart_policy:
-                    condition: any
               server:
-                image: ${{ steps.set-tags.outputs.backend_tag }}
+                image: $BACK_TAG
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
                 restart: unless-stopped
             EOF
 
-            # Pull new images then bring containers up
+            # Deploy
             docker compose pull
             docker compose up -d
-            # Optional: prune old images
             docker image prune -f
