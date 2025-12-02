@@ -8,9 +8,6 @@ permissions:
   contents: read
   id-token: write # used for OIDC Login : future security
 
-env:
-  IMAGE_PREFIX: jatinsasoni/job-portal
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -26,9 +23,9 @@ jobs:
         id: set-tags
         run: |
           SHA=${GITHUB_SHA::8}
-          FRONT_TAG=${IMAGE_PREFIX}-client:sha-${SHA}
-          BACK_TAG=${IMAGE_PREFIX}-server:sha-${SHA}
-          WORKER_TAG=${IMAGE_PREFIX}-worker:sha-${SHA}
+          FRONT_TAG=jatinsasoni/job-portal-client:sha-${SHA}
+          BACK_TAG=jatinsasoni/job-portal-server:sha-${SHA}
+          WORKER_TAG=jatinsasoni/job-portal-worker:sha-${SHA}
 
           echo "frontend_tag=$FRONT_TAG" >> $GITHUB_OUTPUT
           echo "backend_tag=$BACK_TAG" >> $GITHUB_OUTPUT
