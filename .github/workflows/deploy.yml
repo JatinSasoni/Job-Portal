@@ -33,7 +33,7 @@ jobs:
           # Save to GitHub Output system
           echo "frontend_tag=$FRONT_TAG" >> $GITHUB_OUTPUT
           echo "backend_tag=$BACK_TAG" >> $GITHUB_OUTPUT
-          echo "worker_tag=${WORKER_TAG}" >> $GITHUB_OUTPUT
+          echo "worker_tag=$WORKER_TAG" >> $GITHUB_OUTPUT
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -127,9 +127,9 @@ jobs:
             BACK_TAG=${{ needs.build-and-push.outputs.backend_tag }}
             WORKER_TAG=${{ needs.build-and-push.outputs.worker_tag }}
 
-            echo "FRONT_TAG=$FRONT_TAG"
-            echo "BACK_TAG=$BACK_TAG"
-            echo "WORKER_TAG=$WORKER_TAG"
+            echo FRONT_TAG=$FRONT_TAG
+            echo BACK_TAG=$BACK_TAG
+            echo WORKER_TAG=$WORKER_TAG
 
             # Create docker-compose.yml
             cat <<EOF > docker-compose.yml
