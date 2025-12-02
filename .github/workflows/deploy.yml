@@ -9,7 +9,7 @@ permissions:
   id-token: write # used for OIDC Login : future security
 
 env:
-  IMAGE_PREFIX: ${{ secrets.DOCKER_USERNAME }}/job-portal
+  IMAGE_PREFIX: jatinsasoni/job-portal
 
 jobs:
   build-and-push:
@@ -159,8 +159,6 @@ jobs:
             EOF
 
             # Deploy
+            docker compose down
             docker compose pull
             docker compose up -d
-
-            # Cleanup unused images
-            docker image prune -f
