@@ -121,10 +121,15 @@ jobs:
       # 4. SSH to generate docker-compose and run containers
       - name: Run remote (EC2) deploy
         uses: appleboy/ssh-action@master
+        env:
+          FRONTEND_TAG: ${{ needs.build-and-push.outputs.frontend_tag }}
+          BACKEND_TAG: ${{ needs.build-and-push.outputs.backend_tag }}
+          WORKER_TAG: ${{ needs.build-and-push.outputs.worker_tag }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
+          envs: FRONTEND_TAG,BACKEND_TAG,WORKER_TAG
           script: |
             set -e
 
@@ -140,18 +145,18 @@ jobs:
             version: '3.8'
             services:
               frontend:
-                image: ${{ needs.build-and-push.outputs.frontend_tag }}
+                image: $FRONTEND_TAG
                 ports:
                   - "80:80"
                 restart: unless-stopped
               server:
-                image: ${{ needs.build-and-push.outputs.backend_tag }}
+                image: $BACKEND_TAG
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
                 restart: unless-stopped
               worker:
-                image: ${{ needs.build-and-push.outputs.worker_tag }}
+                image: $WORKER_TAG
                 env_file: ../app/.env
                 restart: unless-stopped
             EOF
