@@ -131,7 +131,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           envs: FRONTEND_TAG,BACKEND_TAG,WORKER_TAG
           script: |
-            set -e
+            # set -e
 
             cd ~/deploy
 
@@ -142,29 +142,24 @@ jobs:
             # Generate docker-compose.yml 
             # IMPORTANT: The content below is left-aligned to ensure valid YAML
             cat <<EOF > docker-compose.yml
-version: '3.8'
-services:
-  frontend:
-    image: ${FRONTEND_TAG}
-    ports:
-      - "80:80"
-    restart: unless-stopped
-
-  server:
-    image: ${BACKEND_TAG}
-    env_file: ../app/.env
-    ports:
-      - "8000:8000"
-    restart: unless-stopped
-
-  worker:
-    image: ${WORKER_TAG}
-    env_file: ../app/.env
-    restart: unless-stopped
+            version: '3.8'
+            services:
+              frontend:
+                image: ${FRONTEND_TAG}
+                ports:
+                  - "80:80"
+                restart: unless-stopped
+              server:
+                image: ${BACKEND_TAG}
+                env_file: ../app/.env
+                ports:
+                  - "8000:8000"
+                restart: unless-stopped
+              worker:
+                image: ${WORKER_TAG}
+                env_file: ../app/.env
+                restart: unless-stopped
             EOF
-
-
-
             # Deploy
             docker compose down
             docker compose pull
