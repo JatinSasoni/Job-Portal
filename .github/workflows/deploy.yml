@@ -64,7 +64,7 @@ jobs:
       - name: Build and push worker
         uses: docker/build-push-action@v4
         with:
-          context: ./worker
+          context: ./Worker
           push: true
           tags: |
             ${{ steps.set-tags.outputs.worker_tag }}
