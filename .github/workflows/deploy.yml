@@ -104,7 +104,7 @@ jobs:
             mv deploy.env ../app/.env
             chmod 600 ../app/.env
 
-            FRONT_TAG: ${{ steps.set-tags.outputs.frontend_tag }}
+            FRONT_TAG=${{ steps.set-tags.outputs.frontend_tag }}
             echo FRONT_TAG=$FRONT_TAG
 
             # Create a docker-compose.yml referencing the specific image tags
