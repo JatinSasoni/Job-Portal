@@ -133,18 +133,18 @@ jobs:
             version: '3.8'
             services:
               frontend:
-                image: ${{ DOCKER_USERNAME }}/job-portal-client:${{ needs.build-and-push.outputs.deploy_tag }}
+                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-client:${{ needs.build-and-push.outputs.deploy_tag }}
                 ports:
                   - "80:80"
                 restart: unless-stopped
               server:
-                image: jatinsasoni/job-portal-server:${{ needs.build-and-push.outputs.deploy_tag }}
+                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-server:${{ needs.build-and-push.outputs.deploy_tag }}
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
                 restart: unless-stopped
               worker:
-                image: jatinsasoni/job-portal-worker:${{ needs.build-and-push.outputs.deploy_tag }}
+                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-worker:${{ needs.build-and-push.outputs.deploy_tag }}
                 env_file: ../app/.env
                 restart: unless-stopped
             EOF
