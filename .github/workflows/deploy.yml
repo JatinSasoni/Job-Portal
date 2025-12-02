@@ -17,6 +17,7 @@ jobs:
     outputs:
       frontend_tag: ${{ steps.set-tags.outputs.frontend_tag }}
       backend_tag: ${{ steps.set-tags.outputs.backend_tag }}
+      worker_tag: ${{ steps.set-tags.outputs.worker_tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,10 +28,12 @@ jobs:
           SHA=${GITHUB_SHA::8} # Takes the first 8 chars of the commit hash
           FRONT_TAG=${IMAGE_PREFIX}-client:sha-${SHA}
           BACK_TAG=${IMAGE_PREFIX}-server:sha-${SHA}
+          WORKER_TAG=${IMAGE_PREFIX}-worker:sha-${SHA}
 
           # Save to GitHub Output system
           echo "frontend_tag=$FRONT_TAG" >> $GITHUB_OUTPUT
           echo "backend_tag=$BACK_TAG" >> $GITHUB_OUTPUT
+          echo "worker_tag=$WORKER_TAG" >> $GITHUB_OUTPUT
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -58,14 +61,22 @@ jobs:
             ${{ steps.set-tags.outputs.backend_tag }}
             ${{ secrets.DOCKER_USERNAME }}/job-portal-server:latest
 
+      - name: Build and push worker
+        uses: docker/build-push-action@v4
+        with:
+          context: ./Worker
+          push: true
+          tags: |
+            ${{ steps.set-tags.outputs.worker_tag }}
+            ${{ secrets.DOCKER_USERNAME }}/job-portal-worker:latest
+
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Create .env file (in github ubuntu)
+      - name: Create .env file (in github action)
         run: |
-          umask 077
-          cat > deploy.env <<EOF
+          cat <<EOF > deploy.env
           MONGODB_URI=${{ secrets.MONGODB_URI }}
           PORT=${{ secrets.PORT }}
           REDIS_URL=${{ secrets.REDIS_URL }}
@@ -80,6 +91,10 @@ jobs:
           RAZOR_PAY_SECRET=${{ secrets.RAZOR_PAY_SECRET }}
           RAZOR_PLAN_ID=${{ secrets.RAZOR_PLAN_ID }}
           EMAIL_QUEUE_NAME=${{ secrets.EMAIL_QUEUE_NAME }}
+          BREVO_USER=${{ secrets.BREVO_USER }}
+          BREVO_PASS=${{ secrets.BREVO_PASS }}
+          SELF_EMAIL=${{ secrets.SELF_EMAIL }}
+          SELF_PASSS=${{ secrets.SELF_PASSS }}
           EOF
 
       - name: Upload .env to EC2
@@ -89,7 +104,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           source: "deploy.env"
-          target: "~/deploy"
+          target: "/home/${{ secrets.EC2_USER }}/deploy"
 
       - name: Run remote (EC2) deploy (pull specific tags, deploy)
         uses: appleboy/ssh-action@master
@@ -98,37 +113,37 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            set -e
-            cd ~/deploy || mkdir -p ~/deploy && cd ~/deploy
-            # place deploy.env at app folder with strict perms
+            set -e  # Fails the pipeline if any command fails
+
+            mkdir -p ~/app
+            mkdir -p ~/deploy
+            cd ~/deploy
+
+
             mv deploy.env ../app/.env
             chmod 600 ../app/.env
 
-            FRONT_TAG=${{ steps.set-tags.outputs.frontend_tag }}
-            echo FRONT_TAG=$FRONT_TAG
-
-            # Create a docker-compose.yml referencing the specific image tags
-            cat > docker-compose.yml <<EOF
+            # Create docker-compose.yml
+            cat <<EOF > docker-compose.yml
             version: '3.8'
             services:
               frontend:
-                image: ${{ steps.set-tags.outputs.frontend_tag }}
+                image: ${{ needs.build-and-push.outputs.frontend_tag }}
                 ports:
                   - "80:80"
                 restart: unless-stopped
-                deploy:
-                  restart_policy:
-                    condition: any
               server:
-                image: ${{ steps.set-tags.outputs.backend_tag }}
+                image: ${{ needs.build-and-push.outputs.backend_tag }}
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
                 restart: unless-stopped
+              worker:
+                image: ${{ needs.build-and-push.outputs.worker_tag }}
+                env_file: ../app/.env
+                restart: unless-stopped
             EOF
-
-            # Pull new images then bring containers up
+            # Deploy
             docker compose pull
             docker compose up -d
-            # Optional: prune old images
             docker image prune -f
