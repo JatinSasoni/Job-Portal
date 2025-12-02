@@ -109,7 +109,7 @@ export const UserReviews = () => {
                             {/* Message Section */}
                             <div className="flex-1 overflow-y-auto">
                               <p className="text-gray-600 dark:text-gray-300 text-sm text-start break-words">
-                                "{msg?.message}"
+                                {msg?.message}
                               </p>
                             </div>
                           </div>

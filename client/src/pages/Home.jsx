@@ -1,13 +1,48 @@
-import { HeroContainer2 } from "../Components/HeroContaier2";
-import { HeroContainer } from "../Components/HeroContainer";
-import { JobOfTheDay } from "../Components/JobOfTheDay";
-import { TopRecruiters } from "../Components/TopRecruiters";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { useSelector } from "react-redux";
-import { UserReviews } from "../Components/UserReviews";
-import { MostAskedQues } from "../Components/MostAskedQues";
-import TrustedCompanies from "../Components/TrustedCompanies";
+import { HomeSkeleton } from "../Components/Skeleton/HomeSkeleton";
+
+// Lazy load all components
+const HeroContainer = React.lazy(() =>
+  import("../Components/HeroContainer").then((module) => ({
+    default: module.HeroContainer,
+  }))
+);
+
+const HeroContainer2 = React.lazy(() =>
+  import("../Components/HeroContaier2").then((module) => ({
+    default: module.HeroContainer2,
+  }))
+);
+
+const JobOfTheDay = React.lazy(() =>
+  import("../Components/JobOfTheDay").then((module) => ({
+    default: module.JobOfTheDay,
+  }))
+);
+
+const TopRecruiters = React.lazy(() =>
+  import("../Components/TopRecruiters").then((module) => ({
+    default: module.TopRecruiters,
+  }))
+);
+
+const UserReviews = React.lazy(() =>
+  import("../Components/UserReviews").then((module) => ({
+    default: module.UserReviews,
+  }))
+);
+
+const MostAskedQues = React.lazy(() =>
+  import("../Components/MostAskedQues").then((module) => ({
+    default: module.MostAskedQues,
+  }))
+);
+
+const TrustedCompanies = React.lazy(() =>
+  import("../Components/TrustedCompanies")
+);
 
 export const Home = () => {
   const { loggedInUser } = useSelector((store) => store.auth);
@@ -21,26 +56,38 @@ export const Home = () => {
   }, [loggedInUser, navigate]);
 
   return (
-    <>
+    <Suspense fallback={<HomeSkeleton />}>
       <HeroContainer />
 
       {/* TRUSTED-COMPANIES */}
-      <TrustedCompanies />
+      <Suspense fallback={<div className="h-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-4"></div>}>
+        <TrustedCompanies />
+      </Suspense>
 
       {/* JOB OF THE DAY */}
-      <JobOfTheDay />
+      <Suspense fallback={<div className="h-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-4"></div>}>
+        <JobOfTheDay />
+      </Suspense>
 
       {/* Hero-2 */}
-      <HeroContainer2 />
+      <Suspense fallback={<div className="h-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-4"></div>}>
+        <HeroContainer2 />
+      </Suspense>
 
       {/* TopRecruiters */}
-      <TopRecruiters />
+      <Suspense fallback={<div className="h-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-4"></div>}>
+        <TopRecruiters />
+      </Suspense>
 
       {/* MostAskedQues */}
-      <MostAskedQues />
+      <Suspense fallback={<div className="h-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-4"></div>}>
+        <MostAskedQues />
+      </Suspense>
 
       {/* Customer Reviews */}
-      <UserReviews />
-    </>
+      <Suspense fallback={<div className="h-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-4"></div>}>
+        <UserReviews />
+      </Suspense>
+    </Suspense>
   );
 };
