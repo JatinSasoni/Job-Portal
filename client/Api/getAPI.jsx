@@ -3,7 +3,7 @@ import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_NUMBER } from "../util/Constants";
 
 //AXIOS INSTANCE
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URI}`,
+  baseURL: window._env_.VITE_API_URI,
 });
 
 //LOGOUT GET API

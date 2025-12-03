@@ -17,11 +17,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Generate short SHA tag
+      - name: Set image tags
         id: set-tags
         run: |
           SHA=${GITHUB_SHA::8}
           TAG_SUFFIX="sha-${SHA}"
+
           echo "short_sha=$TAG_SUFFIX" >> $GITHUB_OUTPUT
 
       - name: Log in to Docker Hub
@@ -73,7 +74,6 @@ jobs:
           script: |
             mkdir -p ~/deploy
             mkdir -p ~/app
-            mkdir -p ~/runtime-env/frontend
 
       # 2. Create .env file locally with quotes for safety
       - name: Create .env file locally
@@ -100,7 +100,7 @@ jobs:
           EOF
 
       # 3. Upload .env to EC2
-      - name: Upload backend .env to EC2
+      - name: Upload .env to EC2
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -109,8 +109,8 @@ jobs:
           source: "deploy.env"
           target: "/home/${{ secrets.EC2_USER }}/deploy"
 
-      # Deploy containers + inject frontend env.js
-      - name: Deploy on EC2
+      # 4. SSH to generate docker-compose and run containers
+      - name: Run remote (EC2) deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -125,36 +125,26 @@ jobs:
             mv deploy.env ../app/.env
             chmod 600 ../app/.env
 
-            TAG=${{ needs.build-and-push.outputs.deploy_tag }}
-
-            # Write frontend env.js (runtime injection)
-            cat <<EOF > ~/runtime-env/frontend/env.js
-            window._env_ = {
-              VITE_API_URI: '${{ secrets.VITE_API_URI }}',
-              VITE_RAZOR_PAY_KEY: '${{ secrets.VITE_RAZOR_PAY_KEY }}',
-              VITE_SUBSCRIPTION_PRICE: '${{ secrets.VITE_SUBSCRIPTION_PRICE }}'
-            };
-            EOF
+            echo "frontend_tag_hai= ${{ needs.build-and-push.outputs.f_tag }} "
 
             # Generate docker-compose.yml 
+            # IMPORTANT: The content below is left-aligned to ensure valid YAML
             cat <<EOF > docker-compose.yml
             version: '3.8'
             services:
               frontend:
-                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-client:$TAG
-                volumes:
-                  - /home/${{ secrets.EC2_USER }}/runtime-env/frontend/env.js:/usr/share/nginx/html/env.js
+                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-client:${{ needs.build-and-push.outputs.deploy_tag }}
                 ports:
                   - "80:80"
                 restart: unless-stopped
               server:
-                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-server:$TAG
+                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-server:${{ needs.build-and-push.outputs.deploy_tag }}
                 env_file: ../app/.env
                 ports:
                   - "8000:8000"
                 restart: unless-stopped
               worker:
-                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-worker:$TAG
+                image: ${{ secrets.DOCKER_USERNAME }}/job-portal-worker:${{ needs.build-and-push.outputs.deploy_tag }}
                 env_file: ../app/.env
                 restart: unless-stopped
             EOF

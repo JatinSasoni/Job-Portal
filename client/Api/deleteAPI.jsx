@@ -4,7 +4,7 @@ import axios from "axios";
 
 //AXIOS INSTANCE
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URI}`,
+  baseURL: window._env_.VITE_API_URI,
 });
 
 //DELETE COMPANY API

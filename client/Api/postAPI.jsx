@@ -2,7 +2,7 @@ import axios from "axios";
 
 //AXIOS INSTANCEs
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URI}`,
+  baseURL: window._env_.VITE_API_URI,
 });
 
 //LOGIN POST API
