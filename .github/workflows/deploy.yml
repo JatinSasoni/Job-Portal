@@ -109,7 +109,7 @@ jobs:
           source: "deploy.env"
           target: "/home/${{ secrets.EC2_USER }}/deploy"
 
-      # Deploy containers + inject frontend env.js
+      # Deploy containers + inject frontend env.js ()
       - name: Deploy on EC2
         uses: appleboy/ssh-action@master
         with:
