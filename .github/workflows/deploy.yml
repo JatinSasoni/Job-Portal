@@ -140,18 +140,33 @@ jobs:
             cat <<EOF > docker-compose.yml
             version: '3.8'
             services:
+              # The new Reverse Proxy service (e.g., Nginx Proxy Manager)
+              nginx-proxy-manager:
+                image: jc21/nginx-proxy-manager:latest
+                container_name: talentnest-nginx-proxy
+                restart: unless-stopped
+                ports:
+                  - "80:80"
+                  - "443:443"
+                  #admin port
+                  - "81:81"
+                volumes:
+                  - ./data:/data
+                  - ./letsencrypt:/etc/letsencrypt
+                  # ensuring proxy starts before web app
+                depends_on:
+                  - frontend
+                  
               frontend:
                 image: ${{ secrets.DOCKER_USERNAME }}/job-portal-client:$TAG
                 volumes:
                   - /home/${{ secrets.EC2_USER }}/runtime-env/frontend/env.js:/usr/share/nginx/html/env.js
-                ports:
-                  - "80:80"
                 restart: unless-stopped
               server:
                 image: ${{ secrets.DOCKER_USERNAME }}/job-portal-server:$TAG
                 env_file: ../app/.env
-                ports:
-                  - "8000:8000"
+                expose:
+                  - "8000"
                 restart: unless-stopped
               worker:
                 image: ${{ secrets.DOCKER_USERNAME }}/job-portal-worker:$TAG
