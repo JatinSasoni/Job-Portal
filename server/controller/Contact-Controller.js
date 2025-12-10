@@ -98,7 +98,12 @@ export const getAllContacts = async (req, res) => {
         SUCCESS: false,
       });
     }
-    await redis.set(cacheKey, JSON.stringify(allContacts), "EX", 3600);
+
+    try {
+      await redis.set(cacheKey, JSON.stringify(allContacts), "EX", 3600);
+    } catch (err) {
+      console.error("Redis error (getFeaturedJobs):", err.message);
+    }
 
     return res.status(200).json({
       MESSAGE: "Contacts found",

@@ -348,7 +348,14 @@ export const sendOTPForPass = async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
 
     // Store OTP in Redis (5 min)
-    await redis.set(`otp:${email}`, otp, "EX", 300);
+    try {
+      await redis.set(`otp:${email}`, otp, "EX", 300);
+    } catch (err) {
+      console.error("Redis set error (sendOTPForPass):", err.message);
+      return res
+        .status(500)
+        .json({ MESSAGE: "Failed to generate OTP", SUCCESS: false });
+    }
 
     //SENDING OTP
     const mailOptions = {
@@ -410,7 +417,16 @@ export const validateOTPToChangePass = async (req, res) => {
       });
     }
 
-    const storedOtp = await redis.get(`otp:${user.email}`);
+    let storedOtp = null;
+    try {
+      storedOtp = await redis.get(`otp:${user.email}`);
+    } catch (err) {
+      console.error("Redis get error (validateOTPToChangePass):", err.message);
+      return res.status(500).json({
+        MESSAGE: "Could not verify OTP right now",
+        SUCCESS: false,
+      });
+    }
 
     if (!storedOtp) {
       return res.status(400).json({
@@ -427,7 +443,11 @@ export const validateOTPToChangePass = async (req, res) => {
     }
 
     // OTP verified — remove from Redis
-    await redis.del(`otp:${user.email}`);
+    try {
+      await redis.del(`otp:${user.email}`);
+    } catch (err) {
+      console.error("Redis del error (validateOTPToChangePass):", err.message);
+    }
 
     const token = jwt.sign({ optVerified: true }, process.env.SECRET_KEY, {
       expiresIn: "1d",

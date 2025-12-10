@@ -270,7 +270,11 @@ export const getJobInfoById = async (req, res) => {
       });
     }
 
-    await redis.set(cacheKey, JSON.stringify(job), "EX", 300);
+    try {
+      await redis.set(cacheKey, JSON.stringify(job), "EX", 300);
+    } catch (err) {
+      console.error("Redis set error (getJobInfoById):", err.message);
+    }
     return res.status(200).json({
       MESSAGE: `Jobs found successfully`,
       job,
@@ -366,7 +370,11 @@ export const getPostedJobByAdmin = async (req, res) => {
         SUCCESS: false,
       });
     }
-    await redis.set(cacheKey, JSON.stringify(postedJobs), "EX", 300);
+    try {
+      await redis.set(cacheKey, JSON.stringify(postedJobs), "EX", 300);
+    } catch (err) {
+      console.error("Redis set error (getPostedJobByAdmin):", err.message);
+    }
     return res.status(200).json({
       MESSAGE: `Jobs found ${postedJobs.length}`,
       postedJobs,
@@ -454,7 +462,11 @@ export const getSavedJobs = async (req, res) => {
         .json({ MESSAGE: "User not found", SUCCESS: false });
     }
 
-    await redis.set(cacheKey, JSON.stringify(user.savedJobs), "EX", 300);
+    try {
+      await redis.set(cacheKey, JSON.stringify(user.savedJobs), "EX", 300);
+    } catch (err) {
+      console.error("Redis set error (getSavedJobs):", err.message);
+    }
 
     res.status(200).json({
       MESSAGE: "JOBS FOUND",
@@ -500,7 +512,11 @@ export const getFeaturedJobs = async (req, res) => {
       .limit(10); //  Limit the number of featured jobs
 
     // Cache the result for future requests (e.g., cache for 10 minutes)
-    await redis.set(cachedKey, JSON.stringify(featuredJobs), "EX", 600);
+    try {
+      await redis.set(cachedKey, JSON.stringify(featuredJobs), "EX", 600);
+    } catch (err) {
+      console.error("Redis error (getFeaturedJobs):", err.message);
+    }
 
     res.status(200).json({
       MESSAGE: "JOBS FOUND",
