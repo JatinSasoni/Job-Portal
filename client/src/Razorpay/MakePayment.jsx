@@ -20,7 +20,7 @@ const MakePayment = () => {
     try {
       dispatch(setLoading(true));
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URI}/api/v1/user/subscribe`,
+        `${window._env_.VITE_API_URI}/api/v1/user/subscribe`,
         { withCredentials: true }
       );
 
@@ -29,11 +29,11 @@ const MakePayment = () => {
       }
 
       const options = {
-        key: import.meta.env.VITE_RAZOR_PAY_KEY,
+        key: window._env_.VITE_RAZOR_PAY_KEY,
         subscription_id: response.data.subscriptionID,
         name: "Talent Nest",
         description: "Subscription Plan",
-        callback_url: `${import.meta.env.VITE_API_URI}/api/v1/user/pay-verify`,
+        callback_url: `${window._env_.VITE_API_URI}/api/v1/user/pay-verify`,
         prefill: {
           name: loggedInUser?.username || "User",
           email: loggedInUser?.email || "example@gmail.com",
@@ -45,7 +45,7 @@ const MakePayment = () => {
 
           // VERIFY PAYMENT ON BACKEND
           const verifyResponse = await axios.post(
-            `${import.meta.env.VITE_API_URI}/api/v1/user/pay-verify`,
+            `${window._env_.VITE_API_URI}/api/v1/user/pay-verify`,
             paymentResponse,
             { withCredentials: true }
           );
@@ -113,7 +113,7 @@ const MakePayment = () => {
 
               <div className="mb-8">
                 <span className="text-4xl font-bold text-gray-900 dark:text-white">
-                  ₹{import.meta.env.VITE_SUBSCRIPTION_PRICE}
+                  ₹{window._env_.VITE_SUBSCRIPTION_PRICE}
                 </span>
                 <span className="text-gray-500 dark:text-gray-400">/month</span>
               </div>
