@@ -108,6 +108,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           source: "deploy.env"
           target: "/home/ubuntu/deploy"
+          debug: true
 
       # Deploy containers + inject frontend env.js
       - name: Deploy on EC2
