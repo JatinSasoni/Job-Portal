@@ -2,7 +2,7 @@ name: Build and Deploy to EC2
 
 on:
   push:
-    branches: ["testing"]
+    branches: ["EC2"]
 
 permissions:
   contents: read
@@ -38,8 +38,6 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/job-portal-client:${{ steps.set-tags.outputs.short_sha }}
             ${{ secrets.DOCKER_USERNAME }}/job-portal-client:latest
-          build-args: |
-            VITE_API_URI=${{ secrets.VITE_API_URI }}
 
       - name: Build and push backend
         uses: docker/build-push-action@v4
@@ -97,6 +95,7 @@ jobs:
           BREVO_PASS="${{ secrets.BREVO_PASS }}"
           SELF_EMAIL="${{ secrets.SELF_EMAIL }}"
           SELF_PASSS="${{ secrets.SELF_PASSS }}"
+          NODE_ENV="local"
           EOF
 
       # 3. Upload .env to EC2
@@ -108,7 +107,6 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           source: "deploy.env"
           target: "/home/ubuntu/deploy"
-          debug: true
 
       # Deploy containers + inject frontend env.js
       - name: Deploy on EC2
@@ -146,7 +144,7 @@ jobs:
             cat <<EOF > docker-compose.yml
             version: '3.8'
             services:
-              # The new Reverse Proxy service (e.g., Nginx Proxy Manager)
+              # The Reverse Proxy service (e.g., Nginx Proxy Manager)
               nginx-proxy-manager:
                 image: jc21/nginx-proxy-manager:latest
                 container_name: talentnest-nginx-proxy
@@ -160,14 +158,14 @@ jobs:
                   - ./data:/data
                   - ./letsencrypt:/etc/letsencrypt
                   # ensuring proxy starts before web app
-                depends_on:
-                  - frontend
                   
               frontend:
                 image: ${{ secrets.DOCKER_USERNAME }}/job-portal-client:$TAG
                 volumes:
                   - /home/${{ secrets.EC2_USER }}/runtime-env/frontend/env.js:/usr/share/nginx/html/env.js
                 restart: unless-stopped
+                depends_on:
+                  - nginx-proxy-manager
               server:
                 image: ${{ secrets.DOCKER_USERNAME }}/job-portal-server:$TAG
                 env_file: ../app/.env

@@ -4,7 +4,7 @@ import { verifyOTPForPassAPI } from "../../Api/postAPI";
 import { toast } from "react-toastify";
 import { setLoading } from "../../store/authSlice";
 import { motion } from "motion/react";
-import { OtpLogic } from "../Components/ReactBits/OtpLogic";
+import { OtpLogic } from "../Components/OTP/OtpLogic";
 import { useState } from "react";
 import { Navbar } from "../Components/Shared/Navbar";
 import { Footer } from "../Components/Shared/Footer";

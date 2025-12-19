@@ -7,12 +7,14 @@ const queueConnection = new Redis(process.env.REDIS_URL, {
   tls: {},
 });
 
-queueConnection.on("connect", () => {
-  console.log("Connected to Redis ");
-});
+if (process.env.NODE_ENV !== "production") {
+  queueConnection.on("connect", () => {
+    console.log("Connected to Redis");
+  });
+}
 
 queueConnection.on("error", (err) => {
-  console.error("Redis Connection Error:", err);
+  console.error("Redis Connection Error:", err.message);
 });
 
 export default queueConnection;
