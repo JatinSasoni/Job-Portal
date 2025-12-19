@@ -118,7 +118,6 @@ jobs:
           script: |
             set -e
 
-
             echo "Cleaning up old Docker images and volumes..."
             docker system prune -af # -a removes all unused containers, networks, images (dangling and unreferenced), and volumes. -f forces the operation.
 
