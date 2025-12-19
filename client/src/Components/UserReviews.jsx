@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
-import SpotlightCard from "./ReactBits/SpotlightCard";
+import SpotlightCard from "./OTP/SpotlightCard";
 import { SWIPER_SLIDES, SWIPER_SPACE_BETWEEN } from "../../util/Constants";
 
 /* eslint-disable react/prop-types */
