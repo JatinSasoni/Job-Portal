@@ -95,7 +95,7 @@ jobs:
           BREVO_PASS="${{ secrets.BREVO_PASS }}"
           SELF_EMAIL="${{ secrets.SELF_EMAIL }}"
           SELF_PASSS="${{ secrets.SELF_PASSS }}"
-          NODE_ENV="local"
+          NODE_ENV="production"
           EOF
 
       # 3. Upload .env to EC2
