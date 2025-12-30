@@ -1,0 +1,32 @@
+{
+  "name": "Job Portal",
+  "short_name": "JobPortal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#18181b",
+  "theme_color": "#18181b",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/Logo/newlogodark1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/PWA_Screenshots/mobile.png",
+      "sizes": "375x807",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Job Portal Mobile View"
+    },
+    {
+      "src": "/PWA_Screenshots/desktop.png",
+      "sizes": "1917x904",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Job Portal Desktop View"
+    }
+  ]
+}

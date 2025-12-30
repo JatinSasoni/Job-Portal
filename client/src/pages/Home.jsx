@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, Suspense } from "react";
 import { useSelector } from "react-redux";
 import { HomeSkeleton } from "../Components/Skeleton/HomeSkeleton";
+import InstallButton from "../Components/InstallButton";
 
 // Lazy load all components
 const HeroContainer = React.lazy(() =>
@@ -58,6 +59,7 @@ export const Home = () => {
   return (
     <Suspense fallback={<HomeSkeleton />}>
       <HeroContainer />
+      <InstallButton />
 
       {/* TRUSTED-COMPANIES */}
       <Suspense fallback={<div className="h-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-4"></div>}>
