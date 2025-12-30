@@ -1,6 +1,6 @@
 {
-  "name": "Job Portal",
-  "short_name": "JobPortal",
+  "name": "TalentNest",
+  "short_name": "TalentNest",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#18181b",
@@ -8,21 +8,26 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/Logo/newlogodark1.png",
-      "sizes": "192x192",
+      "src": "/PWA_Assets/logo-192x192.png",
+      "sizes": "192x192", 
+      "type": "image/png"
+    },
+    {
+      "src": "/PWA_Assets/logo-512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],
   "screenshots": [
     {
-      "src": "/PWA_Screenshots/mobile.png",
+      "src": "/PWA_Assets/mobile.png",
       "sizes": "375x807",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Job Portal Mobile View"
     },
     {
-      "src": "/PWA_Screenshots/desktop.png",
+      "src": "/PWA_Assets/desktop.png",
       "sizes": "1917x904",
       "type": "image/png",
       "form_factor": "wide",
