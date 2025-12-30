@@ -1,6 +1,6 @@
 // Simple service worker - only caches index.html and shows offline page when network fails
 
-const CACHE_NAME = "talnet-nest-portal-v1";
+const CACHE_NAME = "talnet-nest-v4";
 const OFFLINE_URL = "/offline";
 
 // Install - Cache index.html and manifest
