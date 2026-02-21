@@ -149,9 +149,9 @@ jobs:
                 container_name: talentnest-nginx-proxy
                 restart: unless-stopped
                 ports:
-                  - "80:80"
-                  - "443:443"
-                  - "81:81"
+                  - "80:80/tcp"
+                  - "81:81/tcp"
+                  - "443:443/tcp"
                 volumes:
                   - ./data:/data
                   - ./letsencrypt:/etc/letsencrypt
