@@ -8,7 +8,6 @@ import companyRoute from "./routes/company-routes.js";
 import jobRoute from "./routes/job-routes.js";
 import contactRoute from "./routes/Contact-Us-route.js";
 import applicationRoute from "./routes/application-route.js";
-import "./utils/redis.js";
 
 // Initializing app
 const app = express();
@@ -49,6 +48,7 @@ connectDB().then(() => {
     console.log(`Server started at PORT ${PORT}`);
   });
 
+  import("./utils/redis.js");
   // Start cron job AFTER the server starts
   import("./utils/cronJob.js");
 });
