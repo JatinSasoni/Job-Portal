@@ -7,7 +7,6 @@ const OFFLINE_URL = "/offline";
 self.addEventListener("install", (event) => {
   console.log("Service Worker: Installing...");
   self.skipWaiting();
-
   event.waitUntil(
     caches
       .open(CACHE_NAME)
@@ -23,7 +22,7 @@ self.addEventListener("install", (event) => {
 // Activate - Clean old caches
 self.addEventListener("activate", (event) => {
   console.log("Service Worker: Activating...");
-  
+
   event.waitUntil(
     caches
       .keys()
@@ -153,9 +152,9 @@ self.addEventListener("fetch", (event) => {
   </body>
 </html>`,
             {
-              headers: { 
+              headers: {
                 "Content-Type": "text/html",
-                "Cache-Control": "no-cache"
+                "Cache-Control": "no-cache",
               },
             }
           );
@@ -166,7 +165,9 @@ self.addEventListener("fetch", (event) => {
 
   // For JS, CSS, and other assets - Cache them when fetched successfully
   if (
-    url.pathname.match(/\.(js|css|woff|woff2|ttf|eot|png|jpg|jpeg|gif|svg|webp|ico)$/i) ||
+    url.pathname.match(
+      /\.(js|css|woff|woff2|ttf|eot|png|jpg|jpeg|gif|svg|webp|ico)$/i
+    ) ||
     request.destination === "script" ||
     request.destination === "style" ||
     request.destination === "font" ||
@@ -191,9 +192,9 @@ self.addEventListener("fetch", (event) => {
               return cachedResponse;
             }
             // If not in cache, return empty 404 response (prevents TypeError)
-            return new Response("", { 
-              status: 404, 
-              statusText: "Not Found" 
+            return new Response("", {
+              status: 404,
+              statusText: "Not Found",
             });
           });
         })
@@ -214,9 +215,9 @@ self.addEventListener("fetch", (event) => {
             return cachedResponse;
           }
           // Return empty 404 if not in cache
-          return new Response("", { 
-            status: 404, 
-            statusText: "Not Found" 
+          return new Response("", {
+            status: 404,
+            statusText: "Not Found",
           });
         });
       })
