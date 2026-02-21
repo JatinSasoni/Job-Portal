@@ -151,7 +151,6 @@ jobs:
                 ports:
                   - "80:80"
                   - "443:443"
-                  #admin port
                   - "81:81"
                 volumes:
                   - ./data:/data
