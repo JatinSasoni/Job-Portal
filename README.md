@@ -10,7 +10,7 @@ A **MERN Stack Job Portal** built to connect recruiters and job seekers through 
 > Both frontend and backend are hosted on **Vercel**. If idle, the initial load might take a few seconds.
 
 🔗 **Preview:**  
-[https://talentnest-pro.vercel.app](https://talentnest-pro.vercel.app)
+[https://talentnests.duckdns.org/](https://talentnests.duckdns.org/)
 
 > 🐢 **Note:** The application may respond slowly due to **vercel's free-tier resource limits**.
 
